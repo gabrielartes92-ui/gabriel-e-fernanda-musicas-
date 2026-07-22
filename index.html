@@ -2,165 +2,489 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <!-- Meta tags essenciais para mobile: impede zoom e ajusta escala -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- Meta tags para transformar em "App" na tela inicial (PWA básico) -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Fe & Gabi Music</title>
+    <title>Fe & Gabi Music ❤️</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
         :root {
-            --primary: #ff758c;
-            --secondary: #ff7eb3;
-            --dark: #2d3436;
-            --light: #fdfdfd;
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --glass-shadow: rgba(31, 38, 135, 0.2);
+            --primary: #ff4757;
+            --secondary: #ff6b6b;
+            --tertiary: #ff9ff3;
+            --accent: #ffa502;
+            --dark: #1a1a1a;
+            --light: #ffffff;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Poppins', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+        }
 
         body {
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: linear-gradient(-45deg, #ff4757, #ff6b6b, #ff9ff3, #ffa502, #a4b0ff);
+            background-size: 600% 600%;
+            animation: gradientShift 15s ease infinite, colorWave 20s ease-in-out infinite;
             padding: 15px;
-            color: var(--dark);
+            position: relative;
+            overflow: hidden;
         }
 
-        @keyframes gradientBG {
+        @keyframes gradientShift {
             0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
             100% { background-position: 0% 50%; }
         }
 
+        @keyframes colorWave {
+            0%, 100% { filter: brightness(1) saturate(1); }
+            50% { filter: brightness(1.1) saturate(1.2); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 71, 87, 0.3), 0 20px 50px rgba(31, 38, 135, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(255, 71, 87, 0.6), 0 20px 80px rgba(31, 38, 135, 0.4); }
+        }
+
         .app-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+            padding: 40px 25px;
             width: 100%;
-            max-width: 420px;
-            box-shadow: 0 20px 50px var(--glass-shadow);
+            max-width: 480px;
+            box-shadow: 0 20px 60px rgba(31, 38, 135, 0.3);
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 30px;
+            animation: float 6s ease-in-out infinite;
         }
 
-        /* --- Disco Animado (Tamanho adaptado para telas menores) --- */
-        .art-container { display: flex; justify-content: center; align-items: center; margin-top: 10px; }
+        /* Disco de Vinil */
+        .art-container { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            margin-top: 15px;
+        }
+
         .vinyl-record {
-            width: 140px; height: 140px;
-            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+            width: 180px; 
+            height: 180px;
+            background: radial-gradient(circle at 30% 30%, #333, #111);
             border-radius: 50%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3), inset 0 0 0 8px #000;
-            display: flex; justify-content: center; align-items: center;
-            animation: spin 8s linear infinite; animation-play-state: paused;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 0 0 12px #000,
+                inset 0 0 20px rgba(0, 0, 0, 0.8);
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            animation: spin 6s linear infinite paused;
+            position: relative;
         }
-        .vinyl-record.playing { animation-play-state: running; }
+
+        .vinyl-record::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: 
+                repeating-conic-gradient(
+                    from 0deg,
+                    transparent 0deg 6deg,
+                    rgba(255,255,255,0.03) 6deg 12deg
+                );
+            animation: spin-reverse 6s linear infinite paused;
+        }
+
+        .vinyl-record.playing { 
+            animation: spin 6s linear infinite;
+        }
+
+        .vinyl-record.playing::before {
+            animation: spin-reverse 6s linear infinite;
+        }
+
+        @keyframes spin { 
+            100% { transform: rotate(360deg); } 
+        }
+
+        @keyframes spin-reverse {
+            100% { transform: rotate(-360deg); }
+        }
+
         .vinyl-label {
-            width: 50px; height: 50px;
+            width: 70px; 
+            height: 70px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%; position: relative;
+            border-radius: 50%;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 30px rgba(255, 71, 87, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
+
         .vinyl-label::after {
-            content: ''; position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); width: 10px; height: 10px;
-            background: #fff; border-radius: 50%;
+            content: ''; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            width: 15px; 
+            height: 15px;
+            background: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
         }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* --- Infos --- */
-        .song-info { text-align: center; }
-        .song-title { font-size: 18px; font-weight: 600; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-        .song-artist { font-size: 13px; color: rgba(255,255,255,0.8); }
+        /* Título e Artista */
+        .song-info { 
+            text-align: center;
+        }
 
-        /* --- Controles maiores para o toque do dedo --- */
-        .controls { display: flex; justify-content: center; align-items: center; gap: 25px; }
-        .btn-control {
-            background: rgba(255, 255, 255, 0.2); border: none; color: white;
-            width: 50px; height: 50px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; transition: 0.2s;
+        .song-title { 
+            font-size: 22px; 
+            font-weight: 700; 
+            color: #fff; 
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); 
+            margin-bottom: 8px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+            letter-spacing: 0.5px;
         }
-        .btn-control:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.95); }
-        .btn-play {
-            width: 65px; height: 65px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            box-shadow: 0 10px 20px rgba(255, 117, 140, 0.4);
-        }
-        .btn-play:active { transform: scale(0.95); }
-        .btn-control svg { width: 24px; height: 24px; fill: currentColor; }
-        .btn-play svg { width: 30px; height: 30px; }
 
-        /* --- Progresso --- */
-        .progress-container { width: 100%; display: flex; flex-direction: column; gap: 10px; }
-        .progress-bar-bg { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.3); border-radius: 10px; position: relative; overflow: hidden; }
-        .progress-bar-fill { height: 100%; background: #fff; width: 0%; border-radius: 10px; transition: width 0.1s linear; }
-        .time-info { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.9); font-weight: 500; }
+        .song-artist { 
+            font-size: 14px; 
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
 
-        /* --- Botão de Upload Mobile --- */
-        .upload-area {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px dashed rgba(255, 255, 255, 0.5);
-            border-radius: 15px; padding: 15px; text-align: center; color: white;
-            position: relative; overflow: hidden;
+        /* Progresso */
+        .progress-container { 
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px;
         }
-        .upload-area:active { background: rgba(255, 255, 255, 0.3); }
-        .upload-area input { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
-        .upload-area p { font-size: 14px; font-weight: 500; margin-top: 5px; }
 
-        /* --- Playlist --- */
-        .playlist {
-            background: rgba(255, 255, 255, 0.2); border-radius: 15px; padding: 10px;
-            max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
-        }
-        .playlist-item {
-            background: rgba(255, 255, 255, 0.4); padding: 12px 15px; border-radius: 12px;
-            display: flex; justify-content: space-between; align-items: center; color: var(--dark); font-size: 14px;
-        }
-        .playlist-item.active { background: #fff; border-left: 4px solid var(--primary); font-weight: 600; }
-        .item-info { display: flex; align-items: center; gap: 10px; overflow: hidden; }
-        .item-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
-        .btn-delete {
-            background: rgba(255, 0, 0, 0.1); border: none; color: #e74c3c;
-            width: 35px; height: 35px; border-radius: 8px;
-            display: flex; justify-content: center; align-items: center;
+        .progress-bar-bg { 
+            width: 100%; 
+            height: 10px; 
+            background: rgba(255, 255, 255, 0.15); 
+            border-radius: 15px; 
+            position: relative; 
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
             cursor: pointer;
         }
 
-        /* --- Toasts para Celular (Mais centralizados) --- */
-        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 350px; }
-        .toast {
-            background: white; padding: 12px 20px; border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-size: 14px; text-align: center;
-            opacity: 0; transform: translateY(-20px); transition: 0.3s;
-            border-bottom: 4px solid var(--primary);
+        .progress-bar-fill { 
+            height: 100%; 
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            width: 0%; 
+            border-radius: 15px; 
+            transition: width 0.1s linear;
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.6);
         }
-        .toast.show { opacity: 1; transform: translateY(0); }
+
+        .time-info { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 12px; 
+            color: rgba(255, 255, 255, 0.95); 
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Controles */
+        .controls { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 20px;
+        }
+
+        .btn-control {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 55px; 
+            height: 55px; 
+            border-radius: 50%;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .btn-control:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.4);
+        }
+
+        .btn-control:active { 
+            background: rgba(255, 255, 255, 0.35); 
+            transform: scale(0.95);
+        }
+
+        .btn-play {
+            width: 80px; 
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            box-shadow: 0 15px 35px rgba(255, 71, 87, 0.5);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .btn-play:hover {
+            transform: scale(1.15);
+            box-shadow: 0 20px 50px rgba(255, 71, 87, 0.7);
+        }
+
+        .btn-play:active { 
+            transform: scale(0.95);
+        }
+
+        .btn-control svg { 
+            width: 26px; 
+            height: 26px; 
+            fill: currentColor;
+        }
+
+        .btn-play svg { 
+            width: 36px; 
+            height: 36px;
+        }
+
+        /* Upload */
+        .upload-area {
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px dashed rgba(255, 255, 255, 0.4);
+            border-radius: 20px; 
+            padding: 20px; 
+            text-align: center; 
+            color: white;
+            position: relative; 
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: scale(1.02);
+        }
+
+        .upload-area:active { 
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .upload-area input { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            top: 0; 
+            left: 0; 
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-area svg {
+            margin-bottom: 8px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .upload-area p { 
+            font-size: 16px; 
+            font-weight: 600; 
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Playlist */
+        .playlist {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px; 
+            padding: 15px;
+            max-height: 280px; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px;
+        }
+
+        .playlist::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .playlist::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .playlist::-webkit-scrollbar-thumb {
+            background: rgba(255, 71, 87, 0.5);
+            border-radius: 10px;
+        }
+
+        .playlist::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 71, 87, 0.7);
+        }
+
+        .playlist-item {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 14px 16px; 
+            border-radius: 15px;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            color: white; 
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .playlist-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateX(5px);
+        }
+
+        .playlist-item.active { 
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.3), rgba(255, 107, 107, 0.2));
+            border: 1px solid rgba(255, 71, 87, 0.5);
+            border-left: 4px solid var(--primary);
+            font-weight: 600;
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.2);
+        }
+
+        .item-info { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            overflow: hidden;
+        }
+
+        .item-name { 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            max-width: 200px;
+        }
+
+        .btn-delete {
+            background: rgba(255, 0, 0, 0.15); 
+            border: none; 
+            color: #ff6b9d;
+            width: 36px; 
+            height: 36px; 
+            border-radius: 8px;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 18px;
+        }
+
+        .btn-delete:hover {
+            background: rgba(255, 0, 0, 0.3);
+            color: #ff3838;
+        }
+
+        /* Toast */
+        #toast-container { 
+            position: fixed; 
+            top: 30px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            z-index: 1000; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            width: 90%; 
+            max-width: 400px;
+        }
+
+        .toast {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 14px 22px; 
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); 
+            font-size: 14px; 
+            text-align: center;
+            opacity: 0; 
+            transform: translateY(-20px) scale(0.8); 
+            transition: all 0.3s;
+            border-left: 5px solid var(--primary);
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .toast.show { 
+            opacity: 1; 
+            transform: translateY(0) scale(1);
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
-
     <div id="toast-container"></div>
 
     <div class="app-container">
         <div class="art-container">
-            <div class="vinyl-record" id="vinyl"><div class="vinyl-label"></div></div>
+            <div class="vinyl-record" id="vinyl">
+                <div class="vinyl-label">♪</div>
+            </div>
         </div>
 
         <div class="song-info">
-            <div class="song-title" id="song-title">Selecione uma música</div>
+            <div class="song-title" id="song-title">🎵 Selecione uma música</div>
             <div class="song-artist">Fernanda & Gabriel</div>
         </div>
 
@@ -175,17 +499,25 @@
         </div>
 
         <div class="controls">
-            <button class="btn-control" onclick="prevSong()"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
-            <button class="btn-control btn-play" onclick="togglePlay()" id="play-btn">
+            <button class="btn-control" onclick="prevSong()" title="Música Anterior">
+                <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+            </button>
+            <button class="btn-control btn-play" onclick="togglePlay()" id="play-btn" title="Play/Pause">
                 <svg id="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                 <svg id="icon-pause" viewBox="0 0 24 24" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
-            <button class="btn-control" onclick="nextSong()"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+            <button class="btn-control" onclick="nextSong()" title="Próxima Música">
+                <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+            </button>
         </div>
 
         <div class="upload-area">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-            <p>Toque aqui para adicionar Músicas</p>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <p>📤 Toque para Importar Músicas</p>
             <input type="file" id="file-input" accept=".mp3,audio/mpeg,audio/wav,audio/ogg,audio/m4a" multiple>
         </div>
 
@@ -195,20 +527,31 @@
     <script>
         const dbName = 'AppMusicaCasal';
         const storeName = 'musicas';
-        let db; let songs = []; let currentSongIndex = -1; let audio = new Audio();
+        let db; 
+        let songs = []; 
+        let currentSongIndex = -1; 
+        let audio = new Audio();
 
         const request = indexedDB.open(dbName, 1);
         request.onupgradeneeded = (e) => {
             db = e.target.result;
-            if (!db.objectStoreNames.contains(storeName)) db.createObjectStore(storeName, { keyPath: 'id', autoIncrement: true });
+            if (!db.objectStoreNames.contains(storeName)) {
+                db.createObjectStore(storeName, { keyPath: 'id', autoIncrement: true });
+            }
         };
-        request.onsuccess = (e) => { db = e.target.result; loadSongsFromDB(); };
+        request.onsuccess = (e) => { 
+            db = e.target.result; 
+            loadSongsFromDB(); 
+        };
 
         function saveSongToDB(file) {
             return new Promise((resolve) => {
                 const transaction = db.transaction([storeName], 'readwrite');
                 const store = transaction.objectStore(storeName);
-                const request = store.add({ name: file.name.replace(/\.[^/.]+$/, ""), blob: file });
+                const request = store.add({ 
+                    name: file.name.replace(/\.[^/.]+$/, ""), 
+                    blob: file 
+                });
                 request.onsuccess = () => resolve();
             });
         }
@@ -217,7 +560,8 @@
             const transaction = db.transaction([storeName], 'readonly');
             const request = transaction.objectStore(storeName).getAll();
             request.onsuccess = () => {
-                songs = request.result; renderPlaylist();
+                songs = request.result; 
+                renderPlaylist();
                 if(songs.length > 0 && currentSongIndex === -1) loadSongInfo(0);
             };
         }
@@ -225,48 +569,88 @@
         function deleteSongFromDB(id, event) {
             event.stopPropagation();
             db.transaction([storeName], 'readwrite').objectStore(storeName).delete(id).onsuccess = () => {
-                showToast("Música removida!"); loadSongsFromDB();
-                if (songs.length === 0) { audio.pause(); document.getElementById('song-title').innerText = "Selecione uma música"; updatePlayButton(false); }
+                showToast("🗑️ Música removida!");
+                loadSongsFromDB();
+                if (songs.length === 0) { 
+                    audio.pause(); 
+                    document.getElementById('song-title').innerText = "🎵 Selecione uma música"; 
+                    updatePlayButton(false); 
+                }
             };
         }
 
         document.getElementById('file-input').addEventListener('change', async (e) => {
-            const files = Array.from(e.target.files).filter(f => f.type.includes('audio') || f.name.endsWith('.mp3') || f.name.endsWith('.wav') || f.name.endsWith('.ogg') || f.name.endsWith('.m4a'));
+            const files = Array.from(e.target.files).filter(f => 
+                f.type.includes('audio') || f.name.endsWith('.mp3') || f.name.endsWith('.wav') || 
+                f.name.endsWith('.ogg') || f.name.endsWith('.m4a')
+            );
             if (files.length === 0) return;
-            showToast("Salvando músicas na nuvem...");
+            showToast("☁️ Salvando músicas na nuvem...");
             for (let file of files) await saveSongToDB(file);
-            showToast(`${files.length} música(s) adicionada(s)!`);
+            showToast(`✅ ${files.length} música(s) adicionada(s)!`);
             loadSongsFromDB();
         });
 
         function renderPlaylist() {
-            const playlistEl = document.getElementById('playlist'); playlistEl.innerHTML = '';
-            if (songs.length === 0) { playlistEl.innerHTML = '<div style="text-align:center; padding:10px; color:#fff; font-size:13px;">Nenhuma música. Toque no botão acima!</div>'; return; }
+            const playlistEl = document.getElementById('playlist'); 
+            playlistEl.innerHTML = '';
+            if (songs.length === 0) { 
+                playlistEl.innerHTML = '<div class="empty-message">📭 Nenhuma música importada ainda!</div>'; 
+                return; 
+            }
             songs.forEach((song, index) => {
                 const item = document.createElement('div');
                 item.className = `playlist-item ${index === currentSongIndex ? 'active' : ''}`;
-                item.innerHTML = `<div class="item-info"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="5" cy="19" r="1"></circle><circle cx="19" cy="19" r="1"></circle></svg><span class="item-name">${song.name}</span></div><button class="btn-delete" onclick="deleteSongFromDB(${song.id}, event)" title="Remover">✕</button>`;
-                item.addEventListener('click', () => playSong(index)); playlistEl.appendChild(item);
+                item.innerHTML = `
+                    <div class="item-info">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="5" cy="19" r="1"></circle>
+                            <circle cx="19" cy="19" r="1"></circle>
+                        </svg>
+                        <span class="item-name">${song.name}</span>
+                    </div>
+                    <button class="btn-delete" onclick="deleteSongFromDB(${song.id}, event)" title="Remover">✕</button>
+                `;
+                item.addEventListener('click', () => playSong(index)); 
+                playlistEl.appendChild(item);
             });
         }
 
         function loadSongInfo(index) {
             currentSongIndex = index;
-            document.getElementById('song-title').innerText = songs[index].name;
+            document.getElementById('song-title').innerText = '🎵 ' + songs[index].name;
             audio.src = URL.createObjectURL(songs[index].blob);
             renderPlaylist();
         }
 
-        function playSong(index) { loadSongInfo(index); audio.play(); updatePlayButton(true); }
+        function playSong(index) { 
+            loadSongInfo(index); 
+            audio.play(); 
+            updatePlayButton(true); 
+        }
 
         function togglePlay() {
             if (songs.length === 0) return showToast("Adicione uma música primeiro!");
             if (currentSongIndex === -1) loadSongInfo(0);
-            if (audio.paused) { audio.play(); updatePlayButton(true); } else { audio.pause(); updatePlayButton(false); }
+            if (audio.paused) { 
+                audio.play(); 
+                updatePlayButton(true); 
+            } else { 
+                audio.pause(); 
+                updatePlayButton(false); 
+            }
         }
 
-        function nextSong() { if (songs.length === 0) return; playSong((currentSongIndex + 1) % songs.length); }
-        function prevSong() { if (songs.length === 0) return; playSong((currentSongIndex - 1 + songs.length) % songs.length); }
+        function nextSong() { 
+            if (songs.length === 0) return; 
+            playSong((currentSongIndex + 1) % songs.length); 
+        }
+
+        function prevSong() { 
+            if (songs.length === 0) return; 
+            playSong((currentSongIndex - 1 + songs.length) % songs.length); 
+        }
 
         audio.addEventListener('timeupdate', () => {
             if (isNaN(audio.duration)) return;
@@ -274,13 +658,19 @@
             document.getElementById('current-time').innerText = formatTime(audio.currentTime);
             document.getElementById('total-time').innerText = formatTime(audio.duration);
         });
+        
         audio.addEventListener('ended', nextSong);
 
         document.getElementById('progress-container').addEventListener('click', function(e) {
             if (audio.duration) audio.currentTime = (e.offsetX / this.clientWidth) * audio.duration;
         });
 
-        function formatTime(s) { const min = Math.floor(s/60); const sec = Math.floor(s%60); return `${min}:${sec<10?'0':''}${sec}`; }
+        function formatTime(s) { 
+            const min = Math.floor(s/60); 
+            const sec = Math.floor(s%60); 
+            return `${min}:${sec<10?'0':''}${sec}`; 
+        }
+
         function updatePlayButton(isPlaying) {
             document.getElementById('icon-play').style.display = isPlaying ? 'none' : 'block';
             document.getElementById('icon-pause').style.display = isPlaying ? 'block' : 'none';
@@ -289,10 +679,15 @@
 
         function showToast(msg) {
             const container = document.getElementById('toast-container');
-            const toast = document.createElement('div'); toast.className = 'toast'; toast.innerText = msg;
+            const toast = document.createElement('div'); 
+            toast.className = 'toast'; 
+            toast.innerText = msg;
             container.appendChild(toast);
             setTimeout(() => toast.classList.add('show'), 10);
-            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 2500);
+            setTimeout(() => { 
+                toast.classList.remove('show'); 
+                setTimeout(() => toast.remove(), 300); 
+            }, 3000);
         }
     </script>
 </body>
