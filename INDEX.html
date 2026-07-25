@@ -142,21 +142,22 @@
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="flex-1 flex flex-col h-auto md:h-screen overflow-hidden">
-        <header class="py-4 px-4 flex flex-col items-center justify-center border-b border-slate-800/60 bg-[#0b0f19]">
-            <h2 class="text-xl md:text-2xl font-black tracking-widest text-red-500 uppercase text-center drop-shadow-[0_0_15px_rgba(239,68,68,0.4)]">Mestre dos Dragões - Evolução & Domínio</h2>
+        <header class="py-4 px-2 md:px-4 flex flex-col items-center justify-center border-b border-slate-800/60 bg-[#0b0f19]">
+            <h2 class="text-lg md:text-2xl font-black tracking-widest text-red-500 uppercase text-center drop-shadow-[0_0_15px_rgba(239,68,68,0.4)] px-2">Mestre dos Dragões - Evolução & Domínio</h2>
             
-            <div class="flex flex-wrap justify-center gap-2 mt-3">
-                <button onclick="switchTab('caverna')" id="btn-tab-caverna" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-rose-600 text-white shadow-lg">
-                    Caverna
+            <!-- MENU MOBILE OTIMIZADO (COM ROLAGEM HORIZONTAL SUAVE) -->
+            <div class="flex overflow-x-auto whitespace-nowrap gap-2 mt-3 w-full max-w-xl px-2 py-1 custom-scrollbar justify-start md:justify-center">
+                <button onclick="switchTab('caverna')" id="btn-tab-caverna" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-rose-600 text-white shadow-lg shrink-0">
+                    <i class="fa-solid fa-cave mr-1"></i> Caverna
                 </button>
-                <button onclick="switchTab('evolutions')" id="btn-tab-evolutions" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800">
-                    Codex & Linhagens
+                <button onclick="switchTab('evolutions')" id="btn-tab-evolutions" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800 shrink-0">
+                    <i class="fa-solid fa-book-atlas mr-1"></i> Codex & Linhagens
                 </button>
-                <button onclick="switchTab('loja')" id="btn-tab-loja" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800">
-                    Loja de Itens & Relíquias
+                <button onclick="switchTab('loja')" id="btn-tab-loja" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800 shrink-0">
+                    <i class="fa-solid fa-store mr-1"></i> Loja & Relíquias
                 </button>
-                <button onclick="switchTab('financeiro')" id="btn-tab-financeiro" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800">
-                    Domínio & Finanças
+                <button onclick="switchTab('financeiro')" id="btn-tab-financeiro" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800 shrink-0">
+                    <i class="fa-solid fa-chart-line mr-1"></i> Domínio & Finanças
                 </button>
             </div>
         </header>
@@ -164,37 +165,49 @@
         <div class="flex-1 p-4 md:p-6 overflow-y-auto custom-scrollbar flex flex-col items-center justify-center">
 
             <!-- ABA 1: CAVERNA & DRAGÃO -->
-            <section id="tab-caverna" class="w-full max-w-xl flex flex-col items-center space-y-4 my-auto">
-                <div onclick="clickDragon()" class="w-full bg-[#111827] border border-slate-800/80 rounded-3xl p-6 flex flex-col items-center justify-center shadow-2xl relative cursor-pointer active:scale-[0.99] transition group" style="min-height: 320px;">
+            <section id="tab-caverna" class="w-full max-w-xl flex flex-col items-center space-y-3.5 my-auto">
+                
+                <!-- PAINEL DE GANHO POR CLIQUE (EXIBIÇÃO DIRETA) -->
+                <div class="bg-[#141c2e] border border-slate-800/80 px-4 py-2.5 rounded-2xl flex items-center justify-between w-full shadow-lg">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 text-xs">
+                            <i class="fa-solid fa-hand-pointer"></i>
+                        </div>
+                        <span class="text-xs text-slate-300 font-medium">Ganho por Toque:</span>
+                    </div>
+                    <span id="hud-click-power" class="font-bold text-amber-400 text-xs bg-amber-500/10 px-3 py-1 rounded-xl border border-amber-500/30">+1 Ouro & XP / clique</span>
+                </div>
+
+                <div onclick="clickDragon()" class="w-full bg-[#111827] border border-slate-800/80 rounded-3xl p-5 md:p-6 flex flex-col items-center justify-center shadow-2xl relative cursor-pointer active:scale-[0.99] transition group" style="min-height: 290px;">
                     <div class="absolute inset-0 bg-gradient-to-b from-rose-500/5 to-transparent rounded-3xl pointer-events-none"></div>
                     
-                    <div id="dragon-visual-container" class="relative transition transform duration-300 my-2 dragon-glow flex flex-col items-center justify-center">
-                        <div id="dragon-card-bg" class="w-48 h-60 rounded-2xl bg-gradient-to-b from-amber-600 via-red-700 to-slate-950 flex flex-col items-center justify-between p-3.5 shadow-2xl border border-amber-500/40 relative overflow-hidden">
-                            <div id="dragon-art-box" class="w-36 h-40 rounded-xl bg-black/60 flex items-center justify-center shadow-inner border border-amber-500/30 overflow-hidden relative">
+                    <div id="dragon-visual-container" class="relative transition transform duration-300 my-1 dragon-glow flex flex-col items-center justify-center">
+                        <div id="dragon-card-bg" class="w-44 h-56 rounded-2xl bg-gradient-to-b from-amber-600 via-red-700 to-slate-950 flex flex-col items-center justify-between p-3 shadow-2xl border border-amber-500/40 relative overflow-hidden">
+                            <div id="dragon-art-box" class="w-32 h-36 rounded-xl bg-black/60 flex items-center justify-center shadow-inner border border-amber-500/30 overflow-hidden relative">
                                 <div id="svg-graphic-render" class="w-full h-full flex items-center justify-center">
-                                    <!-- Renderizado via JS com Gráficos SVG Customizados -->
+                                    <!-- Renderizado dinamicamente por Elemento e Fase -->
                                 </div>
                             </div>
-                            <span id="dragon-element-tag" class="text-[10px] uppercase font-black bg-black/80 px-3 py-1 rounded-lg text-amber-300 border border-amber-500/30">Fogo</span>
+                            <span id="dragon-element-tag" class="text-[10px] uppercase font-black bg-black/80 px-3 py-0.5 rounded-lg text-amber-300 border border-amber-500/30">Fogo</span>
                         </div>
                     </div>
 
-                    <h3 id="dragon-stage-text" class="text-amber-400 font-bold tracking-wider uppercase text-xs md:text-sm mt-3 text-center drop-shadow">
+                    <h3 id="dragon-stage-text" class="text-amber-400 font-bold tracking-wider uppercase text-xs md:text-sm mt-2.5 text-center drop-shadow">
                         Fase 1: Ovo Elemental
                     </h3>
-                    <p id="dragon-lore-desc" class="text-[11px] text-slate-400 mt-1 text-center px-4 italic">"Impulsivo, corajoso e extremamente competitivo."</p>
-                    <p class="text-[10px] text-indigo-400 mt-2 font-semibold">Toque para coletar Ouro e Experiência!</p>
+                    <p id="dragon-lore-desc" class="text-[11px] text-slate-400 mt-0.5 text-center px-4 italic">"Impulsivo, corajoso e extremamente competitivo."</p>
+                    <p class="text-[10px] text-indigo-400 mt-1.5 font-semibold">Toque no card para coletar Ouro e Experiência!</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3 w-full">
-                    <button onclick="feedDragon()" class="bg-[#141c2e] hover:bg-[#1e293b] border border-slate-800 py-3.5 px-4 rounded-2xl flex flex-col items-center justify-center transition shadow-lg active:scale-95">
+                    <button onclick="feedDragon()" class="bg-[#141c2e] hover:bg-[#1e293b] border border-slate-800 py-3 px-4 rounded-2xl flex flex-col items-center justify-center transition shadow-lg active:scale-95">
                         <span class="text-xs font-bold text-slate-200 flex items-center space-x-1.5">
                             <i class="fa-solid fa-utensils text-rose-500"></i>
                             <span>Alimentar</span>
                         </span>
                         <span class="text-[10px] text-slate-400 mt-0.5">Custo: 15 Ouro</span>
                     </button>
-                    <button onclick="ferociousTraining()" class="bg-[#141c2e] hover:bg-[#1e293b] border border-slate-800 py-3.5 px-4 rounded-2xl flex flex-col items-center justify-center transition shadow-lg active:scale-95">
+                    <button onclick="ferociousTraining()" class="bg-[#141c2e] hover:bg-[#1e293b] border border-slate-800 py-3 px-4 rounded-2xl flex flex-col items-center justify-center transition shadow-lg active:scale-95">
                         <span class="text-xs font-bold text-slate-200 flex items-center space-x-1.5">
                             <i class="fa-solid fa-khanda text-amber-500"></i>
                             <span>Treinar</span>
@@ -207,8 +220,8 @@
             <!-- ABA 2: CODEX DAS LINHAGENS -->
             <section id="tab-evolutions" class="hidden w-full max-w-5xl space-y-4 my-auto">
                 <div>
-                    <h3 class="text-base font-bold text-slate-200">Codex das Linhagens & Evoluções (Incluindo Lenda & Eletro)</h3>
-                    <p class="text-xs text-slate-400">Escolha seu elemento ativo e evolua por 5 fases completas até a Armadura Suprema (Níveis 10, 15, 35 e 45).</p>
+                    <h3 class="text-base font-bold text-slate-200">Codex das Linhagens & Evoluções (Exclusivo por Elemento)</h3>
+                    <p class="text-xs text-slate-400">Escolha seu elemento ativo e evolua por 5 fases completas com visuais únicos (Níveis 10, 15, 35 e 45).</p>
                 </div>
                 <div id="elements-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     <!-- Gerado dinamicamente via JS -->
@@ -235,7 +248,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div class="bg-[#111827] border border-slate-800 p-4 rounded-2xl flex justify-between items-center shadow-lg">
                         <div>
-                            <span class="text-[10px] uppercase font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded">Automação Fágil</span>
+                            <span class="text-[10px] uppercase font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded">Automação Ágil</span>
                             <h4 class="font-bold text-xs text-slate-200 mt-1">Kobold Mineiro</h4>
                             <p class="text-[11px] text-slate-400">+2 Ouro/seg</p>
                             <span class="text-[11px] font-semibold text-amber-400 mt-1 block">Custo: <span id="kobold-cost">100</span> Ouro</span>
@@ -404,6 +417,7 @@
             document.getElementById('hunger-bar').style.width = `${gameState.hunger}%`;
 
             document.getElementById('click-power').textContent = gameState.clickPower;
+            document.getElementById('hud-click-power').textContent = `+${gameState.clickPower} Ouro & XP / clique`;
             document.getElementById('miner-kobolds').textContent = gameState.minerKobolds;
             document.getElementById('kobold-cost').textContent = gameState.koboldCost;
             document.getElementById('click-cost').textContent = gameState.clickCost;
@@ -428,26 +442,53 @@
             const stageText = document.getElementById('dragon-stage-text');
             const svgRender = document.getElementById('svg-graphic-render');
 
-            cardBg.className = `w-48 h-60 rounded-2xl bg-gradient-to-b ${activeEl.color} flex flex-col items-center justify-between p-3.5 shadow-2xl border border-amber-500/40 relative overflow-hidden`;
+            cardBg.className = `w-44 h-56 rounded-2xl bg-gradient-to-b ${activeEl.color} flex flex-col items-center justify-between p-3 shadow-2xl border border-amber-500/40 relative overflow-hidden`;
             elementTag.textContent = activeEl.name;
 
             let stageName = "";
             let svgContent = "";
             const lvl = gameState.level;
+            const id = activeEl.id;
 
-            // Gráficos SVG Customizados para cada uma das 5 Fases
-            if (lvl >= 45) {
-                stageName = `Fase 5: Dragão com Armadura Suprema`;
+            if (lvl < 10) {
+                stageName = `Fase 1: Ovo de ${activeEl.name}`;
                 svgContent = `
-                    <svg viewBox="0 0 100 100" class="w-28 h-28 drop-shadow-[0_0_15px_rgba(251,191,36,0.8)] animate-pulse">
-                        <polygon points="50,10 90,30 80,75 50,95 20,75 10,30" fill="#1e293b" stroke="#f59e0b" stroke-width="3"/>
-                        <path d="M30 45 Q 50 20 70 45 Q 85 70 50 85 Q 15 70 30 45 Z" fill="#b45309" stroke="#fbbf24" stroke-width="2"/>
-                        <circle cx="50" cy="45" r="12" fill="#ef4444" stroke="#f59e0b" stroke-width="2"/>
-                        <path d="M40 35 L 60 35 M 45 55 L 55 55" stroke="#f8fafc" stroke-width="3" stroke-linecap="round"/>
-                        <path d="M35 25 L 50 5 L 65 25" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+                    <svg viewBox="0 0 100 100" class="w-20 h-24">
+                        <ellipse cx="50" cy="50" rx="24" ry="32" fill="url(#eggGrad_${id})" stroke="#fbbf24" stroke-width="2"/>
+                        <path d="M40 35 L 48 48 L 38 55 L 52 70" fill="none" stroke="#fef08a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="50" cy="50" r="8" fill="currentColor" class="text-amber-300 animate-pulse opacity-60"/>
+                        <defs>
+                            <linearGradient id="eggGrad_${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#334155" />
+                                <stop offset="100%" stop-color="#0f172a" />
+                            </linearGradient>
+                        </defs>
                     </svg>
                 `;
-            } else if (lvl >= 35) {
+            } else if (lvl < 15) {
+                stageName = `Fase 2: Filhote Desperto`;
+                if (id === 'natureza') {
+                    svgContent = `<svg viewBox="0 0 100 100" class="w-20 h-20"><circle cx="50" cy="55" r="18" fill="#047857" stroke="#34d399" stroke-width="2"/><path d="M35 40 Q 50 20 65 40" fill="none" stroke="#34d399" stroke-width="3"/><circle cx="43" cy="50" r="3" fill="#fff"/><circle cx="57" cy="50" r="3" fill="#fff"/></svg>`;
+                } else if (id === 'gelo') {
+                    svgContent = `<svg viewBox="0 0 100 100" class="w-20 h-20"><circle cx="50" cy="55" r="18" fill="#0284c7" stroke="#38bdf8" stroke-width="2"/><path d="M50 30 L 50 70 M 30 50 L 70 50" stroke="#bae6fd" stroke-width="3"/><circle cx="43" cy="50" r="3" fill="#fff"/><circle cx="57" cy="50" r="3" fill="#fff"/></svg>`;
+                } else if (id === 'raio' || id === 'eletro') {
+                    svgContent = `<svg viewBox="0 0 100 100" class="w-20 h-20"><circle cx="50" cy="55" r="18" fill="#b45309" stroke="#facc15" stroke-width="2"/><path d="M45 35 L 35 55 L 55 55 L 45 75" fill="none" stroke="#facc15" stroke-width="3"/><circle cx="43" cy="50" r="3" fill="#fff"/><circle cx="57" cy="50" r="3" fill="#fff"/></svg>`;
+                } else {
+                    svgContent = `<svg viewBox="0 0 100 100" class="w-20 h-20"><circle cx="50" cy="55" r="20" fill="#d97706" stroke="#fde047" stroke-width="2"/><circle cx="43" cy="50" r="3" fill="#0f172a"/><circle cx="57" cy="50" r="3" fill="#0f172a"/><path d="M45 35 Q 50 25 55 35" fill="none" stroke="#f59e0b" stroke-width="3"/></svg>`;
+                }
+            } else if (lvl < 35) {
+                stageName = `Fase 3: Dragão Jovem`;
+                svgContent = `
+                    <svg viewBox="0 0 100 100" class="w-24 h-24 drop-shadow">
+                        <ellipse cx="50" cy="55" rx="22" ry="28" fill="#b45309" stroke="#fb923c" stroke-width="2"/>
+                        <circle cx="42" cy="45" r="4" fill="#fef08a"/>
+                        <circle cx="58" cy="45" r="4" fill="#fef08a"/>
+                        <path d="M35 25 L 50 38 L 65 25" fill="none" stroke="#ea580c" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M25 65 Q 10 50 20 40" fill="none" stroke="#c2410c" stroke-width="4" stroke-linecap="round"/>
+                        <text x="50" y="90" font-size="10" fill="#facc15" text-anchor="middle" font-weight="bold">${activeEl.name}</text>
+                    </svg>
+                `;
+            } else if (lvl < 45) {
                 stageName = `Fase 4: Dragão Adulto Poderoso`;
                 svgContent = `
                     <svg viewBox="0 0 100 100" class="w-28 h-28 drop-shadow-lg">
@@ -456,42 +497,19 @@
                         <circle cx="60" cy="40" r="5" fill="#fde047"/>
                         <path d="M45 55 Q 50 65 55 55" fill="none" stroke="#fde047" stroke-width="2"/>
                         <path d="M15 40 L 5 25 L 30 35 M 85 40 L 95 25 L 70 35" fill="#c2410c" stroke="#f97316" stroke-width="2"/>
-                    </svg>
-                `;
-            } else if (lvl >= 15) {
-                stageName = `Fase 3: Dragão Jovem`;
-                svgContent = `
-                    <svg viewBox="0 0 100 100" class="w-24 h-24 drop-shadow">
-                        <ellipse cx="50" cy="55" rx="22" ry="28" fill="#c2410c" stroke="#fb923c" stroke-width="2"/>
-                        <circle cx="42" cy="45" r="4" fill="#fef08a"/>
-                        <circle cx="58" cy="45" r="4" fill="#fef08a"/>
-                        <path d="M35 25 L 50 38 L 65 25" fill="none" stroke="#ea580c" stroke-width="4" stroke-linecap="round"/>
-                        <path d="M25 65 Q 10 50 20 40" fill="none" stroke="#c2410c" stroke-width="4" stroke-linecap="round"/>
-                    </svg>
-                `;
-            } else if (lvl >= 10) {
-                stageName = `Fase 2: Filhote Desperto`;
-                svgContent = `
-                    <svg viewBox="0 0 100 100" class="w-20 h-20">
-                        <circle cx="50" cy="55" r="20" fill="#d97706" stroke="#fde047" stroke-width="2"/>
-                        <circle cx="43" cy="50" r="3" fill="#0f172a"/>
-                        <circle cx="57" cy="50" r="3" fill="#0f172a"/>
-                        <path d="M45 35 Q 50 25 55 35" fill="none" stroke="#f59e0b" stroke-width="3"/>
-                        <path d="M35 70 Q 50 80 65 70" fill="none" stroke="#b45309" stroke-width="3" stroke-linecap="round"/>
+                        <text x="50" y="95" font-size="9" fill="#38bdf8" text-anchor="middle" font-weight="bold">FASE 4</text>
                     </svg>
                 `;
             } else {
-                stageName = `Fase 1: Ovo Elemental`;
+                stageName = `Fase 5: Armadura Suprema`;
                 svgContent = `
-                    <svg viewBox="0 0 100 100" class="w-20 h-24">
-                        <ellipse cx="50" cy="50" rx="24" ry="32" fill="url(#eggGrad)" stroke="#fbbf24" stroke-width="2"/>
-                        <path d="M40 35 L 48 48 L 38 55 L 52 70" fill="none" stroke="#fef08a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                        <defs>
-                            <linearGradient id="eggGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#b45309" />
-                                <stop offset="100%" stop-color="#0f172a" />
-                            </linearGradient>
-                        </defs>
+                    <svg viewBox="0 0 100 100" class="w-28 h-28 drop-shadow-[0_0_15px_rgba(251,191,36,0.8)] animate-pulse">
+                        <polygon points="50,10 90,30 80,75 50,95 20,75 10,30" fill="#1e293b" stroke="#f59e0b" stroke-width="3"/>
+                        <path d="M30 45 Q 50 20 70 45 Q 85 70 50 85 Q 15 70 30 45 Z" fill="#b45309" stroke="#fbbf24" stroke-width="2"/>
+                        <circle cx="50" cy="45" r="12" fill="#ef4444" stroke="#f59e0b" stroke-width="2"/>
+                        <path d="M40 35 L 60 35 M 45 55 L 55 55" stroke="#f8fafc" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M35 25 L 50 5 L 65 25" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+                        <text x="50" y="92" font-size="8" fill="#fef08a" text-anchor="middle" font-weight="bold">SUPREMO</text>
                     </svg>
                 `;
             }
@@ -640,11 +658,11 @@
                 gameState.crystals += 5;
 
                 if (gameState.level === 10) {
-                    alert("Incrível! Seu ovo eclodiu e revelou a Fase 2: Filhote Desperto!");
+                    alert("Incrível! Seu ovo eclodiu e revelou a Fase 2!");
                 } else if (gameState.level === 15) {
-                    alert("Fantástico! Seu dragão evoluiu para a Fase 3: Dragão Jovem!");
+                    alert("Fantástico! Seu dragão evoluiu para a Fase 3: Jovem!");
                 } else if (gameState.level === 35) {
-                    alert("Impressionante! Seu dragão atingiu a Fase 4: Dragão Adulto Poderoso!");
+                    alert("Impressionante! Seu dragão atingiu a Fase 4: Adulto Poderoso!");
                 } else if (gameState.level === 45) {
                     alert("Lendário! Seu dragão alcançou o estágio máximo: Fase 5 com Armadura Suprema!");
                 } else {
@@ -726,10 +744,10 @@
         function switchTab(tabName) {
             ['caverna', 'evolutions', 'loja', 'financeiro'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`btn-tab-${t}`).className = "px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800";
+                document.getElementById(`btn-tab-${t}`).className = "px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800 shrink-0";
             });
             document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-            document.getElementById(`btn-tab-${tabName}`).className = "px-4 py-2 rounded-xl text-xs font-bold transition bg-rose-600 text-white shadow-lg";
+            document.getElementById(`btn-tab-${tabName}`).className = "px-4 py-2 rounded-xl text-xs font-bold transition bg-rose-600 text-white shadow-lg shrink-0";
         }
 
         function openSaveModal() {
