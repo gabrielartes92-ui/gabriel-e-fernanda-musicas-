@@ -170,9 +170,9 @@
                     
                     <div id="dragon-visual-container" class="relative transition transform duration-300 my-2 dragon-glow flex flex-col items-center justify-center">
                         <div id="dragon-card-bg" class="w-48 h-60 rounded-2xl bg-gradient-to-b from-amber-600 via-red-700 to-slate-950 flex flex-col items-center justify-between p-3.5 shadow-2xl border border-amber-500/40 relative overflow-hidden">
-                            <div id="dragon-art-box" class="w-36 h-40 rounded-xl bg-black/50 flex items-center justify-center shadow-inner border border-amber-500/30 overflow-hidden relative">
+                            <div id="dragon-art-box" class="w-36 h-40 rounded-xl bg-black/60 flex items-center justify-center shadow-inner border border-amber-500/30 overflow-hidden relative">
                                 <div id="svg-graphic-render" class="w-full h-full flex items-center justify-center">
-                                    <!-- Renderizado via JS -->
+                                    <!-- Renderizado via JS com Gráficos SVG Customizados -->
                                 </div>
                             </div>
                             <span id="dragon-element-tag" class="text-[10px] uppercase font-black bg-black/80 px-3 py-1 rounded-lg text-amber-300 border border-amber-500/30">Fogo</span>
@@ -435,52 +435,64 @@
             let svgContent = "";
             const lvl = gameState.level;
 
-            // 5 Fases baseadas nos níveis: <10 (Ovo), 10-14 (Filhote), 15-34 (Jovem), 35-44 (Adulto), 45+ (Armadura Suprema)
+            // Gráficos SVG Customizados para cada uma das 5 Fases
             if (lvl >= 45) {
                 stageName = `Fase 5: Dragão com Armadura Suprema`;
                 svgContent = `
-                    <div class="flex flex-col items-center justify-center text-center space-y-1.5 animate-pulse">
-                        <div class="relative">
-                            <i class="fa-solid ${activeEl.icon} text-5xl text-amber-200 drop-shadow-[0_0_15px_rgba(251,191,36,0.9)]"></i>
-                            <i class="fa-solid fa-shield-halved text-2xl text-cyan-400 absolute -bottom-1 -right-2 drop-shadow"></i>
-                        </div>
-                        <span class="text-[10px] font-black uppercase text-amber-300 tracking-wider">Lenda Armadurada</span>
-                    </div>
+                    <svg viewBox="0 0 100 100" class="w-28 h-28 drop-shadow-[0_0_15px_rgba(251,191,36,0.8)] animate-pulse">
+                        <polygon points="50,10 90,30 80,75 50,95 20,75 10,30" fill="#1e293b" stroke="#f59e0b" stroke-width="3"/>
+                        <path d="M30 45 Q 50 20 70 45 Q 85 70 50 85 Q 15 70 30 45 Z" fill="#b45309" stroke="#fbbf24" stroke-width="2"/>
+                        <circle cx="50" cy="45" r="12" fill="#ef4444" stroke="#f59e0b" stroke-width="2"/>
+                        <path d="M40 35 L 60 35 M 45 55 L 55 55" stroke="#f8fafc" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M35 25 L 50 5 L 65 25" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
                 `;
             } else if (lvl >= 35) {
                 stageName = `Fase 4: Dragão Adulto Poderoso`;
                 svgContent = `
-                    <div class="flex flex-col items-center justify-center text-center space-y-2">
-                        <i class="fa-solid ${activeEl.icon} text-5xl text-amber-300 drop-shadow-[0_0_12px_rgba(251,191,36,0.8)]"></i>
-                        <span class="text-[10px] font-black uppercase text-amber-200 tracking-wider">${activeEl.name} Adulto</span>
-                    </div>
+                    <svg viewBox="0 0 100 100" class="w-28 h-28 drop-shadow-lg">
+                        <path d="M20 30 Q 10 10 30 20 Q 50 5 70 20 Q 90 10 80 30 Q 95 60 70 75 L 50 90 L 30 75 Q 5 60 20 30 Z" fill="#9a3412" stroke="#f97316" stroke-width="2"/>
+                        <circle cx="40" cy="40" r="5" fill="#fde047"/>
+                        <circle cx="60" cy="40" r="5" fill="#fde047"/>
+                        <path d="M45 55 Q 50 65 55 55" fill="none" stroke="#fde047" stroke-width="2"/>
+                        <path d="M15 40 L 5 25 L 30 35 M 85 40 L 95 25 L 70 35" fill="#c2410c" stroke="#f97316" stroke-width="2"/>
+                    </svg>
                 `;
             } else if (lvl >= 15) {
                 stageName = `Fase 3: Dragão Jovem`;
                 svgContent = `
-                    <div class="flex flex-col items-center justify-center text-center space-y-2">
-                        <i class="fa-solid ${activeEl.icon} text-4xl text-orange-300 drop-shadow"></i>
-                        <span class="text-[10px] font-bold text-orange-200">Em Desenvolvimento</span>
-                    </div>
+                    <svg viewBox="0 0 100 100" class="w-24 h-24 drop-shadow">
+                        <ellipse cx="50" cy="55" rx="22" ry="28" fill="#c2410c" stroke="#fb923c" stroke-width="2"/>
+                        <circle cx="42" cy="45" r="4" fill="#fef08a"/>
+                        <circle cx="58" cy="45" r="4" fill="#fef08a"/>
+                        <path d="M35 25 L 50 38 L 65 25" fill="none" stroke="#ea580c" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M25 65 Q 10 50 20 40" fill="none" stroke="#c2410c" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
                 `;
             } else if (lvl >= 10) {
                 stageName = `Fase 2: Filhote Desperto`;
                 svgContent = `
-                    <div class="flex flex-col items-center justify-center text-center space-y-2">
-                        <i class="fa-solid ${activeEl.icon} text-3xl text-amber-400"></i>
-                        <span class="text-[10px] font-bold text-slate-200">Filhote Recém-Nascido</span>
-                    </div>
+                    <svg viewBox="0 0 100 100" class="w-20 h-20">
+                        <circle cx="50" cy="55" r="20" fill="#d97706" stroke="#fde047" stroke-width="2"/>
+                        <circle cx="43" cy="50" r="3" fill="#0f172a"/>
+                        <circle cx="57" cy="50" r="3" fill="#0f172a"/>
+                        <path d="M45 35 Q 50 25 55 35" fill="none" stroke="#f59e0b" stroke-width="3"/>
+                        <path d="M35 70 Q 50 80 65 70" fill="none" stroke="#b45309" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
                 `;
             } else {
                 stageName = `Fase 1: Ovo Elemental`;
                 svgContent = `
-                    <div class="flex flex-col items-center justify-center text-center space-y-2">
-                        <div class="w-16 h-20 rounded-[50%_50%_40%_40%] bg-gradient-to-t from-black/80 via-slate-800 to-amber-500/40 border border-amber-400/50 flex items-center justify-center shadow-inner relative">
-                            <i class="fa-solid ${activeEl.icon} text-xl text-amber-300/80"></i>
-                            <div class="absolute top-2 w-3 h-6 bg-white/20 rounded-full blur-[1px]"></div>
-                        </div>
-                        <span class="text-[10px] font-bold text-slate-300">Ovo em Incubação</span>
-                    </div>
+                    <svg viewBox="0 0 100 100" class="w-20 h-24">
+                        <ellipse cx="50" cy="50" rx="24" ry="32" fill="url(#eggGrad)" stroke="#fbbf24" stroke-width="2"/>
+                        <path d="M40 35 L 48 48 L 38 55 L 52 70" fill="none" stroke="#fef08a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="eggGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#b45309" />
+                                <stop offset="100%" stop-color="#0f172a" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 `;
             }
 
