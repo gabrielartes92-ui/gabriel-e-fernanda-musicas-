@@ -45,15 +45,15 @@
                     <span class="text-[10px] font-bold bg-red-600 text-white px-3 py-1 rounded-lg">Selecionar Fogo</span>
                 </button>
 
-                <button onclick="chooseStarter('natureza')" class="bg-gradient-to-b from-emerald-950/60 to-[#141c2e] hover:border-emerald-500 border border-slate-800 p-4 rounded-2xl flex flex-col items-center space-y-3 transition shadow-xl group active:scale-95">
-                    <div class="w-16 h-16 rounded-xl bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl group-hover:scale-110 transition">
-                        <i class="fa-solid fa-leaf"></i>
+                <button onclick="chooseStarter('gelo')" class="bg-gradient-to-b from-cyan-950/60 to-[#141c2e] hover:border-cyan-500 border border-slate-800 p-4 rounded-2xl flex flex-col items-center space-y-3 transition shadow-xl group active:scale-95">
+                    <div class="w-16 h-16 rounded-xl bg-cyan-600/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-2xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-snowflake"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-sm text-slate-100">Dragão de Natureza</h3>
-                        <p class="text-[10px] text-slate-400 mt-1 italic">"Gentil, sábio e protetor da vida silvestre."</p>
+                        <h3 class="font-bold text-sm text-slate-100">Dragão de Gelo</h3>
+                        <p class="text-[10px] text-slate-400 mt-1 italic">"Calmo, paciente e extremamente inteligente."</p>
                     </div>
-                    <span class="text-[10px] font-bold bg-emerald-600 text-white px-3 py-1 rounded-lg">Selecionar Natureza</span>
+                    <span class="text-[10px] font-bold bg-cyan-600 text-white px-3 py-1 rounded-lg">Selecionar Gelo</span>
                 </button>
             </div>
         </div>
@@ -145,7 +145,7 @@
         <header class="py-4 px-2 md:px-4 flex flex-col items-center justify-center border-b border-slate-800/60 bg-[#0b0f19]">
             <h2 class="text-lg md:text-2xl font-black tracking-widest text-red-500 uppercase text-center drop-shadow-[0_0_15px_rgba(239,68,68,0.4)] px-2">Mestre dos Dragões - Evolução & Domínio</h2>
             
-            <!-- MENU MOBILE OTIMIZADO (COM ROLAGEM HORIZONTAL SUAVE) -->
+            <!-- MENU MOBILE OTIMIZADO -->
             <div class="flex overflow-x-auto whitespace-nowrap gap-2 mt-3 w-full max-w-xl px-2 py-1 custom-scrollbar justify-start md:justify-center">
                 <button onclick="switchTab('caverna')" id="btn-tab-caverna" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-rose-600 text-white shadow-lg shrink-0">
                     <i class="fa-solid fa-cave mr-1"></i> Caverna
@@ -167,7 +167,6 @@
             <!-- ABA 1: CAVERNA & DRAGÃO -->
             <section id="tab-caverna" class="w-full max-w-xl flex flex-col items-center space-y-3.5 my-auto">
                 
-                <!-- PAINEL DE GANHO POR CLIQUE (EXIBIÇÃO DIRETA) -->
                 <div class="bg-[#141c2e] border border-slate-800/80 px-4 py-2.5 rounded-2xl flex items-center justify-between w-full shadow-lg">
                     <div class="flex items-center space-x-2">
                         <div class="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 text-xs">
@@ -185,7 +184,7 @@
                         <div id="dragon-card-bg" class="w-44 h-56 rounded-2xl bg-gradient-to-b from-amber-600 via-red-700 to-slate-950 flex flex-col items-center justify-between p-3 shadow-2xl border border-amber-500/40 relative overflow-hidden">
                             <div id="dragon-art-box" class="w-32 h-36 rounded-xl bg-black/60 flex items-center justify-center shadow-inner border border-amber-500/30 overflow-hidden relative">
                                 <div id="svg-graphic-render" class="w-full h-full flex items-center justify-center">
-                                    <!-- Renderizado dinamicamente por Elemento e Fase -->
+                                    <!-- Carrega da pasta Ativos -->
                                 </div>
                             </div>
                             <span id="dragon-element-tag" class="text-[10px] uppercase font-black bg-black/80 px-3 py-0.5 rounded-lg text-amber-300 border border-amber-500/30">Fogo</span>
@@ -193,7 +192,7 @@
                     </div>
 
                     <h3 id="dragon-stage-text" class="text-amber-400 font-bold tracking-wider uppercase text-xs md:text-sm mt-2.5 text-center drop-shadow">
-                        Fase 1: Ovo Elemental
+                        Fase 1: Ovo
                     </h3>
                     <p id="dragon-lore-desc" class="text-[11px] text-slate-400 mt-0.5 text-center px-4 italic">"Impulsivo, corajoso e extremamente competitivo."</p>
                     <p class="text-[10px] text-indigo-400 mt-1.5 font-semibold">Toque no card para coletar Ouro e Experiência!</p>
@@ -220,30 +219,26 @@
             <!-- ABA 2: CODEX DAS LINHAGENS -->
             <section id="tab-evolutions" class="hidden w-full max-w-5xl space-y-4 my-auto">
                 <div>
-                    <h3 class="text-base font-bold text-slate-200">Codex das Linhagens & Evoluções (Exclusivo por Elemento)</h3>
-                    <p class="text-xs text-slate-400">Escolha seu elemento ativo e evolua por 5 fases completas com visuais únicos (Níveis 10, 15, 35 e 45).</p>
+                    <h3 class="text-base font-bold text-slate-200">Codex das Linhagens & Evoluções</h3>
+                    <p class="text-xs text-slate-400">Escolha seu elemento ativo e evolua por 5 fases completas.</p>
                 </div>
-                <div id="elements-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    <!-- Gerado dinamicamente via JS -->
-                </div>
+                <div id="elements-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
             </section>
 
             <!-- ABA 3: LOJA DE ITENS E RELÍQUIAS -->
             <section id="tab-loja" class="hidden w-full max-w-4xl space-y-4 my-auto">
                 <div>
                     <h3 class="text-base font-bold text-slate-200">Loja de Itens e Relíquias Místicas</h3>
-                    <p class="text-xs text-slate-400">Adquira itens com diferentes graus de dificuldade e raridade para potencializar sua evolução e ganho financeiro.</p>
+                    <p class="text-xs text-slate-400">Adquira itens para potencializar sua evolução e ganho financeiro.</p>
                 </div>
-                <div id="shop-items-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                    <!-- Gerado dinamicamente via JS -->
-                </div>
+                <div id="shop-items-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
             </section>
 
             <!-- ABA 4: DOMÍNIO E FINANÇAS -->
             <section id="tab-financeiro" class="hidden w-full max-w-3xl space-y-4 my-auto">
                 <div>
                     <h3 class="text-base font-bold text-slate-200">Painel Financeiro & Gestão do Domínio</h3>
-                    <p class="text-xs text-slate-400">Monitore suas receitas, contrate mão de obra especializada e invista na infraestrutura da caverna.</p>
+                    <p class="text-xs text-slate-400">Monitore suas receitas e contrate mão de obra especializada.</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div class="bg-[#111827] border border-slate-800 p-4 rounded-2xl flex justify-between items-center shadow-lg">
@@ -301,29 +296,14 @@
                 </h3>
                 <button onclick="closeSaveModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
-            
-            <p class="text-[11px] text-slate-400">Copie o código JSON abaixo para backup ou cole para restaurar:</p>
-            
             <textarea id="save-textarea" class="w-full h-28 bg-[#090d16] border border-slate-800 rounded-xl p-2.5 text-[10px] font-mono text-slate-300 focus:outline-none focus:border-indigo-500 custom-scrollbar"></textarea>
-            
             <div class="flex gap-2">
                 <button onclick="exportSaveToText()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2 px-3 rounded-xl text-xs transition shadow">Copiar Save</button>
                 <button onclick="importSaveFromText()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-3 rounded-xl text-xs transition shadow">Importar Save</button>
             </div>
-
-            <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-[11px]">
-                <span class="text-slate-400">Arquivo .json:</span>
-                <div class="space-x-1">
-                    <button onclick="downloadSaveFile()" class="bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded-lg border border-slate-700">Baixar</button>
-                    <label class="bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded-lg border border-slate-700 cursor-pointer inline-block">
-                        Carregar <input type="file" id="import-file" accept=".json" onchange="importSaveFile(event)" class="hidden">
-                    </label>
-                </div>
-            </div>
         </div>
     </div>
 
-    <!-- SCRIPT DO JOGO -->
     <script>
         let gameState = {
             gold: 0,
@@ -344,33 +324,23 @@
             hasChosenStarter: false,
             elements: [
                 { id: 'fogo', name: 'Fogo', title: 'Ignar, o Senhor das Chamas', color: 'from-red-600 via-orange-600 to-slate-950', personality: 'Impulsivo, corajoso e extremamente competitivo.', unlocked: true, price: 0, icon: 'fa-fire-flame-curved' },
-                { id: 'natureza', name: 'Natureza', title: 'Sylvaris, o Protetor da Vida', color: 'from-emerald-500 via-green-700 to-slate-950', personality: 'Gentil, sábio e protetor da vida silvestre.', unlocked: true, price: 0, icon: 'fa-leaf' },
-                { id: 'gelo', name: 'Gelo', title: 'Glacius, o Guardião do Norte', color: 'from-cyan-500 via-blue-600 to-slate-950', personality: 'Calmo, paciente e extremamente inteligente.', unlocked: false, price: 2500, icon: 'fa-snowflake' },
-                { id: 'raio', name: 'Raio', title: 'Voltaris, o Imperador da Tempestade', color: 'from-yellow-400 via-amber-500 to-slate-950', personality: 'Inquieto, veloz e estratégico.', unlocked: false, price: 6000, icon: 'fa-bolt' },
-                { id: 'sombras', name: 'Sombras', title: 'Umbros, o Rei do Vazio', color: 'from-purple-900 via-slate-900 to-slate-950', personality: 'Misterioso, silencioso e calculista.', unlocked: false, price: 22000, icon: 'fa-moon' },
-                { id: 'luz', name: 'Luz', title: 'Solarius, o Guardião Celestial', color: 'from-amber-200 via-yellow-500 to-slate-950', personality: 'Nobre, justo e inspirador.', unlocked: false, price: 35000, icon: 'fa-sun' },
-                { id: 'magma', name: 'Magma', title: 'Vulkar, o Destruidor dos Vulcões', color: 'from-orange-700 via-red-900 to-slate-950', personality: 'Brutal, feroz e incansável.', unlocked: false, price: 50000, icon: 'fa-volcano' },
-                { id: 'lenda', name: 'Lenda', title: 'Aethelgard, o Dragão Lendário Primordial', color: 'from-amber-400 via-yellow-600 to-slate-950', personality: 'Majestoso, ancestral e detentor de poderes arcanos.', unlocked: false, price: 100000, icon: 'fa-crown' },
-                { id: 'eletro', name: 'Eletro', title: 'Voltarix, o Titã das Tempestades', color: 'from-blue-500 via-indigo-700 to-slate-950', personality: 'Fulgurante, implacável e hipercinético.', unlocked: false, price: 200000, icon: 'fa-bolt-lightning' },
-                { id: 'cristal', name: 'Cristal', title: 'Crystallion, o Guardião dos Tesouros', color: 'from-fuchsia-600 via-purple-700 to-slate-950', personality: 'Sereno, paciente e extremamente leal.', unlocked: false, price: 350000, icon: 'fa-gem' }
+                { id: 'gelo', name: 'Gelo', title: 'Glacius, o Guardião do Norte', color: 'from-cyan-500 via-blue-600 to-slate-950', personality: 'Calmo, paciente e extremamente inteligente.', unlocked: true, price: 0, icon: 'fa-snowflake' },
+                { id: 'luz', name: 'Luz', title: 'Solarius, o Guardião Celestial', color: 'from-amber-200 via-yellow-500 to-slate-950', personality: 'Nobre, justo e inspirador.', unlocked: false, price: 2500, icon: 'fa-sun' },
+                { id: 'dark', name: 'Dark', title: 'Umbros, o Rei do Vazio', color: 'from-purple-900 via-slate-900 to-slate-950', personality: 'Misterioso, silencioso e calculista.', unlocked: false, price: 6000, icon: 'fa-moon' },
+                { id: 'tomada', name: 'Tomada', title: 'Voltaris, o Imperador da Tempestade', color: 'from-yellow-400 via-amber-500 to-slate-950', personality: 'Inquieto, veloz e estratégico.', unlocked: false, price: 15000, icon: 'fa-bolt' }
             ]
         };
 
         const shopItemsData = [
             { id: 'potion', name: 'Poção de XP Rápido', desc: '+150 XP instantâneo para o dragão', costGold: 250, costCrystals: 0, diff: 'Fácil', diffColor: 'text-emerald-400', icon: 'fa-flask' },
             { id: 'fruit', name: 'Fruto da Vitalidade', desc: 'Restaura 100% da fome e dá bônus', costGold: 800, costCrystals: 2, diff: 'Moderado', diffColor: 'text-amber-400', icon: 'fa-apple-whole' },
-            { id: 'essence', name: 'Essência Elemental', desc: 'Dobra o poder de clique permanentemente em +2', costGold: 3500, costCrystals: 15, diff: 'Difícil', diffColor: 'text-orange-400', icon: 'fa-fire' },
-            { id: 'mithril', name: 'Placas de Mitril', desc: 'Acelera a resistência e armadura do dragão', costGold: 18000, costCrystals: 60, diff: 'Muito Difícil', diffColor: 'text-purple-400', icon: 'fa-shield-halved' },
-            { id: 'orb', name: 'Orbe Primordial', desc: 'Relíquia mítica: Gera +50 Ouro/s e +5 Cristais instantâneos', costGold: 75000, costCrystals: 250, diff: 'Lendário', diffColor: 'text-red-500 animate-pulse', icon: 'fa-globe' }
+            { id: 'essence', name: 'Essência Elemental', desc: 'Dobra o poder de clique permanentemente em +2', costGold: 3500, costCrystals: 15, diff: 'Difícil', diffColor: 'text-orange-400', icon: 'fa-fire' }
         ];
 
         function loadGame() {
-            const saved = localStorage.getItem('mestre_dragoes_dominio_v3');
+            const saved = localStorage.getItem('mestre_dragoes_dominio_v4');
             if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    gameState = { ...gameState, ...data };
-                } catch(e) { console.error("Erro ao carregar save", e); }
+                try { gameState = { ...gameState, ...JSON.parse(saved) }; } catch(e) {}
             }
             if (!gameState.hasChosenStarter) {
                 document.getElementById('starter-modal').classList.remove('hidden');
@@ -381,12 +351,9 @@
         window.chooseStarter = function(elementId) {
             gameState.activeElementId = elementId;
             gameState.hasChosenStarter = true;
-            gameState.elements.forEach(el => {
-                if(el.id !== elementId && el.price === 0) el.unlocked = false;
-            });
+            gameState.elements.forEach(el => { if(el.id !== elementId && el.price === 0) el.unlocked = false; });
             const chosen = gameState.elements.find(e => e.id === elementId);
             if(chosen) chosen.unlocked = true;
-
             document.getElementById('starter-modal').classList.remove('flex');
             document.getElementById('starter-modal').classList.add('hidden');
             saveGame();
@@ -394,12 +361,12 @@
         };
 
         function saveGame() {
-            localStorage.setItem('mestre_dragoes_dominio_v3', JSON.stringify(gameState));
+            localStorage.setItem('mestre_dragoes_dominio_v4', JSON.stringify(gameState));
         }
 
         function resetGame() {
-            if (confirm("Tem certeza que deseja resetar todo o progresso e escolher um novo dragão inicial?")) {
-                localStorage.removeItem('mestre_dragoes_dominio_v3');
+            if (confirm("Tem certeza que deseja resetar todo o progresso?")) {
+                localStorage.removeItem('mestre_dragoes_dominio_v4');
                 location.reload();
             }
         }
@@ -409,13 +376,9 @@
             document.getElementById('player-crystals').textContent = gameState.crystals;
             document.getElementById('player-level-text').textContent = `Nível ${gameState.level}`;
             document.getElementById('player-xp-text').textContent = `${gameState.xp} / ${gameState.nextXp} XP`;
-            
-            const xpPercent = Math.min(100, Math.floor((gameState.xp / gameState.nextXp) * 100));
-            document.getElementById('xp-bar').style.width = `${xpPercent}%`;
-
+            document.getElementById('xp-bar').style.width = `${Math.min(100, Math.floor((gameState.xp / gameState.nextXp) * 100))}%`;
             document.getElementById('hunger-text').textContent = `${Math.floor(gameState.hunger)}%`;
             document.getElementById('hunger-bar').style.width = `${gameState.hunger}%`;
-
             document.getElementById('click-power').textContent = gameState.clickPower;
             document.getElementById('hud-click-power').textContent = `+${gameState.clickPower} Ouro & XP / clique`;
             document.getElementById('miner-kobolds').textContent = gameState.minerKobolds;
@@ -423,9 +386,7 @@
             document.getElementById('click-cost').textContent = gameState.clickCost;
             document.getElementById('forge-cost').textContent = gameState.forgeCost;
             document.getElementById('sanctuary-cost').textContent = gameState.sanctuaryCost;
-
-            const totalGoldSec = (gameState.minerKobolds * 2) + (gameState.autoForges * 12);
-            document.getElementById('gold-per-sec').textContent = totalGoldSec;
+            document.getElementById('gold-per-sec').textContent = (gameState.minerKobolds * 2) + (gameState.autoForges * 12);
 
             const activeEl = gameState.elements.find(e => e.id === gameState.activeElementId) || gameState.elements[0];
             document.getElementById('active-element-name').textContent = activeEl.name;
@@ -434,6 +395,22 @@
             renderDragonVisual(activeEl);
             renderElementsGrid();
             renderShopItems();
+        }
+
+        // Mapeamento exato dos nomes fornecidos na pasta Ativos
+        function getDragonImageFileName(elementId, stage) {
+            const map = {
+                fogo: { 1: 'ovofogo', 2: 'filhotefogo', 3: 'jovemfogo', 4: 'adultofogo', 5: 'finalfogo' },
+                gelo: { 1: 'ovogelo', 2: 'filhotegelo', 3: 'filhotegelo', 4: 'adultogelo', 5: 'finalgelo' },
+                luz:  { 1: 'ovoluz', 2: 'ovoluz', 3: 'jovemluz', 4: 'adultoluz', 5: 'adultoluz' },
+                dark: { 1: 'ovodark', 2: 'ovodark', 3: 'jovemdark', 4: 'adultodark', 5: 'finaldark' },
+                tomada: { 1: 'ovotomada', 2: 'filhotetomada', 3: 'jovemtomada', 4: 'adultotomada', 5: 'finaltomada' }
+            };
+            if (map[elementId] && map[elementId][stage]) {
+                return map[elementId][stage];
+            }
+            const prefixes = ['ovo', 'filhote', 'jovem', 'adulto', 'final'];
+            return prefixes[stage - 1] + elementId;
         }
 
         function renderDragonVisual(activeEl) {
@@ -446,33 +423,25 @@
             elementTag.textContent = activeEl.name;
 
             let stage = 1;
-            let stageName = "Fase 1: Ovo Elemental";
-            let iconClass = activeEl.icon;
+            let stageName = "Fase 1: Ovo";
 
-            if (gameState.level >= 45) {
-                stage = 5;
-                stageName = "Fase 5: Dragão Titã Ancestral";
-            } else if (gameState.level >= 35) {
-                stage = 4;
-                stageName = "Fase 4: Dragão Ancião";
-            } else if (gameState.level >= 15) {
-                stage = 3;
-                stageName = "Fase 3: Dragão Jovem";
-            } else if (gameState.level >= 10) {
-                stage = 2;
-                stageName = "Fase 2: Dragão Filhote";
-            } else {
-                stage = 1;
-                stageName = "Fase 1: Ovo Elemental";
-            }
+            if (gameState.level >= 45) { stage = 5; stageName = "Fase 5: Forma Final"; }
+            else if (gameState.level >= 35) { stage = 4; stageName = "Fase 4: Adulto"; }
+            else if (gameState.level >= 15) { stage = 3; stageName = "Fase 3: Jovem"; }
+            else if (gameState.level >= 10) { stage = 2; stageName = "Fase 2: Filhote"; }
+            else { stage = 1; stageName = "Fase 1: Ovo"; }
 
             stageText.textContent = stageName;
 
-            if (stage === 1) {
-                svgRender.innerHTML = `<i class="fa-solid fa-egg text-5xl text-amber-300 animate-pulse"></i>`;
-            } else {
-                svgRender.innerHTML = `<i class="fa-solid ${iconClass} text-5xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]"></i>`;
-            }
+            const fileName = getDragonImageFileName(activeEl.id, stage);
+            const imagePath = `Ativos/${fileName}.png`;
+            
+            svgRender.innerHTML = `
+                <img src="${imagePath}" alt="${activeEl.name}" class="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="w-full h-full items-center justify-center hidden">
+                    <i class="fa-solid ${stage === 1 ? 'fa-egg' : activeEl.icon} text-5xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]"></i>
+                </div>
+            `;
         }
 
         function renderElementsGrid() {
@@ -529,7 +498,7 @@
                     </div>
                     <p class="text-[11px] text-slate-400">${item.desc}</p>
                     <div class="pt-2 border-t border-slate-800 flex justify-between items-center">
-                        <span class="text-[11px] font-bold text-amber-400">${item.costGold} Ouro ${item.costCrystals > '0' ? `/ ${item.costCrystals} Cristais` : ''}</span>
+                        <span class="text-[11px] font-bold text-amber-400">${item.costGold} Ouro</span>
                         <button onclick="buyShopItem('${item.id}')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3 py-1.5 rounded-xl text-xs transition shadow active:scale-95">Comprar</button>
                     </div>
                 `;
@@ -539,11 +508,7 @@
 
         window.setActiveElement = function(id) {
             const el = gameState.elements.find(e => e.id === id);
-            if (el && el.unlocked) {
-                gameState.activeElementId = id;
-                saveGame();
-                updateUI();
-            }
+            if (el && el.unlocked) { gameState.activeElementId = id; saveGame(); updateUI(); }
         };
 
         window.buyElement = function(id) {
@@ -554,44 +519,24 @@
                 gameState.activeElementId = id;
                 saveGame();
                 updateUI();
-            } else {
-                alert("Ouro insuficiente para desbloquear este elemento!");
-            }
+            } else { alert("Ouro insuficiente!"); }
         };
 
         window.buyShopItem = function(itemId) {
             const item = shopItemsData.find(i => i.id === itemId);
             if (!item) return;
-            if (gameState.gold >= item.costGold && gameState.crystals >= item.costCrystals) {
+            if (gameState.gold >= item.costGold) {
                 gameState.gold -= item.costGold;
-                gameState.crystals -= item.costCrystals;
-
-                if (itemId === 'potion') {
-                    addXp(150);
-                } else if (itemId === 'fruit') {
-                    gameState.hunger = 100;
-                    addXp(300);
-                } else if (itemId === 'essence') {
-                    gameState.clickPower += 2;
-                } else if (itemId === 'mithril') {
-                    gameState.clickPower += 5;
-                    addXp(1000);
-                } else if (itemId === 'orb') {
-                    gameState.crystals += 5;
-                    gameState.minerKobolds += 5;
-                }
+                if (itemId === 'potion') addXp(150);
+                else if (itemId === 'fruit') { gameState.hunger = 100; addXp(300); }
+                else if (itemId === 'essence') gameState.clickPower += 2;
                 saveGame();
                 updateUI();
-            } else {
-                alert("Recursos insuficientes para adquirir este item!");
-            }
+            } else { alert("Ouro insuficiente!"); }
         };
 
         window.clickDragon = function() {
-            if (gameState.hunger <= 0) {
-                alert("Seu dragão está com fome extrema e sem forças! Alimente-o.");
-                return;
-            }
+            if (gameState.hunger <= 0) { alert("Seu dragão está sem fome e sem forças! Alimente-o."); return; }
             gameState.gold += gameState.clickPower;
             addXp(gameState.clickPower);
             gameState.hunger = Math.max(0, gameState.hunger - 0.05);
@@ -610,76 +555,33 @@
         }
 
         window.feedDragon = function() {
-            const cost = 15;
-            if (gameState.gold >= cost) {
-                gameState.gold -= cost;
-                gameState.hunger = Math.min(100, gameState.hunger + 25);
-                saveGame();
-                updateUI();
-            } else {
-                alert("Ouro insuficiente para alimentar o dragão!");
-            }
+            if (gameState.gold >= 15) { gameState.gold -= 15; gameState.hunger = Math.min(100, gameState.hunger + 25); saveGame(); updateUI(); }
+            else { alert("Ouro insuficiente!"); }
         };
 
         window.ferociousTraining = function() {
-            const cost = 50;
-            if (gameState.gold >= cost) {
-                gameState.gold -= cost;
-                addXp(40);
-                gameState.hunger = Math.max(0, gameState.hunger - 5);
-                saveGame();
-                updateUI();
-            } else {
-                alert("Ouro insuficiente para o treinamento!");
-            }
+            if (gameState.gold >= 50) { gameState.gold -= 50; addXp(40); gameState.hunger = Math.max(0, gameState.hunger - 5); saveGame(); updateUI(); }
+            else { alert("Ouro insuficiente!"); }
         };
 
         window.buyKobold = function() {
-            if (gameState.gold >= gameState.koboldCost) {
-                gameState.gold -= gameState.koboldCost;
-                gameState.minerKobolds += 1;
-                gameState.koboldCost = Math.floor(gameState.koboldCost * 1.25);
-                saveGame();
-                updateUI();
-            } else {
-                alert("Ouro insuficiente para contratar Kobold!");
-            }
+            if (gameState.gold >= gameState.koboldCost) { gameState.gold -= gameState.koboldCost; gameState.minerKobolds += 1; gameState.koboldCost = Math.floor(gameState.koboldCost * 1.25); saveGame(); updateUI(); }
+            else { alert("Ouro insuficiente!"); }
         };
 
         window.buyClickPower = function() {
-            if (gameState.gold >= gameState.clickCost) {
-                gameState.gold -= gameState.clickCost;
-                gameState.clickPower += 1;
-                gameState.clickCost = Math.floor(gameState.clickCost * 1.4);
-                saveGame();
-                updateUI();
-            } else {
-                alert("Ouro insuficiente para melhorar a garra!");
-            }
+            if (gameState.gold >= gameState.clickCost) { gameState.gold -= gameState.clickCost; gameState.clickPower += 1; gameState.clickCost = Math.floor(gameState.clickCost * 1.4); saveGame(); updateUI(); }
+            else { alert("Ouro insuficiente!"); }
         };
 
         window.buyForge = function() {
-            if (gameState.gold >= gameState.forgeCost) {
-                gameState.gold -= gameState.forgeCost;
-                gameState.autoForges += 1;
-                gameState.forgeCost = Math.floor(gameState.forgeCost * 1.3);
-                saveGame();
-                updateUI();
-            } else {
-                alert("Ouro insuficiente para investir na forja!");
-            }
+            if (gameState.gold >= gameState.forgeCost) { gameState.gold -= gameState.forgeCost; gameState.autoForges += 1; gameState.forgeCost = Math.floor(gameState.forgeCost * 1.3); saveGame(); updateUI(); }
+            else { alert("Ouro insuficiente!"); }
         };
 
         window.buySanctuary = function() {
-            if (gameState.gold >= gameState.sanctuaryCost) {
-                gameState.gold -= gameState.sanctuaryCost;
-                gameState.sanctuaries += 1;
-                gameState.sanctuaryCost = Math.floor(gameState.sanctuaryCost * 1.5);
-                saveGame();
-                updateUI();
-            } else {
-                alert("Ouro insuficiente para construir o santuário!");
-            }
+            if (gameState.gold >= gameState.sanctuaryCost) { gameState.gold -= gameState.sanctuaryCost; gameState.sanctuaries += 1; gameState.sanctuaryCost = Math.floor(gameState.sanctuaryCost * 1.5); saveGame(); updateUI(); }
+            else { alert("Ouro insuficiente!"); }
         };
 
         window.switchTab = function(tabId) {
@@ -687,12 +589,10 @@
                 const section = document.getElementById(`tab-${id}`);
                 const btn = document.getElementById(`btn-tab-${id}`);
                 if (id === tabId) {
-                    section.classList.remove('hidden');
-                    section.classList.add('flex');
+                    section.classList.remove('hidden'); section.classList.add('flex');
                     btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition bg-rose-600 text-white shadow-lg shrink-0";
                 } else {
-                    section.classList.remove('flex');
-                    section.classList.add('hidden');
+                    section.classList.remove('flex'); section.classList.add('hidden');
                     btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800 shrink-0";
                 }
             });
@@ -713,74 +613,26 @@
             const textarea = document.getElementById('save-textarea');
             textarea.select();
             navigator.clipboard.writeText(textarea.value);
-            alert("Save copiado para a área de transferência!");
+            alert("Save copiado!");
         };
 
         window.importSaveFromText = function() {
-            const val = document.getElementById('save-textarea').value;
-            try {
-                const data = JSON.parse(val);
-                gameState = data;
-                saveGame();
-                updateUI();
-                closeSaveModal();
-                alert("Save importado com sucesso!");
-            } catch(e) {
-                alert("Código de save inválido!");
-            }
+            try { gameState = JSON.parse(document.getElementById('save-textarea').value); saveGame(); updateUI(); closeSaveModal(); alert("Save importado!"); } catch(e) { alert("Código inválido!"); }
         };
 
-        window.downloadSaveFile = function() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(gameState));
-            const dlAnchor = document.createElement('a');
-            dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", "mestre_dragoes_save.json");
-            document.body.appendChild(dlAnchor);
-            dlAnchor.click();
-            dlAnchor.remove();
-        };
-
-        window.importSaveFile = function(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    gameState = data;
-                    saveGame();
-                    updateUI();
-                    closeSaveModal();
-                    alert("Arquivo de save carregado com sucesso!");
-                } catch(err) {
-                    alert("Erro ao ler o arquivo JSON!");
-                }
-            };
-            reader.readAsText(file);
-        };
-
-        // Loop principal do jogo (1 segundo)
         setInterval(() => {
             const goldInc = (gameState.minerKobolds * 2) + (gameState.autoForges * 12);
-            if (goldInc > 0) {
-                gameState.gold += goldInc;
-            }
+            if (goldInc > 0) gameState.gold += goldInc;
             if (gameState.sanctuaries > 0) {
-                if (!window.sanctuaryTimer) window.sanctuaryTimer = 0;
-                window.sanctuaryTimer += 1;
-                if (window.sanctuaryTimer >= 30) {
-                    gameState.crystals += gameState.sanctuaries;
-                    window.sanctuaryTimer = 0;
-                }
+                if (!window.sTimer) window.sTimer = 0;
+                window.sTimer++;
+                if (window.sTimer >= 30) { gameState.crystals += gameState.sanctuaries; window.sTimer = 0; }
             }
             updateUI();
             saveGame();
         }, 1000);
 
-        window.onload = function() {
-            loadGame();
-            updateUI();
-        };
+        window.onload = function() { loadGame(); updateUI(); };
     </script>
 </body>
 </html>
