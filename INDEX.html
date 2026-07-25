@@ -2,350 +2,801 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Fe & Gabi Music</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Mestre dos Dragões 3D - Mobile Edition</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-
         :root {
-            --primary: #ff758c;
-            --secondary: #ff7eb3;
-            --dark: #2d3436;
-            --light: #fdfdfd;
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --glass-shadow: rgba(31, 38, 135, 0.2);
+            --bg-dark: #04060b;
+            --panel-bg: #0d121f;
+            --panel-border: #1a233a;
+            --text-main: #f1f5f9;
+            --text-muted: #64748b;
+            --primary: #f43f5e;
+            --primary-hover: #e11d48;
+            --gold: #fbbf24;
+            --crystal: #38bdf8;
+            --xp: #c084fc;
+            --hunger: #4ade80;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            -webkit-user-select: none; 
+            user-select: none; 
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body {
-            min-height: 100vh;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            height: 100dvh;
+            min-height: -webkit-fill-available;
+            overflow: hidden;
+            perspective: 1500px;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Sidebar 3D */
+        .sidebar {
+            width: 340px;
+            background: linear-gradient(145deg, var(--panel-bg), #080c14);
             padding: 15px;
-            color: var(--dark);
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .app-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 30px 20px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 20px 50px var(--glass-shadow);
+            border-right: 2px solid var(--panel-border);
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 10px;
+            overflow-y: auto;
+            box-shadow: 20px 0 40px rgba(0,0,0,0.7);
+            z-index: 10;
         }
 
-        .art-container { display: flex; justify-content: center; align-items: center; margin-top: 10px; }
-        .vinyl-record {
-            width: 140px; height: 140px;
-            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-            border-radius: 50%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3), inset 0 0 0 8px #000;
-            display: flex; justify-content: center; align-items: center;
-            animation: spin 8s linear infinite; animation-play-state: paused;
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            position: relative;
+            background: radial-gradient(circle at center, #111a30 0%, #04060b 100%);
+            overflow-y: auto;
         }
-        .vinyl-record.playing { animation-play-state: running; }
-        .vinyl-label {
-            width: 50px; height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%; position: relative;
-        }
-        .vinyl-label::after {
-            content: ''; position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); width: 10px; height: 10px;
-            background: #fff; border-radius: 50%;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .song-info { text-align: center; }
-        .song-title { font-size: 18px; font-weight: 600; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-        .song-artist { font-size: 13px; color: rgba(255,255,255,0.8); }
+        h1, h2, h3 { color: var(--text-main); text-align: center; }
+        h1 { 
+            font-size: 1.6em; 
+            margin-bottom: 2px; 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            text-shadow: 0 4px 20px rgba(244, 63, 94, 0.6); 
+        }
 
-        .controls { display: flex; justify-content: center; align-items: center; gap: 25px; }
-        .btn-control {
-            background: rgba(255, 255, 255, 0.2); border: none; color: white;
-            width: 50px; height: 50px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; transition: 0.2s;
-        }
-        .btn-control:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.95); }
-        .btn-play {
-            width: 65px; height: 65px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            box-shadow: 0 10px 20px rgba(255, 117, 140, 0.4);
-        }
-        .btn-play:active { transform: scale(0.95); }
-        .btn-control svg { width: 24px; height: 24px; fill: currentColor; }
-        .btn-play svg { width: 30px; height: 30px; }
-
-        .progress-container { width: 100%; display: flex; flex-direction: column; gap: 10px; }
-        .progress-bar-bg { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.3); border-radius: 10px; position: relative; overflow: hidden; }
-        .progress-bar-fill { height: 100%; background: #fff; width: 0%; border-radius: 10px; transition: width 0.1s linear; }
-        .time-info { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.9); font-weight: 500; }
-
-        .upload-area {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px dashed rgba(255, 255, 255, 0.5);
-            border-radius: 15px; padding: 15px; text-align: center; color: white;
-            position: relative; overflow: hidden;
-        }
-        .upload-area:active { background: rgba(255, 255, 255, 0.3); }
-        .upload-area input { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
-        .upload-area p { font-size: 14px; font-weight: 500; margin-top: 5px; }
-
-        .playlist {
-            background: rgba(255, 255, 255, 0.2); border-radius: 15px; padding: 10px;
-            max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
-        }
-        .playlist-item {
-            background: rgba(255, 255, 255, 0.4); padding: 12px 15px; border-radius: 12px;
-            display: flex; justify-content: space-between; align-items: center; color: var(--dark); font-size: 14px;
-        }
-        .playlist-item.active { background: #fff; border-left: 4px solid var(--primary); font-weight: 600; }
-        .item-info { display: flex; align-items: center; gap: 10px; overflow: hidden; cursor: pointer; flex-grow: 1; }
-        .item-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
-        .btn-delete {
-            background: rgba(255, 0, 0, 0.1); border: none; color: #e74c3c;
-            width: 35px; height: 35px; border-radius: 8px;
-            display: flex; justify-content: center; align-items: center;
+        /* Palco 3D do Dragão e Caverna Visual */
+        .dragon-stage {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
             cursor: pointer;
+            padding: 15px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 20px 40px rgba(0,0,0,0.5);
+            margin: 8px 0;
+            width: 100%;
+            max-width: 500px;
+            min-height: 200px;
+            position: relative;
         }
 
-        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 350px; }
-        .toast {
-            background: white; padding: 12px 20px; border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-size: 14px; text-align: center;
-            opacity: 0; transform: translateY(-20px); transition: 0.3s;
-            border-bottom: 4px solid var(--primary);
+        .dragon-sprite {
+            font-size: 110px;
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 30px 20px rgba(0,0,0,0.95)) drop-shadow(0 0 25px rgba(244, 63, 94, 0.35));
+            transform: translateZ(50px);
         }
-        .toast.show { opacity: 1; transform: translateY(0); }
+
+        .dragon-sprite:active { 
+            transform: translateZ(15px) scale(0.85); 
+        }
+
+        .evolution-title {
+            font-size: 0.95em;
+            color: var(--gold);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 8px;
+            text-shadow: 0 2px 10px rgba(251, 191, 36, 0.5);
+            transform: translateZ(30px);
+            text-align: center;
+        }
+
+        /* Elementos Visuais da Caverna */
+        .lair-decor {
+            position: absolute;
+            bottom: 10px;
+            display: flex;
+            gap: 8px;
+            font-size: 1.2em;
+            transform: translateZ(40px);
+            opacity: 0.9;
+            pointer-events: none;
+            max-width: 80%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Textos Flutuantes Dinâmicos */
+        .floating-text {
+            position: absolute;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: var(--gold);
+            pointer-events: none;
+            animation: floatUp 0.8s ease-out forwards;
+            z-index: 100;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-60px) scale(1.2); opacity: 0; }
+        }
+
+        /* Painéis de Status */
+        .stat-group { 
+            background: rgba(13, 18, 31, 0.85); 
+            border: 1px solid var(--panel-border);
+            padding: 10px; 
+            border-radius: 8px; 
+            margin-bottom: 6px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+        .stat-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 4px; font-size: 0.85em; }
+        
+        .bar-bg { width: 100%; height: 8px; background-color: #04060b; border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8); }
+        .bar-fill { height: 100%; transition: width 0.3s ease-out; border-radius: 4px; }
+        
+        .c-gold { color: var(--gold); text-shadow: 0 0 10px rgba(251, 191, 36, 0.4); }
+        .c-crystal { color: var(--crystal); text-shadow: 0 0 10px rgba(56, 189, 248, 0.4); }
+        .bg-xp { background: linear-gradient(90deg, #7e22ce, var(--xp)); box-shadow: 0 0 10px var(--xp); }
+        .bg-hunger { background: linear-gradient(90deg, #15803d, var(--hunger)); box-shadow: 0 0 10px var(--hunger); }
+
+        /* Botões 3D */
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; max-width: 500px; margin-top: 8px; }
+        .btn-full { grid-column: span 2; }
+        
+        button {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            color: white;
+            border: 1px solid #334155;
+            padding: 10px;
+            font-size: 0.85em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            box-shadow: 0 4px 0 #020408, 0 6px 12px rgba(0,0,0,0.4);
+            touch-action: manipulation;
+        }
+
+        button:hover:not(:disabled) { 
+            background: linear-gradient(145deg, #334155, #1e293b);
+            border-color: var(--primary);
+        }
+        
+        button:active:not(:disabled) { 
+            box-shadow: 0 1px 0 #020408, 0 2px 5px rgba(0,0,0,0.4);
+            transform: translateY(3px);
+        }
+        
+        button:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; transform: translateY(3px); }
+        button .cost { font-size: 0.75em; color: var(--gold); }
+
+        /* Notificações Toasts 3D */
+        #toast-container { position: fixed; top: 15px; right: 15px; left: 15px; display: flex; flex-direction: column; gap: 8px; z-index: 1000; pointer-events: none; align-items: center; }
+        .toast {
+            background: rgba(13, 18, 31, 0.96); 
+            border-left: 5px solid var(--primary); 
+            color: white;
+            padding: 12px 18px; 
+            border-radius: 8px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOut 0.4s ease-in 2.6s forwards;
+            font-size: 0.9em;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: scale(0.95); } }
+
+        /* Abas */
+        .tabs { display: flex; gap: 6px; margin-bottom: 10px; width: 100%; max-width: 500px; justify-content: center; }
+        .tab { 
+            flex: 1;
+            padding: 8px 10px; 
+            background: #090d16; 
+            border: 1px solid var(--panel-border);
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 0.85em;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+        }
+        .tab.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 3px 12px rgba(244, 63, 94, 0.4); }
+        
+        .tab-content { display: none; width: 100%; max-width: 500px; flex-direction: column; align-items: center; }
+        .tab-content.active { display: flex; }
+
+        .ach-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+        }
+        .ach-item.unlocked { border-color: var(--gold); background: rgba(251, 191, 36, 0.05); }
+
+        /* RESPONSIVIDADE MOBILE (SMARTPHONES) */
+        @media (max-width: 850px) {
+            body {
+                flex-direction: column;
+                height: 100dvh;
+                overflow-y: auto;
+            }
+            .sidebar {
+                width: 100%;
+                max-height: 220px;
+                border-right: none;
+                border-bottom: 2px solid var(--panel-border);
+                flex-shrink: 0;
+            }
+            .main-content {
+                flex: 1;
+                overflow-y: visible;
+                height: auto;
+                min-height: auto;
+            }
+            .dragon-stage {
+                min-height: 180px;
+            }
+            .dragon-sprite {
+                font-size: 90px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div id="toast-container"></div>
-
-    <div class="app-container">
-        <div class="art-container">
-            <div class="vinyl-record" id="vinyl"><div class="vinyl-label"></div></div>
-        </div>
-
-        <div class="song-info">
-            <div class="song-title" id="song-title">Selecione uma música</div>
-            <div class="song-artist">Fernanda & Gabriel</div>
-        </div>
-
-        <div class="progress-container">
-            <div class="time-info">
-                <span id="current-time">0:00</span>
-                <span id="total-time">0:00</span>
+    <!-- BARRA LATERAL / PAINEL DE STATUS -->
+    <div class="sidebar">
+        <h2>🐉 Império 3D</h2>
+        
+        <div class="stat-group">
+            <div class="stat-header">
+                <span>Ouro:</span>
+                <span class="c-gold" id="ui-gold">0</span>
             </div>
-            <div class="progress-bar-bg" id="progress-container">
-                <div class="progress-bar-fill" id="progress-fill"></div>
+            <div class="stat-header">
+                <span>Cristais:</span>
+                <span class="c-crystal" id="ui-crystal">0</span>
+            </div>
+            <div class="stat-header" style="color: var(--text-muted); font-size: 0.75em;">
+                <span id="ui-gps">0 Ouro/seg</span>
             </div>
         </div>
 
-        <div class="controls">
-            <button class="btn-control" onclick="window.prevSong()"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
-            <button class="btn-control btn-play" onclick="window.togglePlay()" id="play-btn">
-                <svg id="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <svg id="icon-pause" viewBox="0 0 24 24" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-            </button>
-            <button class="btn-control" onclick="window.nextSong()"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+        <div class="stat-group">
+            <div class="stat-header">
+                <span>Nível <span id="ui-level">1</span></span>
+                <span id="ui-xp-text">0 / 100 XP</span>
+            </div>
+            <div class="bar-bg"><div class="bar-fill bg-xp" id="ui-xp-bar" style="width: 0%"></div></div>
         </div>
 
-        <div class="upload-area">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-            <p>Toque aqui para adicionar Músicas</p>
-            <input type="file" id="file-input" accept=".mp3,audio/mpeg,audio/wav,audio/ogg,audio/m4a" multiple>
+        <div class="stat-group">
+            <div class="stat-header">
+                <span>Fome</span>
+                <span id="ui-hunger-text">100%</span>
+            </div>
+            <div class="bar-bg"><div class="bar-fill bg-hunger" id="ui-hunger-bar" style="width: 100%"></div></div>
         </div>
 
-        <div class="playlist" id="playlist">
-            <div style="text-align:center; padding:10px; color:#fff; font-size:13px;">Carregando músicas da nuvem...</div>
+        <div class="stat-group">
+            <div class="stat-header"><span>Poder de Clique:</span> <span id="ui-click-power">1</span></div>
+            <div class="stat-header"><span>Kobolds Mineiros:</span> <span id="ui-miners">0</span></div>
+            <div class="stat-header"><span>Cliques Totais:</span> <span id="ui-total-clicks">0</span></div>
+            <br>
+            <button class="btn-full" onclick="saveGame(true)" style="background: linear-gradient(145deg, #059669, #047857); box-shadow: 0 4px 0 #022c22;">💾 Salvar Jogo</button>
+            <div style="display:flex; gap: 5px; margin-top: 6px;">
+                <button onclick="exportSave()" style="background:#3b82f6; flex:1;">Exportar</button>
+                <button onclick="importSave()" style="background:#8b5cf6; flex:1;">Importar</button>
+            </div>
+            <button class="btn-full" onclick="resetGame()" style="background: linear-gradient(145deg, #dc2626, #b91c1c); box-shadow: 0 4px 0 #450a0a; margin-top: 6px;">⚠️ Resetar Jogo</button>
         </div>
     </div>
 
-    <!-- O SCRIPT AGORA É DO TIPO MODULE PARA IMPORTAR O FIREBASE -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+    <!-- ÁREA PRINCIPAL -->
+    <div class="main-content">
+        <h1>Mestre dos Dragões</h1>
 
-        // =========================================================================
-        // SUAS CHAVES ATUALIZADAS DO PROJETO "GF MUSICAS" ESTÃO AQUI:
-        // =========================================================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyAX479mbIk4g1xG7j9XmcCUDETm_EfMAfw",
-            authDomain: "gf-musicas.firebaseapp.com",
-            projectId: "gf-musicas",
-            storageBucket: "gf-musicas.firebasestorage.app",
-            messagingSenderId: "936486375596",
-            appId: "1:936486375596:web:64223ff47607de13254f09"
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('caverna')">Caverna</div>
+            <div class="tab" onclick="switchTab('loja')">Loja & Magias</div>
+            <div class="tab" onclick="switchTab('conquistas')">Conquistas</div>
+        </div>
+
+        <!-- ABA: CAVERNA -->
+        <div id="caverna" class="tab-content active">
+            <div class="dragon-stage" id="stage" onclick="clickDragon(event)">
+                <div class="dragon-sprite" id="dragon-emoji">🥚</div>
+                <div class="evolution-title" id="evolution-title">Estágio I: Ovo Misterioso</div>
+                <div class="lair-decor" id="lair-decor"></div>
+            </div>
+
+            <div class="btn-grid">
+                <button onclick="feedDragon()" id="btn-feed">
+                    🍖 Alimentar
+                    <span class="cost">Custo: 15 Ouro</span>
+                </button>
+                <button onclick="trainDragon()" id="btn-train">
+                    ⚔️ Treinar
+                    <span class="cost">Custo: 50 Ouro</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ABA: LOJA E MAGIAS -->
+        <div id="loja" class="tab-content">
+            <div class="btn-grid" style="width: 100%;">
+                <button class="btn-full" onclick="castFury()" id="btn-fury" style="background: linear-gradient(145deg, #d97706, #b45309);">
+                    🔥 Fúria Dracônica (2x Ouro por 30s)
+                    <span class="cost">Custo: 200 Ouro</span>
+                </button>
+                <button class="btn-full" onclick="buyClickUpgrade()" id="btn-upg-click">
+                    🖱️ Afiar Garras (+1 Poder de Clique)
+                    <span class="cost" id="cost-click">Custo: 50 Ouro</span>
+                </button>
+                <button class="btn-full" onclick="buyMiner()" id="btn-upg-miner">
+                    ⛏️ Contratar Kobold (+1 Ouro/seg)
+                    <span class="cost" id="cost-miner">Custo: 100 Ouro</span>
+                </button>
+                <button class="btn-full" onclick="buySuperFood()" id="btn-upg-super">
+                    💎 Fruta Mágica (Enche Fome 100%)
+                    <span class="cost c-crystal">Custo: 1 Cristal</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ABA: CONQUISTAS -->
+        <div id="conquistas" class="tab-content" style="max-height: 350px; overflow-y: auto;">
+            <div id="achievements-list" style="width: 100%;"></div>
+        </div>
+
+        <div id="toast-container"></div>
+    </div>
+
+    <script>
+        // Sistema de Áudio Sintetizado (Web Audio API)
+        let audioCtx = null;
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playSound(type) {
+            initAudio();
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            const now = audioCtx.currentTime;
+            if (type === 'click') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.exponentialRampToValueAtTime(150, now + 0.08);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+                osc.start(now);
+                osc.stop(now + 0.08);
+            } else if (type === 'buy') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.exponentialRampToValueAtTime(800, now + 0.15);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.15);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            } else if (type === 'level') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(261.63, now);
+                osc.frequency.setValueAtTime(329.63, now + 0.1);
+                osc.frequency.setValueAtTime(392.00, now + 0.2);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            }
+        }
+
+        // Parallax 3D adaptado para toque e mouse
+        const stage = document.getElementById('stage');
+        stage.addEventListener('mousemove', (e) => {
+            const rect = stage.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            stage.style.transform = `rotateX(${(-y / 14).toFixed(2)}deg) rotateY(${(x / 14).toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        stage.addEventListener('mouseleave', () => {
+            stage.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        });
+
+        // Estado do Jogo
+        const defaultState = {
+            gold: 0,
+            crystals: 0,
+            totalClicks: 0,
+            furyActive: false,
+            furyTimeLeft: 0,
+            dragon: { level: 1, xp: 0, hunger: 100 },
+            stats: { clickPower: 1, autoMiners: 0 },
+            costs: { clickUpgrade: 50, minerUpgrade: 100 },
+            achievements: { click10: false, gold1000: false, level10: false },
+            lastSavedTime: Date.now()
         };
 
-        // Inicializa o Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
+        let game = JSON.parse(JSON.stringify(defaultState));
 
-        let songs = []; 
-        let currentSongIndex = -1; 
-        let audio = new Audio();
-
-        // Escuta o banco de dados em TEMPO REAL
-        onSnapshot(collection(db, "musicas"), (snapshot) => {
-            songs = [];
-            snapshot.forEach((doc) => {
-                songs.push({ id: doc.id, ...doc.data() });
-            });
-            renderPlaylist();
-            if(songs.length > 0 && currentSongIndex === -1) loadSongInfo(0);
-        });
-
-        // Fazer Upload da música para a nuvem
-        document.getElementById('file-input').addEventListener('change', async (e) => {
-            const files = Array.from(e.target.files).filter(f => f.type.includes('audio') || f.name.match(/\.(mp3|wav|ogg|m4a)$/i));
-            if (files.length === 0) return;
-            
-            showToast("Enviando para a nuvem... Aguarde.");
-            
-            for (let file of files) {
-                const fileName = file.name.replace(/\.[^/.]+$/, "");
-                const storagePath = `musicas/${Date.now()}_${file.name}`;
-                const storageRef = ref(storage, storagePath);
-                
-                try {
-                    // Sobe o arquivo pro Storage
-                    const snapshot = await uploadBytesResumable(storageRef, file);
-                    // Pega o link público da música
-                    const downloadURL = await getDownloadURL(snapshot.ref);
-                    
-                    // Salva o link e o nome no Banco de Dados
-                    await addDoc(collection(db, "musicas"), {
-                        name: fileName,
-                        url: downloadURL,
-                        path: storagePath
-                    });
-                } catch (error) {
-                    console.error("Erro no upload:", error);
-                    showToast("Erro ao enviar: " + fileName);
-                }
-            }
-            showToast(`${files.length} música(s) adicionada(s)!`);
-            e.target.value = ''; 
-        });
-
-        // Deletar da nuvem
-        window.deleteSongFromDB = async function(id, path, event) {
-            event.stopPropagation();
-            if(confirm("Tem certeza que quer apagar essa música para todos?")) {
-                showToast("Apagando da nuvem...");
-                try {
-                    await deleteDoc(doc(db, "musicas", id));
-                    const fileRef = ref(storage, path);
-                    await deleteObject(fileRef);
-                    showToast("Música removida!");
-                    
-                    if (songs.length === 1) { 
-                        audio.pause(); 
-                        document.getElementById('song-title').innerText = "Selecione uma música"; 
-                        updatePlayButton(false);
-                        currentSongIndex = -1;
-                    }
-                } catch(error) {
-                    console.error(error);
-                    showToast("Erro ao apagar música.");
-                }
-            }
-        }
-
-        function renderPlaylist() {
-            const playlistEl = document.getElementById('playlist'); playlistEl.innerHTML = '';
-            if (songs.length === 0) { playlistEl.innerHTML = '<div style="text-align:center; padding:10px; color:#fff; font-size:13px;">Nenhuma música na nuvem. Toque no botão acima!</div>'; return; }
-            
-            songs.forEach((song, index) => {
-                const item = document.createElement('div');
-                item.className = `playlist-item ${index === currentSongIndex ? 'active' : ''}`;
-                item.innerHTML = `
-                    <div class="item-info" onclick="window.playSong(${index})">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="5" cy="19" r="1"></circle><circle cx="19" cy="19" r="1"></circle></svg>
-                        <span class="item-name">${song.name}</span>
-                    </div>
-                    <button class="btn-delete" onclick="window.deleteSongFromDB('${song.id}', '${song.path}', event)" title="Remover">✕</button>
-                `;
-                playlistEl.appendChild(item);
-            });
-        }
-
-        window.loadSongInfo = function(index) {
-            currentSongIndex = index;
-            document.getElementById('song-title').innerText = songs[index].name;
-            audio.src = songs[index].url; 
-            renderPlaylist();
-        }
-
-        window.playSong = function(index) { 
-            window.loadSongInfo(index); 
-            audio.play(); 
-            updatePlayButton(true); 
-        }
-
-        window.togglePlay = function() {
-            if (songs.length === 0) return showToast("A nuvem está vazia!");
-            if (currentSongIndex === -1) window.loadSongInfo(0);
-            if (audio.paused) { audio.play(); updatePlayButton(true); } else { audio.pause(); updatePlayButton(false); }
-        }
-
-        window.nextSong = function() { if (songs.length === 0) return; window.playSong((currentSongIndex + 1) % songs.length); }
-        window.prevSong = function() { if (songs.length === 0) return; window.playSong((currentSongIndex - 1 + songs.length) % songs.length); }
-
-        audio.addEventListener('timeupdate', () => {
-            if (isNaN(audio.duration)) return;
-            document.getElementById('progress-fill').style.width = `${(audio.currentTime / audio.duration) * 100}%`;
-            document.getElementById('current-time').innerText = formatTime(audio.currentTime);
-            document.getElementById('total-time').innerText = formatTime(audio.duration);
-        });
-        audio.addEventListener('ended', window.nextSong);
-
-        document.getElementById('progress-container').addEventListener('click', function(e) {
-            if (audio.duration) audio.currentTime = (e.offsetX / this.clientWidth) * audio.duration;
-        });
-
-        function formatTime(s) { const min = Math.floor(s/60); const sec = Math.floor(s%60); return `${min}:${sec<10?'0':''}${sec}`; }
-        
-        function updatePlayButton(isPlaying) {
-            document.getElementById('icon-play').style.display = isPlaying ? 'none' : 'block';
-            document.getElementById('icon-pause').style.display = isPlaying ? 'block' : 'none';
-            isPlaying ? document.getElementById('vinyl').classList.add('playing') : document.getElementById('vinyl').classList.remove('playing');
-        }
-
-        function showToast(msg) {
+        function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
-            const toast = document.createElement('div'); toast.className = 'toast'; toast.innerText = msg;
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            if (type === 'error') toast.style.borderLeftColor = '#dc2626';
+            if (type === 'success') toast.style.borderLeftColor = '#059669';
+            if (type === 'legendary') toast.style.borderLeftColor = '#9333ea';
+            toast.innerText = message;
             container.appendChild(toast);
-            setTimeout(() => toast.classList.add('show'), 10);
-            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
+            setTimeout(() => { toast.remove(); }, 3000);
         }
+
+        // Texto Flutuante Dinâmico
+        function spawnFloatingText(text, x, y, isCrit = false) {
+            const el = document.createElement('div');
+            el.className = 'floating-text';
+            el.innerText = text;
+            if (isCrit) {
+                el.style.color = '#ef4444';
+                el.style.fontSize = '1.4em';
+            }
+            el.style.left = `${Math.min(window.innerWidth - 80, Math.max(20, x - 20))}px`;
+            el.style.top = `${Math.max(50, y - 40)}px`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 800);
+        }
+
+        function updateVisuals() {
+            const emoji = document.getElementById('dragon-emoji');
+            const title = document.getElementById('evolution-title');
+            const lvl = game.dragon.level;
+
+            if (lvl >= 40) {
+                emoji.innerText = "🌌🐉";
+                title.innerText = "Estágio VII: Dragão Cósmico Ancião";
+            } else if (lvl >= 30) {
+                emoji.innerText = "👑🐲";
+                title.innerText = "Estágio VI: Imperador dos Dragões";
+            } else if (lvl >= 20) {
+                emoji.innerText = "🔥🐉";
+                title.innerText = "Estágio V: Dragão Feroz Majestoso";
+            } else if (lvl >= 10) {
+                emoji.innerText = "🐲✨";
+                title.innerText = "Estágio IV: Dragão Jovem Alado";
+            } else if (lvl >= 5) {
+                emoji.innerText = "⚡🦎";
+                title.innerText = "Estágio III: Draconato Ativo";
+            } else if (lvl >= 2) {
+                emoji.innerText = "🦎";
+                title.innerText = "Estágio II: Lagartinho Curioso";
+            } else {
+                emoji.innerText = "🥚";
+                title.innerText = "Estágio I: Ovo Misterioso";
+            }
+
+            let decorHTML = "";
+            if (game.gold >= 300) decorHTML += "<span>💰</span>";
+            if (game.gold >= 1500) decorHTML += "<span>📦</span>";
+            if (game.gold >= 5000) decorHTML += "<span>💎</span>";
+            if (game.crystals >= 5) decorHTML += "<span>🔮</span>";
+            if (game.stats.autoMiners > 0) {
+                let minersCount = Math.min(6, game.stats.autoMiners);
+                for(let i=0; i<minersCount; i++) {
+                    decorHTML += "<span>⛏️</span>";
+                }
+            }
+            document.getElementById('lair-decor').innerHTML = decorHTML;
+        }
+
+        const achievementsData = [
+            { id: 'click10', title: 'Primeiros Passos', desc: 'Clique 50 vezes', check: () => game.totalClicks >= 50, reward: 2 },
+            { id: 'gold1000', title: 'Magnata da Caverna', desc: 'Acumule 1.000 de Ouro', check: () => game.gold >= 1000, reward: 5 },
+            { id: 'level10', title: 'Crescimento Rápido', desc: 'Alcance o Nível 10', check: () => game.dragon.level >= 10, reward: 10 }
+        ];
+
+        function checkAchievements() {
+            achievementsData.forEach(ach => {
+                if (!game.achievements[ach.id] && ach.check()) {
+                    game.achievements[ach.id] = true;
+                    game.crystals += ach.reward;
+                    showToast(`Conquista: ${ach.title}! (+${ach.reward} Cristais)`, "legendary");
+                }
+            });
+        }
+
+        function updateAchievementsUI() {
+            let html = "";
+            achievementsData.forEach(ach => {
+                const unlocked = game.achievements[ach.id];
+                html += `<div class="ach-item ${unlocked ? 'unlocked' : ''}">
+                    <div><strong>${ach.title}</strong><br><small style="color:var(--text-muted);">${ach.desc}</small></div>
+                    <div>${unlocked ? '✅ Feito' : `+${ach.reward} 💎`}</div>
+                </div>`;
+            });
+            document.getElementById('achievements-list').innerHTML = html;
+        }
+
+        function updateUI() {
+            const xpNeeded = game.dragon.level * 100 * Math.pow(1.2, game.dragon.level - 1);
+            
+            document.getElementById('ui-gold').innerText = Math.floor(game.gold);
+            document.getElementById('ui-crystal').innerText = game.crystals;
+            document.getElementById('ui-level').innerText = game.dragon.level;
+            document.getElementById('ui-click-power').innerText = game.stats.clickPower * (game.furyActive ? 2 : 1);
+            document.getElementById('ui-miners').innerText = game.stats.autoMiners;
+            document.getElementById('ui-gps').innerText = `${game.stats.autoMiners * (game.furyActive ? 2 : 1)} Ouro/seg`;
+            document.getElementById('ui-total-clicks').innerText = game.totalClicks;
+
+            document.getElementById('cost-click').innerText = `Custo: ${Math.floor(game.costs.clickUpgrade)} Ouro`;
+            document.getElementById('cost-miner').innerText = `Custo: ${Math.floor(game.costs.minerUpgrade)} Ouro`;
+
+            if (game.furyActive) {
+                document.getElementById('btn-fury').innerText = `🔥 Fúria Ativa (${game.furyTimeLeft}s)`;
+                document.getElementById('btn-fury').disabled = true;
+            } else {
+                document.getElementById('btn-fury').innerText = `🔥 Fúria Dracônica (2x por 30s)`;
+                document.getElementById('btn-fury').disabled = game.gold < 200;
+            }
+
+            game.dragon.hunger = Math.max(0, Math.min(100, game.dragon.hunger));
+            document.getElementById('ui-hunger-text').innerText = `${Math.floor(game.dragon.hunger)}%`;
+            const hungerBar = document.getElementById('ui-hunger-bar');
+            hungerBar.style.width = `${game.dragon.hunger}%`;
+            hungerBar.style.backgroundColor = game.dragon.hunger > 50 ? 'var(--hunger)' : (game.dragon.hunger > 20 ? '#fbbf24' : '#dc2626');
+
+            document.getElementById('ui-xp-text').innerText = `${Math.floor(game.dragon.xp)} / ${Math.floor(xpNeeded)} XP`;
+            document.getElementById('ui-xp-bar').style.width = `${Math.min(100, (game.dragon.xp / xpNeeded) * 100)}%`;
+
+            updateVisuals();
+            checkAchievements();
+            updateAchievementsUI();
+
+            document.getElementById('btn-feed').disabled = game.gold < 15;
+            document.getElementById('btn-train').disabled = game.gold < 50 || game.dragon.hunger < 20;
+            document.getElementById('btn-upg-click').disabled = game.gold < game.costs.clickUpgrade;
+            document.getElementById('btn-upg-miner').disabled = game.gold < game.costs.minerUpgrade;
+            document.getElementById('btn-upg-super').disabled = game.crystals < 1;
+        }
+
+        // Clique principal (Suporte a Mouse e Toque Móvel)
+        function clickDragon(e) {
+            playSound('click');
+            game.totalClicks++;
+            
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX) || window.innerWidth / 2;
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY) || window.innerHeight / 2;
+
+            const isCrit = Math.random() < 0.15;
+            const multiplier = isCrit ? 5 : 1;
+            const earnedGold = game.stats.clickPower * (game.furyActive ? 2 : 1) * multiplier;
+            
+            game.gold += earnedGold;
+            gainXP(game.stats.clickPower * 0.5 * multiplier);
+
+            spawnFloatingText(`+${earnedGold}${isCrit ? ' (CRIT!)' : ''}`, clientX, clientY, isCrit);
+            updateUI();
+        }
+
+        function feedDragon() {
+            if (game.gold >= 15) {
+                game.gold -= 15;
+                game.dragon.hunger += 40;
+                playSound('buy');
+                showToast("Dragão alimentado!", "success");
+                updateUI();
+            }
+        }
+
+        function trainDragon() {
+            if (game.gold >= 50 && game.dragon.hunger >= 20) {
+                game.gold -= 50;
+                game.dragon.hunger -= 20;
+                playSound('buy');
+                gainXP(150);
+                showToast("Treinamento concluído! +150 XP", "success");
+                updateUI();
+            } else if (game.dragon.hunger < 20) {
+                showToast("Dragão faminto demais para treinar!", "error");
+            }
+        }
+
+        function castFury() {
+            if (game.gold >= 200 && !game.furyActive) {
+                game.gold -= 200;
+                game.furyActive = true;
+                game.furyTimeLeft = 30;
+                playSound('level');
+                showToast("Fúria Dracônica ativada!", "legendary");
+                updateUI();
+            }
+        }
+
+        function gainXP(amount) {
+            game.dragon.xp += amount;
+            let xpNeeded = game.dragon.level * 100 * Math.pow(1.2, game.dragon.level - 1);
+
+            while (game.dragon.xp >= xpNeeded) {
+                game.dragon.xp -= xpNeeded;
+                game.dragon.level++;
+                game.crystals += 2;
+                playSound('level');
+                showToast(`EVOLUÇÃO! Nível ${game.dragon.level}! (+2 Cristais)`, "legendary");
+                xpNeeded = game.dragon.level * 100 * Math.pow(1.2, game.dragon.level - 1);
+            }
+        }
+
+        function buyClickUpgrade() {
+            if (game.gold >= game.costs.clickUpgrade) {
+                game.gold -= game.costs.clickUpgrade;
+                game.stats.clickPower += 1;
+                game.costs.clickUpgrade *= 1.5;
+                playSound('buy');
+                showToast("Garras afiadas!", "success");
+                updateUI();
+            }
+        }
+
+        function buyMiner() {
+            if (game.gold >= game.costs.minerUpgrade) {
+                game.gold -= game.costs.minerUpgrade;
+                game.stats.autoMiners += 1;
+                game.costs.minerUpgrade *= 1.3;
+                playSound('buy');
+                showToast("Kobold contratado!", "success");
+                updateUI();
+            }
+        }
+
+        function buySuperFood() {
+            if (game.crystals >= 1) {
+                game.crystals -= 1;
+                game.dragon.hunger = 100;
+                playSound('buy');
+                showToast("Fome totalmente restaurada!", "legendary");
+                updateUI();
+            }
+        }
+
+        function exportSave() {
+            const data = btoa(JSON.stringify(game));
+            prompt("Copie seu código de salvamento:", data);
+        }
+
+        function importSave() {
+            const data = prompt("Cole seu código de salvamento:");
+            if (data) {
+                try {
+                    game = JSON.parse(atob(data));
+                    updateUI();
+                    showToast("Save importado com sucesso!", "success");
+                } catch(e) {
+                    showToast("Código inválido!", "error");
+                }
+            }
+        }
+
+        function saveGame(manual = false) {
+            game.lastSavedTime = Date.now();
+            localStorage.setItem('dragonRPG_UltimateSave', JSON.stringify(game));
+            if (manual) showToast("Jogo salvo!", "success");
+        }
+
+        function loadGame() {
+            const savedData = localStorage.getItem('dragonRPG_UltimateSave');
+            if (savedData) {
+                try {
+                    const parsed = JSON.parse(savedData);
+                    game = { ...defaultState, ...parsed, dragon: {...defaultState.dragon, ...parsed.dragon}, stats: {...defaultState.stats, ...parsed.stats}, costs: {...defaultState.costs, ...parsed.costs}, achievements: {...defaultState.achievements, ...parsed.achievements} };
+                    
+                    const now = Date.now();
+                    const secondsOffline = Math.floor((now - game.lastSavedTime) / 1000);
+                    
+                    if (secondsOffline > 60 && game.stats.autoMiners > 0) {
+                        const offlineGold = secondsOffline * game.stats.autoMiners;
+                        game.gold += offlineGold;
+                        showToast(`Kobolds mineraram ${offlineGold} Ouro offline.`, "legendary");
+                    }
+                } catch (e) {
+                    console.error("Save corrompido.");
+                }
+            }
+            updateUI();
+        }
+
+        function resetGame() {
+            if(confirm("Deseja apagar todo o progresso?")) {
+                localStorage.removeItem('dragonRPG_UltimateSave');
+                game = JSON.parse(JSON.stringify(defaultState));
+                updateUI();
+                showToast("Jogo reiniciado.", "error");
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Loop principal a cada segundo
+        setInterval(() => {
+            const mult = game.furyActive ? 2 : 1;
+            if (game.stats.autoMiners > 0) {
+                game.gold += game.stats.autoMiners * mult;
+            }
+            if (game.dragon.hunger > 0) {
+                game.dragon.hunger -= 0.4;
+            }
+            if (game.furyActive) {
+                game.furyTimeLeft--;
+                if (game.furyTimeLeft <= 0) {
+                    game.furyActive = false;
+                    showToast("Fúria encerrada.", "info");
+                }
+            }
+            updateUI();
+        }, 1000);
+
+        setInterval(() => saveGame(), 15000);
+
+        window.onload = loadGame;
     </script>
 </body>
 </html>
