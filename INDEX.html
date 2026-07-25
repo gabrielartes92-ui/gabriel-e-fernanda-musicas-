@@ -184,7 +184,7 @@
                         <div id="dragon-card-bg" class="w-44 h-56 rounded-2xl bg-gradient-to-b from-amber-600 via-red-700 to-slate-950 flex flex-col items-center justify-between p-3 shadow-2xl border border-amber-500/40 relative overflow-hidden">
                             <div id="dragon-art-box" class="w-32 h-36 rounded-xl bg-black/60 flex items-center justify-center shadow-inner border border-amber-500/30 overflow-hidden relative">
                                 <div id="svg-graphic-render" class="w-full h-full flex items-center justify-center">
-                                    <!-- Carrega da pasta Ativos -->
+                                    <!-- Exibe ícones e elementos visuais sem carregar imagens externas -->
                                 </div>
                             </div>
                             <span id="dragon-element-tag" class="text-[10px] uppercase font-black bg-black/80 px-3 py-0.5 rounded-lg text-amber-300 border border-amber-500/30">Fogo</span>
@@ -397,22 +397,6 @@
             renderShopItems();
         }
 
-        // Mapeamento exato dos nomes fornecidos na pasta Ativos
-        function getDragonImageFileName(elementId, stage) {
-            const map = {
-                fogo: { 1: 'ovofogo', 2: 'filhotefogo', 3: 'jovemfogo', 4: 'adultofogo', 5: 'finalfogo' },
-                gelo: { 1: 'ovogelo', 2: 'filhotegelo', 3: 'filhotegelo', 4: 'adultogelo', 5: 'finalgelo' },
-                luz:  { 1: 'ovoluz', 2: 'ovoluz', 3: 'jovemluz', 4: 'adultoluz', 5: 'adultoluz' },
-                dark: { 1: 'ovodark', 2: 'ovodark', 3: 'jovemdark', 4: 'adultodark', 5: 'finaldark' },
-                tomada: { 1: 'ovotomada', 2: 'filhotetomada', 3: 'jovemtomada', 4: 'adultotomada', 5: 'finaltomada' }
-            };
-            if (map[elementId] && map[elementId][stage]) {
-                return map[elementId][stage];
-            }
-            const prefixes = ['ovo', 'filhote', 'jovem', 'adulto', 'final'];
-            return prefixes[stage - 1] + elementId;
-        }
-
         function renderDragonVisual(activeEl) {
             const cardBg = document.getElementById('dragon-card-bg');
             const elementTag = document.getElementById('dragon-element-tag');
@@ -433,13 +417,13 @@
 
             stageText.textContent = stageName;
 
-            const fileName = getDragonImageFileName(activeEl.id, stage);
-            const imagePath = `Ativos/${fileName}.png`;
+            // Renderiza puramente via FontAwesome icons sem carregar arquivos de imagem locais
+            let iconClass = stage === 1 ? 'fa-egg' : (stage === 2 ? 'fa-shield-cat' : (stage === 3 ? 'fa-dragon' : activeEl.icon));
             
             svgRender.innerHTML = `
-                <img src="${imagePath}" alt="${activeEl.name}" class="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="w-full h-full items-center justify-center hidden">
-                    <i class="fa-solid ${stage === 1 ? 'fa-egg' : activeEl.icon} text-5xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]"></i>
+                <div class="w-full h-full flex flex-col items-center justify-center space-y-2">
+                    <i class="fa-solid ${iconClass} text-5xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]"></i>
+                    <span class="text-[9px] font-bold text-slate-300 uppercase tracking-widest bg-black/40 px-2 py-0.5 rounded">Fase ${stage}</span>
                 </div>
             `;
         }
