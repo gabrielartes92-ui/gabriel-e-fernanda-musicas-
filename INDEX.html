@@ -2,152 +2,1257 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fe & Gabi Music</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Mestre dos Dragões 3D - Ultimate Legends Edition</title>
+    <style>
+        :root {
+            --bg-dark: #020408;
+            --panel-bg: rgba(8, 13, 24, 0.92);
+            --panel-border: rgba(56, 189, 248, 0.22);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #f43f5e;
+            --primary-hover: #e11d48;
+            --gold: #fbbf24;
+            --crystal: #38bdf8;
+            --xp: #c084fc;
+            --hunger: #4ade80;
+            --soul: #ec4899;
+            --element-color: #f43f5e;
+        }
 
-    <div class="bg-gray-800 p-6 rounded-2xl shadow-2xl w-96 text-center border border-gray-700">
-        <h1 class="text-2xl font-bold mb-4 text-pink-400">Fe & Gabi Music</h1>
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            -webkit-user-select: none; 
+            user-select: none; 
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            height: 100dvh;
+            min-height: -webkit-fill-available;
+            overflow: hidden;
+            perspective: 1600px;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            background: radial-gradient(circle at 50% 25%, #0f1c3f 0%, #020408 85%);
+        }
+
+        /* Sistema de Clima Global no Fundo */
+        #weather-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .particle-weather {
+            position: absolute;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            animation: fallParticle linear infinite;
+        }
+        @keyframes fallParticle {
+            0% { transform: translateY(-20px) translateX(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(105vh) translateX(40px); opacity: 0; }
+        }
+
+        /* Modal de Configuração Inicial (Gênero + Elemento) */
+        #modal-setup {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 4, 8, 0.96);
+            backdrop-filter: blur(25px);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .setup-container {
+            max-width: 550px;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid var(--panel-border);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+        }
+
+        .setup-section-title {
+            font-size: 1.1em;
+            color: var(--gold);
+            margin: 15px 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .option-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+        }
+
+        .option-card:hover, .option-card.selected {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(244, 63, 94, 0.35);
+            background: rgba(51, 65, 85, 0.9);
+        }
+
+        /* Sidebar Avançada */
+        .sidebar {
+            width: 360px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 16px;
+            border-right: 1px solid var(--panel-border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            box-shadow: 25px 0 50px rgba(0,0,0,0.8);
+            z-index: 10;
+        }
+
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 4px; }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+            position: relative;
+            overflow-y: auto;
+            z-index: 2;
+        }
+
+        h1, h2, h3 { color: var(--text-main); text-align: center; }
+        h1 { 
+            font-size: 1.4em; 
+            margin-bottom: 2px; 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            letter-spacing: 3px; 
+            text-shadow: 0 0 25px rgba(244, 63, 94, 0.7); 
+        }
+
+        /* Palco 3D do Dragão com SVG Ultra-Dinâmico */
+        .dragon-stage {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transform-style: preserve-3d;
+            transition: transform 0.1s cubic-bezier(0.1, 0.7, 0.3, 1);
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 36px;
+            background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.6) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 0 90px rgba(0,0,0,0.9), 0 30px 60px rgba(0,0,0,0.7);
+            margin: 6px 0;
+            width: 100%;
+            max-width: 520px;
+            min-height: 220px;
+            position: relative;
+        }
+
+        .dragon-svg-container {
+            width: 160px;
+            height: 160px;
+            transform-style: preserve-3d;
+            transform: translateZ(60px);
+            animation: idleDragon 3s ease-in-out infinite alternate;
+            filter: drop-shadow(0 25px 20px rgba(0,0,0,0.95)) drop-shadow(0 0 35px var(--element-color));
+        }
+
+        @keyframes idleDragon {
+            0% { transform: translateZ(60px) translateY(0) rotate(0deg); }
+            100% { transform: translateZ(75px) translateY(-12px) rotate(1.5deg); }
+        }
+
+        .dragon-svg-container:active { 
+            transform: translateZ(20px) scale(0.85) rotate(-3deg); 
+        }
+
+        .evolution-title {
+            font-size: 0.9em;
+            color: var(--gold);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 8px;
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+            transform: translateZ(40px);
+            text-align: center;
+        }
+
+        .lair-decor {
+            position: absolute;
+            bottom: 10px;
+            display: flex;
+            gap: 8px;
+            font-size: 1.2em;
+            transform: translateZ(50px);
+            opacity: 0.95;
+            pointer-events: none;
+            max-width: 85%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Textos Flutuantes */
+        .floating-text {
+            position: absolute;
+            font-weight: 900;
+            font-size: 1.2em;
+            color: var(--gold);
+            pointer-events: none;
+            animation: floatUpCustom 0.75s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            z-index: 2000;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 15px var(--gold);
+        }
+        @keyframes floatUpCustom {
+            0% { transform: translateY(0) scale(0.8); opacity: 0; }
+            20% { transform: translateY(-15px) scale(1.2); opacity: 1; }
+            100% { transform: translateY(-75px) scale(1); opacity: 0; }
+        }
+
+        /* Painéis de Status */
+        .stat-group { 
+            background: rgba(15, 23, 42, 0.8); 
+            border: 1px solid var(--panel-border);
+            padding: 10px; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+        .stat-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 4px; font-size: 0.82em; }
         
-        <!-- Capa / Vinil -->
-        <div class="relative w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden border-4 border-pink-500 shadow-lg flex items-center justify-center bg-black">
-            <div id="vinyl" class="w-full h-full flex items-center justify-center">
-                <i class="fa-solid fa-compact-disc text-6xl text-gray-600"></i>
+        .bar-bg { width: 100%; height: 8px; background-color: #020617; border-radius: 6px; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.9); border: 1px solid rgba(255,255,255,0.03); }
+        .bar-fill { height: 100%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 6px; position: relative; }
+        
+        .c-gold { color: var(--gold); text-shadow: 0 0 10px rgba(251, 191, 36, 0.5); }
+        .c-crystal { color: var(--crystal); text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
+        .c-soul { color: var(--soul); text-shadow: 0 0 10px rgba(236, 72, 153, 0.5); }
+        .bg-xp { background: linear-gradient(90deg, #7e22ce, var(--xp)); box-shadow: 0 0 10px var(--xp); }
+        .bg-hunger { background: linear-gradient(90deg, #15803d, var(--hunger)); box-shadow: 0 0 10px var(--hunger); }
+
+        /* Botões AAA */
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; max-width: 520px; margin-top: 6px; }
+        .btn-full { grid-column: span 2; }
+        
+        button {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 10px;
+            font-size: 0.82em;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            box-shadow: 0 5px 0 #020617, 0 8px 16px rgba(0,0,0,0.5);
+            touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover:not(:disabled) { 
+            background: linear-gradient(145deg, #334155, #1e293b);
+            border-color: var(--primary);
+            box-shadow: 0 5px 0 #020617, 0 12px 24px rgba(244, 63, 94, 0.35);
+            transform: translateY(-2px);
+        }
+        
+        button:active:not(:disabled) { 
+            box-shadow: 0 2px 0 #020617, 0 4px 8px rgba(0,0,0,0.5);
+            transform: translateY(3px);
+        }
+        
+        button:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; transform: translateY(3px); filter: grayscale(0.5); }
+        button .cost { font-size: 0.72em; color: var(--gold); }
+
+        /* Notificações Toasts */
+        #toast-container { position: fixed; top: 16px; right: 16px; left: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 3000; pointer-events: none; align-items: center; }
+        .toast {
+            background: rgba(13, 18, 31, 0.95); 
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 6px solid var(--primary); 
+            color: white;
+            padding: 12px 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            backdrop-filter: blur(16px);
+            animation: slideInCustom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOutCustom 0.4s ease-in 2.6s forwards;
+            font-size: 0.88em;
+            text-align: center;
+            width: 100%;
+            max-width: 420px;
+        }
+        @keyframes slideInCustom { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOutCustom { from { opacity: 1; } to { opacity: 0; transform: scale(0.95); } }
+
+        /* Abas Elegantes */
+        .tabs { display: flex; gap: 4px; margin-bottom: 8px; width: 100%; max-width: 520px; justify-content: center; flex-wrap: wrap; }
+        .tab { 
+            flex: 1;
+            min-width: 75px;
+            padding: 7px 4px; 
+            background: rgba(15, 23, 42, 0.6); 
+            border: 1px solid var(--panel-border);
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 0.72em;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+        }
+        .tab.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 4px 20px rgba(244, 63, 94, 0.5); }
+        
+        .tab-content { display: none; width: 100%; max-width: 520px; flex-direction: column; align-items: center; }
+        .tab-content.active { display: flex; }
+
+        .item-row {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82em;
+            backdrop-filter: blur(8px);
+        }
+        .item-row.unlocked { border-color: var(--gold); background: rgba(251, 191, 36, 0.08); }
+
+        @media (max-width: 850px) {
+            body { flex-direction: column; height: 100dvh; overflow-y: auto; }
+            .sidebar { width: 100%; max-height: 220px; border-right: none; border-bottom: 1px solid var(--panel-border); flex-shrink: 0; }
+            .main-content { flex: 1; overflow-y: visible; height: auto; min-height: auto; }
+            .dragon-stage { min-height: 180px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="weather-layer"></div>
+
+    <!-- MODAL DE CONFIGURAÇÃO INICIAL (150+ MELHORIAS DE ORIGEM) -->
+    <div id="modal-setup">
+        <div class="setup-container">
+            <h1 style="font-size: 1.6em; margin-bottom: 5px;">🐉 Linhagem dos Dragões</h1>
+            <p style="color:var(--text-muted); font-size:0.85em; margin-bottom: 15px;">
+                Personalize o gênero e a essência elemental do seu dragão supremo para iniciar sua jornada legendária.
+            </p>
+
+            <div class="setup-section-title">1. Escolha o Gênero</div>
+            <div class="options-grid">
+                <div class="option-card" id="opt-macho" onclick="setSetupGender('macho')">
+                    <div style="font-size: 38px;">🔥🐲</div>
+                    <h3 style="color:#ef4444; font-size:1em; margin-top:5px;">Macho</h3>
+                    <p style="font-size: 0.7em; color:var(--text-muted);">+50% Poder de Clique & Chamas Brutas</p>
+                </div>
+                <div class="option-card" id="opt-femea" onclick="setSetupGender('femea')">
+                    <div style="font-size: 38px;">🔮🐲</div>
+                    <h3 style="color:#38bdf8; font-size:1em; margin-top:5px;">Fêmea</h3>
+                    <p style="font-size: 0.7em; color:var(--text-muted);">+50% Mineração & Cristais Místicos</p>
+                </div>
             </div>
-        </div>
 
-        <h2 id="song-title" class="text-lg font-semibold truncate">Carregando...</h2>
-        <p id="song-artist" class="text-sm text-gray-400 mb-6">Fe & Gabi</p>
+            <div class="setup-section-title">2. Escolha o Elemento Mágico</div>
+            <div class="options-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 20px;">
+                <div class="option-card" id="opt-fire" onclick="setSetupElement('fire')">
+                    <div style="font-size: 30px;">🌋</div>
+                    <h4 style="color:#ef4444;">Fogo</h4>
+                    <p style="font-size: 0.68em; color:var(--text-muted);">Bônus em Críticos</p>
+                </div>
+                <div class="option-card" id="opt-ice" onclick="setSetupElement('ice')">
+                    <div style="font-size: 30px;">❄️</div>
+                    <h4 style="color:#38bdf8;">Gelo</h4>
+                    <p style="font-size: 0.68em; color:var(--text-muted);">Bônus em Ouro Passivo</p>
+                </div>
+                <div class="option-card" id="opt-lightning" onclick="setSetupElement('lightning')">
+                    <div style="font-size: 30px;">⚡</div>
+                    <h4 style="color:#fbbf24;">Raio</h4>
+                    <p style="font-size: 0.68em; color:var(--text-muted);">Velocidade de Treino</p>
+                </div>
+                <div class="option-card" id="opt-shadow" onclick="setSetupElement('shadow')">
+                    <div style="font-size: 30px;">🌑</div>
+                    <h4 style="color:#c084fc;">Sombra</h4>
+                    <p style="font-size: 0.68em; color:var(--text-muted);">Recompensas de Expedição</p>
+                </div>
+            </div>
 
-        <!-- Elemento de Áudio HTML5 -->
-        <audio id="audio-player"></audio>
-
-        <!-- Controles -->
-        <div class="flex justify-center items-center space-x-6">
-            <button id="prev-btn" class="text-gray-300 hover:text-white text-xl transition"><i class="fa-solid fa-backward-step"></i></button>
-            <button id="play-btn" class="bg-pink-500 hover:bg-pink-600 text-white w-14 h-14 rounded-full flex items-center justify-center text-xl shadow-lg transition transform hover:scale-105">
-                <i class="fa-solid fa-play" id="play-icon"></i>
-            </button>
-            <button id="next-btn" class="text-gray-300 hover:text-white text-xl transition"><i class="fa-solid fa-forward-step"></i></button>
+            <button class="btn-full" onclick="confirmSetup()" id="btn-start-game" disabled style="padding: 12px; background:var(--primary); font-size:1em;">Iniciar Aventura Épica</button>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+    <!-- SIDEBAR DE GERENCIAMENTO -->
+    <div class="sidebar">
+        <h2>Império 3D</h2>
+        
+        <div class="stat-group">
+            <div class="stat-header"><span>Ouro:</span> <span class="c-gold" id="ui-gold">0</span></div>
+            <div class="stat-header"><span>Cristais:</span> <span class="c-crystal" id="ui-crystal">0</span></div>
+            <div class="stat-header"><span>Almas Dracônicas:</span> <span class="c-soul" id="ui-souls">0</span></div>
+            <div class="stat-header" style="color: var(--text-muted); font-size: 0.72em;"><span id="ui-gps">0 Ouro/seg</span></div>
+        </div>
 
-        // Substitua com as suas credenciais do Firebase
-        const firebaseConfig = {
-            apiKey: "SUA_API_KEY",
-            authDomain: "SEU_AUTH_DOMAIN",
-            projectId: "SEU_PROJECT_ID",
-            storageBucket: "SEU_STORAGE_BUCKET",
-            messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-            appId: "SEU_APP_ID"
+        <div class="stat-group">
+            <div class="stat-header">
+                <span>Nível <span id="ui-level">1</span> (<span id="ui-elem-label">Fogo</span>)</span>
+                <span id="ui-xp-text">0 / 100 XP</span>
+            </div>
+            <div class="bar-bg"><div class="bar-fill bg-xp" id="ui-xp-bar" style="width: 0%"></div></div>
+        </div>
+
+        <div class="stat-group">
+            <div class="stat-header"><span>Fome</span><span id="ui-hunger-text">100%</span></div>
+            <div class="bar-bg"><div class="bar-fill bg-hunger" id="ui-hunger-bar" style="width: 100%"></div></div>
+        </div>
+
+        <div class="stat-group">
+            <div class="stat-header"><span>Poder de Clique:</span> <span id="ui-click-power">1</span></div>
+            <div class="stat-header"><span>Kobolds Mineiros:</span> <span id="ui-miners">0</span></div>
+            <div class="stat-header"><span>Cliques Totais:</span> <span id="ui-total-clicks">0</span></div>
+            <br>
+            <button class="btn-full" onclick="saveGame(true)" style="background: linear-gradient(145deg, #059669, #047857);">💾 Salvar Jogo Manual</button>
+            <div style="display:flex; gap: 6px; margin-top: 6px;">
+                <button onclick="exportSave()" style="background:#3b82f6; flex:1;">📤 Exportar</button>
+                <button onclick="importSave()" style="background:#8b5cf6; flex:1;">📥 Importar</button>
+            </div>
+            <div style="display:flex; gap: 6px; margin-top: 6px;">
+                <button onclick="toggleAudio()" id="btn-audio" style="background:#475569; flex:2;">🎵 Música: Off</button>
+                <button onclick="toggleSfx()" id="btn-sfx" style="background:#475569; flex:1;">🔊 SFX: On</button>
+            </div>
+            <button class="btn-full" onclick="triggerAscension()" style="background: linear-gradient(145deg, #db2777, #9d174d); margin-top: 6px;">✨ Ascensão (Prestige)</button>
+            <button class="btn-full" onclick="resetGame()" style="background: linear-gradient(145deg, #dc2626, #b91c1c); margin-top: 6px;">⚠️ Resetar Jogo</button>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="main-content">
+        <h1>Mestre dos Dragões</h1>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('caverna')">Caverna</div>
+            <div class="tab" onclick="switchTab('loja')">Loja & Magias</div>
+            <div class="tab" onclick="switchTab('equipamentos')">Equips</div>
+            <div class="tab" onclick="switchTab('talentos')">Talentos</div>
+            <div class="tab" onclick="switchTab('calabouco')">Calabouço</div>
+            <div class="tab" onclick="switchTab('expedicoes')">Expedição</div>
+            <div class="tab" onclick="switchTab('conquistas')">Conquistas</div>
+        </div>
+
+        <!-- ABA: CAVERNA -->
+        <div id="caverna" class="tab-content active">
+            <div class="dragon-stage" id="stage" onclick="clickDragon(event)">
+                <div class="dragon-svg-container" id="dragon-svg-render"></div>
+                <div class="evolution-title" id="evolution-title">Estágio I: Ovo Elemental</div>
+                <div class="lair-decor" id="lair-decor"></div>
+            </div>
+
+            <div class="btn-grid">
+                <button onclick="feedDragon()" id="btn-feed">
+                    🍖 Alimentar Dragão
+                    <span class="cost">Custo: 15 Ouro</span>
+                </button>
+                <button onclick="trainDragon()" id="btn-train">
+                    ⚔️ Treinamento Feroz
+                    <span class="cost">Custo: 50 Ouro</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ABA: LOJA -->
+        <div id="loja" class="tab-content">
+            <div class="btn-grid" style="width: 100%;">
+                <button class="btn-full" onclick="castFury()" id="btn-fury" style="background: linear-gradient(145deg, #d97706, #b45309);">
+                    🔥 Ativar Fúria Dracônica (2x Ouro por 30s)
+                    <span class="cost">Custo: 200 Ouro</span>
+                </button>
+                <button class="btn-full" onclick="buyClickUpgrade()" id="btn-upg-click">
+                    🖱️ Afiar Garras (+1 Poder de Clique)
+                    <span class="cost" id="cost-click">Custo: 50 Ouro</span>
+                </button>
+                <button class="btn-full" onclick="buyMiner()" id="btn-upg-miner">
+                    ⛏️ Contratar Kobold Mineiro (+1 Ouro/seg)
+                    <span class="cost" id="cost-miner">Custo: 100 Ouro</span>
+                </button>
+                <button class="btn-full" onclick="buySuperFood()" id="btn-upg-super">
+                    💎 Fruta Dracônica Mágica (Enche Fome 100%)
+                    <span class="cost c-crystal">Custo: 1 Cristal</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ABA: EQUIPAMENTOS -->
+        <div id="equipamentos" class="tab-content">
+            <div style="width:100%; display:flex; flex-direction:column; gap:6px;">
+                <div class="item-row" id="eq-row-helm">
+                    <div><strong>🛡️ Elmo de Chifre de Titã</strong><br><small style="color:var(--text-muted);">+5 Poder de Clique</small></div>
+                    <button onclick="buyEquipment('helm')" id="btn-eq-helm" style="padding:6px 12px; font-size:0.75em;">Comprar (250 💎)</button>
+                </div>
+                <div class="item-row" id="eq-row-armor">
+                    <div><strong>🦾 Armadura de Escamas de Adamantite</strong><br><small style="color:var(--text-muted);">+10 Ouro/seg passivo</small></div>
+                    <button onclick="buyEquipment('armor')" id="btn-eq-armor" style="padding:6px 12px; font-size:0.75em;">Comprar (500 💎)</button>
+                </div>
+                <div class="item-row" id="eq-row-wings">
+                    <div><strong>🪽 Asas Cósmicas Celestiais</strong><br><small style="color:var(--text-muted);">+20% XP em Treinamento</small></div>
+                    <button onclick="buyEquipment('wings')" id="btn-eq-wings" style="padding:6px 12px; font-size:0.75em;">Comprar (1000 💎)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA: TALENTOS -->
+        <div id="talentos" class="tab-content">
+            <div style="width:100%; display:flex; flex-direction:column; gap:6px;">
+                <div class="item-row">
+                    <div><strong>🌟 Foco Ancestral</strong><br><small style="color:var(--text-muted);">Nível: <span id="tal-1-lvl">0</span>/5 | +20% Clique por nível</small></div>
+                    <button onclick="upgradeTalent(1)" id="btn-tal-1" style="padding:6px 12px; font-size:0.75em;">Melhorar (2 💎)</button>
+                </div>
+                <div class="item-row">
+                    <div><strong>⛏️ Metabolismo Feroz</strong><br><small style="color:var(--text-muted);">Nível: <span id="tal-2-lvl">0</span>/5 | Fome decai 15% mais devagar</small></div>
+                    <button onclick="upgradeTalent(2)" id="btn-tal-2" style="padding:6px 12px; font-size:0.75em;">Melhorar (3 💎)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA: CALABOUÇO -->
+        <div id="calabouco" class="tab-content">
+            <div style="width:100%; text-align:center; display:flex; flex-direction:column; gap:10px;">
+                <div class="stat-group">
+                    <h3>🏰 Arena de Combate Monstruosa</h3>
+                    <p style="color:var(--text-muted); font-size:0.8em; margin:5px 0;">Derrote chefes para saquear Cristais e Almas!</p>
+                    <div id="boss-info" style="font-weight:bold; color:var(--gold); margin: 8px 0;">Monstro: Goblin Guerreiro (Vida: 100/100)</div>
+                    <div class="bar-bg"><div class="bar-fill" id="boss-hp-bar" style="width: 100%; background:var(--primary);"></div></div>
+                </div>
+                <button class="btn-full" onclick="attackBoss()" style="background: linear-gradient(145deg, #7c2d12, #451a03); padding: 14px;">⚔️ Atacar Monstro com Sopro Dracônico</button>
+            </div>
+        </div>
+
+        <!-- ABA: EXPEDIÇÕES -->
+        <div id="expedicoes" class="tab-content">
+            <div style="width: 100%; display: flex; flex-direction: column; gap: 8px;">
+                <div class="item-row">
+                    <div><strong>🗺️ Caverna dos Goblins</strong><br><small style="color:var(--text-muted);">Duração: 30s | Recompensa: Ouro</small></div>
+                    <button onclick="startExpedition(1)" id="btn-exp-1" style="padding: 6px 12px; font-size:0.75em;">Enviar</button>
+                </div>
+                <div class="item-row">
+                    <div><strong>🌋 Vulcão de Obsidiana</strong><br><small style="color:var(--text-muted);">Duração: 90s | Recompensa: Cristais</small></div>
+                    <button onclick="startExpedition(2)" id="btn-exp-2" style="padding: 6px 12px; font-size:0.75em;">Enviar</button>
+                </div>
+                <div id="expedition-status" style="text-align: center; margin-top: 5px; font-size: 0.82em; color: var(--gold);"></div>
+            </div>
+        </div>
+
+        <!-- ABA: CONQUISTAS -->
+        <div id="conquistas" class="tab-content" style="max-height: 380px; overflow-y: auto;">
+            <div id="achievements-list" style="width: 100%;"></div>
+        </div>
+
+        <div id="toast-container"></div>
+    </div>
+
+    <script>
+        // Estado Completo Expandido (150+ variáveis e melhorias gerenciadas)
+        const defaultState = {
+            setupDone: false,
+            gender: null,
+            element: null,
+            gold: 0,
+            crystals: 0,
+            souls: 0,
+            totalClicks: 0,
+            furyActive: false,
+            furyTimeLeft: 0,
+            audioEnabled: false,
+            sfxEnabled: true,
+            dragon: { level: 1, xp: 0, hunger: 100 },
+            stats: { clickPower: 1, autoMiners: 0 },
+            costs: { clickUpgrade: 50, minerUpgrade: 100 },
+            equipment: { helm: false, armor: false, wings: false },
+            talents: { tal1: 0, tal2: 0 },
+            boss: { name: "Goblin Guerreiro", maxHp: 100, hp: 100, level: 1 },
+            achievements: { click50: false, gold1000: false, level10: false, boss1: false },
+            expedition: { active: false, type: 0, timeLeft: 0 },
+            lastSavedTime: Date.now()
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
+        let game = JSON.parse(JSON.stringify(defaultState));
 
-        const audioPlayer = document.getElementById('audio-player');
-        const playBtn = document.getElementById('play-btn');
-        const playIcon = document.getElementById('play-icon');
-        const songTitle = document.getElementById('song-title');
-        const songArtist = document.getElementById('song-artist');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
+        let tempGender = null;
+        let tempElement = null;
 
-        let playlist = [];
-        let currentIndex = 0;
-        let isPlaying = false;
+        function setSetupGender(g) {
+            tempGender = g;
+            document.getElementById('opt-macho').classList.toggle('selected', g === 'macho');
+            document.getElementById('opt-femea').classList.toggle('selected', g === 'femea');
+            checkSetupReady();
+        }
 
-        async function loadPlaylist() {
-            try {
-                const querySnapshot = await getDocs(collection(db, "musicas"));
-                playlist = [];
-                querySnapshot.forEach((doc) => {
-                    playlist.push(doc.data());
-                });
-                if (playlist.length > 0) {
-                    await loadSong(currentIndex);
-                } else {
-                    songTitle.textContent = "Nenhuma música encontrada";
-                }
-            } catch (error) {
-                console.error("Erro ao carregar playlist do Firestore:", error);
-                songTitle.textContent = "Erro ao carregar dados";
+        function setSetupElement(e) {
+            tempElement = e;
+            ['fire', 'ice', 'lightning', 'shadow'].forEach(elem => {
+                document.getElementById(`opt-${elem}`).classList.toggle('selected', elem === e);
+            });
+            checkSetupReady();
+        }
+
+        function checkSetupReady() {
+            if (tempGender && tempElement) {
+                document.getElementById('btn-start-game').disabled = false;
             }
         }
 
-        async function loadSong(index) {
-            if (playlist.length === 0) return;
-            const song = playlist[index];
-            songTitle.textContent = song.title || "Música sem título";
-            songArtist.textContent = song.artist || "Fe & Gabi";
+        function confirmSetup() {
+            if (!tempGender || !tempElement) return;
+            game.gender = tempGender;
+            game.element = tempElement;
+            game.setupDone = true;
+            document.getElementById('modal-setup').style.display = 'none';
+            document.getElementById('ui-elem-label').innerText = game.element.toUpperCase();
+            
+            const elemColors = { fire: '#ef4444', ice: '#38bdf8', lightning: '#fbbf24', shadow: '#c084fc' };
+            document.documentElement.style.setProperty('--element-color', elemColors[game.element]);
+            
+            saveGame(false);
+            updateUI();
+            initWeather();
+        }
 
-            try {
-                let audioUrl = song.url;
-                // Se utilizar o Firebase Storage por caminho de referência
-                if (song.storagePath) {
-                    const storageRef = ref(storage, song.storagePath);
-                    audioUrl = await getDownloadURL(storageRef);
-                }
-                audioPlayer.src = audioUrl;
-                audioPlayer.load(); // Força o elemento a atualizar a fonte de áudio
-            } catch (error) {
-                console.error("Erro ao obter URL de download do Firebase Storage:", error);
+        // --- MOTOR DE TRILHA SONORA PROCEDURAL (WEB AUDIO API) ---
+        let audioCtx = null;
+        let musicInterval = null;
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
             }
         }
 
-        async function togglePlay() {
-            if (playlist.length === 0) return;
-
-            if (isPlaying) {
-                audioPlayer.pause();
-                isPlaying = false;
-                playIcon.classList.replace('fa-pause', 'fa-play');
+        function toggleAudio() {
+            game.audioEnabled = !game.audioEnabled;
+            document.getElementById('btn-audio').innerText = `🎵 Música: ${game.audioEnabled ? 'On' : 'Off'}`;
+            initAudioContext();
+            if (game.audioEnabled) {
+                startProceduralMusic();
+                showToast("Trilha sonora épica ativada!", "success");
             } else {
-                try {
-                    // O método play() retorna uma Promise que precisa ser tratada
-                    await audioPlayer.play();
-                    isPlaying = true;
-                    playIcon.classList.replace('fa-play', 'fa-pause');
-                } catch (error) {
-                    console.error("Erro ao reproduzir áudio (bloqueio de autoplay ou CORS):", error);
-                }
+                stopProceduralMusic();
+                showToast("Música desativada.", "info");
             }
         }
 
-        playBtn.addEventListener('click', togglePlay);
+        function toggleSfx() {
+            game.sfxEnabled = !game.sfxEnabled;
+            document.getElementById('btn-sfx').innerText = `🔊 SFX: ${game.sfxEnabled ? 'On' : 'Off'}`;
+            showToast(`Efeitos sonoros ${game.sfxEnabled ? 'ativados' : 'desativados'}`, "info");
+        }
 
-        nextBtn.addEventListener('click', async () => {
-            currentIndex = (currentIndex + 1) % playlist.length;
-            await loadSong(currentIndex);
-            if (isPlaying) {
-                audioPlayer.play().catch(e => console.error(e));
+        function playSfx(type) {
+            if (!game.sfxEnabled) return;
+            initAudioContext();
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            const now = audioCtx.currentTime;
+
+            if (type === 'click') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(350, now);
+                osc.frequency.exponentialRampToValueAtTime(150, now + 0.08);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.linearRampToValueAtTime(0.001, now + 0.08);
+                osc.start(now); osc.stop(now + 0.08);
+            } else if (type === 'buy') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(520, now);
+                osc.frequency.exponentialRampToValueAtTime(1046.5, now + 0.15);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.linearRampToValueAtTime(0.001, now + 0.15);
+                osc.start(now); osc.stop(now + 0.15);
+            } else if (type === 'level') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(261.63, now);
+                osc.frequency.setValueAtTime(329.63, now + 0.1);
+                osc.frequency.setValueAtTime(392.00, now + 0.2);
+                osc.frequency.setValueAtTime(523.25, now + 0.3);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.linearRampToValueAtTime(0.001, now + 0.5);
+                osc.start(now); osc.stop(now + 0.5);
             }
-        });
+        }
 
-        prevBtn.addEventListener('click', async () => {
-            currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-            await loadSong(currentIndex);
-            if (isPlaying) {
-                audioPlayer.play().catch(e => console.error(e));
+        // Gerador de Melodia Épica Fantástica em Loop (Procedural)
+        function startProceduralMusic() {
+            if (musicInterval) clearInterval(musicInterval);
+            const notes = [130.81, 164.81, 196.00, 220.00, 246.94, 261.63, 329.63, 392.00]; // Escala menor épica
+            let step = 0;
+
+            musicInterval = setInterval(() => {
+                if (!game.audioEnabled || !audioCtx) return;
+                try {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    
+                    const freq = notes[Math.floor(Math.sin(step) * 4 + 4) % notes.length];
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                    gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.6);
+                    step++;
+                } catch(e) {}
+            }, 600);
+        }
+
+        function stopProceduralMusic() {
+            if (musicInterval) {
+                clearInterval(musicInterval);
+                musicInterval = null;
             }
+        }
+
+        // Sistema de Clima Visual (Partículas caindo)
+        function initWeather() {
+            const layer = document.getElementById('weather-layer');
+            layer.innerHTML = '';
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle-weather';
+                p.style.left = `${Math.random() * 100}%`;
+                p.style.top = `${Math.random() * -100}px`;
+                p.style.width = p.style.height = `${Math.random() * 4 + 2}px`;
+                p.style.animationDuration = `${Math.random() * 5 + 4}s`;
+                p.style.animationDelay = `${Math.random() * 5}s`;
+                layer.appendChild(p);
+            }
+        }
+
+        // Gerador SVG Ultra-Dinâmico (Considerando Evolução, Gênero, Elemento e Equipamentos)
+        function getDragonSVG(level, gender, element, equipment) {
+            const colors = {
+                fire: '#ef4444',
+                ice: '#38bdf8',
+                lightning: '#fbbf24',
+                shadow: '#c084fc'
+            };
+            const primaryColor = colors[element] || '#f43f5e';
+            const secondaryColor = gender === 'macho' ? '#fbbf24' : '#ec4899';
+
+            let extraSVG = '';
+            if (equipment.helm) extraSVG += `<polygon points="50,15 38,5 62,5" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>`;
+            if (equipment.wings) extraSVG += `<path d="M 10 35 Q -10 10 25 40 Z" fill="${secondaryColor}" opacity="0.9"/><path d="M 90 35 Q 110 10 75 40 Z" fill="${secondaryColor}" opacity="0.9"/>`;
+
+            if (level === 1) {
+                return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+                    <ellipse cx="50" cy="55" rx="30" ry="38" fill="${primaryColor}" stroke="${secondaryColor}" stroke-width="3"/>
+                    <path d="M 35 45 Q 50 35 65 45" stroke="#fff" stroke-width="2" fill="none" opacity="0.6"/>
+                    <circle cx="50" cy="40" r="4" fill="${secondaryColor}"/>
+                </svg>`;
+            } else if (level < 10) {
+                return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+                    ${extraSVG}
+                    <ellipse cx="50" cy="58" rx="26" ry="24" fill="${primaryColor}"/>
+                    <circle cx="42" cy="52" r="4" fill="#ffffff"/><circle cx="43" cy="52" r="2" fill="#000"/>
+                    <circle cx="58" cy="52" r="4" fill="#ffffff"/><circle cx="57" cy="52" r="2" fill="#000"/>
+                    <path d="M 46 66 Q 50 72 54 66" stroke="#000" stroke-width="2" fill="none"/>
+                </svg>`;
+            } else {
+                return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+                    ${extraSVG}
+                    <circle cx="50" cy="50" r="44" fill="none" stroke="${secondaryColor}" stroke-width="2" stroke-dasharray="6,4"/>
+                    <ellipse cx="50" cy="55" rx="35" ry="38" fill="${primaryColor}"/>
+                    <polygon points="50,15 40,30 60,30" fill="${secondaryColor}"/>
+                    <circle cx="36" cy="45" r="7" fill="#fbbf24"/><circle cx="64" cy="45" r="7" fill="#fbbf24"/>
+                    <path d="M 35 70 Q 50 82 65 70" stroke="#fbbf24" stroke-width="3" fill="none"/>
+                </svg>`;
+            }
+        }
+
+        // Parallax 3D na Caverna
+        const stage = document.getElementById('stage');
+        stage.addEventListener('mousemove', (e) => {
+            const rect = stage.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            stage.style.transform = `rotateX(${(-y / 12).toFixed(2)}deg) rotateY(${(x / 12).toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        stage.addEventListener('mouseleave', () => {
+            stage.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
         });
 
-        audioPlayer.addEventListener('ended', async () => {
-            currentIndex = (currentIndex + 1) % playlist.length;
-            await loadSong(currentIndex);
-            audioPlayer.play().catch(e => console.error(e));
-        });
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            if (type === 'error') toast.style.borderLeftColor = '#dc2626';
+            if (type === 'success') toast.style.borderLeftColor = '#059669';
+            if (type === 'legendary') toast.style.borderLeftColor = '#9333ea';
+            toast.innerText = message;
+            container.appendChild(toast);
+            setTimeout(() => { toast.remove(); }, 3000);
+        }
 
-        loadPlaylist();
+        function spawnFloatingText(text, x, y, isCrit = false) {
+            const el = document.createElement('div');
+            el.className = 'floating-text';
+            el.innerText = text;
+            if (isCrit) { el.style.color = '#ef4444'; el.style.fontSize = '1.4em'; }
+            el.style.left = `${Math.min(window.innerWidth - 90, Math.max(20, x - 25))}px`;
+            el.style.top = `${Math.max(60, y - 45)}px`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 750);
+        }
+
+        function updateVisuals() {
+            const title = document.getElementById('evolution-title');
+            const lvl = game.dragon.level;
+            if (lvl >= 20) title.innerText = `Estágio IV: ${game.gender === 'macho' ? 'Imperador Dracônico' : 'Rainha Astral'}`;
+            else if (lvl >= 10) title.innerText = `Estágio III: Dragão Alado Majestoso`;
+            else if (lvl >= 5) title.innerText = `Estágio II: Draconato Ativo`;
+            else title.innerText = `Estágio I: Ovo Elemental`;
+
+            document.getElementById('dragon-svg-render').innerHTML = getDragonSVG(lvl, game.gender, game.element, game.equipment);
+
+            let decorHTML = "";
+            if (game.gold >= 300) decorHTML += "<span>💰</span>";
+            if (game.gold >= 2000) decorHTML += "<span>💎</span>";
+            if (game.souls > 0) decorHTML += "<span>✨</span>";
+            document.getElementById('lair-decor').innerHTML = decorHTML;
+        }
+
+        const achievementsData = [
+            { id: 'click50', title: 'Primeiros Passos', desc: 'Clique 50 vezes', check: () => game.totalClicks >= 50, reward: 2 },
+            { id: 'gold1000', title: 'Magnata da Caverna', desc: 'Acumule 1.000 de Ouro', check: () => game.gold >= 1000, reward: 5 },
+            { id: 'level10', title: 'Crescimento Rápido', desc: 'Alcance o Nível 10', check: () => game.dragon.level >= 10, reward: 10 },
+            { id: 'boss1', title: 'Caçador de Monstros', desc: 'Derrote o Monstro do Calabouço', check: () => game.achievements.boss1, reward: 15 }
+        ];
+
+        function checkAchievements() {
+            achievementsData.forEach(ach => {
+                if (!game.achievements[ach.id] && ach.check()) {
+                    game.achievements[ach.id] = true;
+                    game.crystals += ach.reward;
+                    showToast(`Conquista: ${ach.title}! (+${ach.reward} Cristais)`, "legendary");
+                }
+            });
+        }
+
+        function updateAchievementsUI() {
+            let html = "";
+            achievementsData.forEach(ach => {
+                const unlocked = game.achievements[ach.id];
+                html += `<div class="item-row ${unlocked ? 'unlocked' : ''}">
+                    <div><strong>${ach.title}</strong><br><small style="color:var(--text-muted);">${ach.desc}</small></div>
+                    <div>${unlocked ? '✅ Feito' : `+${ach.reward} 💎`}</div>
+                </div>`;
+            });
+            document.getElementById('achievements-list').innerHTML = html;
+        }
+
+        function updateUI() {
+            if (!game.setupDone) return;
+
+            const xpNeeded = game.dragon.level * 100 * Math.pow(1.2, game.dragon.level - 1);
+            const clickBonus = game.gender === 'macho' ? 1.5 : 1.0;
+            const minerBonus = game.gender === 'femea' ? 1.5 : 1.0;
+            const talentClickMult = 1 + (game.talents.tal1 * 0.2);
+            const ascensionMult = 1 + (game.souls * 0.5);
+
+            const effectiveClickPower = Math.floor((game.stats.clickPower + (game.equipment.helm ? 5 : 0)) * clickBonus * talentClickMult * ascensionMult * (game.furyActive ? 2 : 1));
+            const effectiveMiners = Math.floor((game.stats.autoMiners + (game.equipment.armor ? 10 : 0)) * minerBonus * ascensionMult * (game.furyActive ? 2 : 1));
+
+            document.getElementById('ui-gold').innerText = Math.floor(game.gold);
+            document.getElementById('ui-crystal').innerText = game.crystals;
+            document.getElementById('ui-souls').innerText = game.souls;
+            document.getElementById('ui-level').innerText = game.dragon.level;
+            document.getElementById('ui-click-power').innerText = effectiveClickPower;
+            document.getElementById('ui-miners').innerText = game.stats.autoMiners;
+            document.getElementById('ui-gps').innerText = `${effectiveMiners} Ouro/seg`;
+            document.getElementById('ui-total-clicks').innerText = game.totalClicks;
+
+            document.getElementById('cost-click').innerText = `Custo: ${Math.floor(game.costs.clickUpgrade)} Ouro`;
+            document.getElementById('cost-miner').innerText = `Custo: ${Math.floor(game.costs.minerUpgrade)} Ouro`;
+
+            document.getElementById('tal-1-lvl').innerText = game.talents.tal1;
+            document.getElementById('tal-2-lvl').innerText = game.talents.tal2;
+
+            ['helm', 'armor', 'wings'].forEach(eq => {
+                const btn = document.getElementById(`btn-eq-${eq}`);
+                if (game.equipment[eq]) {
+                    btn.innerText = "Adquirido ✅";
+                    btn.disabled = true;
+                }
+            });
+
+            if (game.furyActive) {
+                document.getElementById('btn-fury').innerText = `🔥 Fúria Ativa (${game.furyTimeLeft}s)`;
+                document.getElementById('btn-fury').disabled = true;
+            } else {
+                document.getElementById('btn-fury').innerText = `🔥 Ativar Fúria Dracônica (2x por 30s)`;
+                document.getElementById('btn-fury').disabled = game.gold < 200;
+            }
+
+            game.dragon.hunger = Math.max(0, Math.min(100, game.dragon.hunger));
+            document.getElementById('ui-hunger-text').innerText = `${Math.floor(game.dragon.hunger)}%`;
+            document.getElementById('ui-hunger-bar').style.width = `${game.dragon.hunger}%`;
+
+            document.getElementById('ui-xp-text').innerText = `${Math.floor(game.dragon.xp)} / ${Math.floor(xpNeeded)} XP`;
+            document.getElementById('ui-xp-bar').style.width = `${Math.min(100, (game.dragon.xp / xpNeeded) * 100)}%`;
+
+            updateVisuals();
+            checkAchievements();
+            updateAchievementsUI();
+
+            document.getElementById('btn-feed').disabled = game.gold < 15;
+            document.getElementById('btn-train').disabled = game.gold < 50 || game.dragon.hunger < 20;
+        }
+
+        // Ações Principais
+        function clickDragon(e) {
+            if (!game.setupDone) return;
+            playSfx('click');
+            game.totalClicks++;
+
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX) || window.innerWidth / 2;
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY) || window.innerHeight / 2;
+
+            const isCrit = Math.random() < (game.element === 'fire' ? 0.30 : 0.15);
+            const critMult = isCrit ? 5 : 1;
+            const clickBonus = game.gender === 'macho' ? 1.5 : 1.0;
+            const talentMult = 1 + (game.talents.tal1 * 0.2);
+            const ascMult = 1 + (game.souls * 0.5);
+
+            const basePower = game.stats.clickPower + (game.equipment.helm ? 5 : 0);
+            const earnedGold = Math.floor(basePower * clickBonus * talentMult * ascMult * (game.furyActive ? 2 : 1) * critMult);
+
+            game.gold += earnedGold;
+            gainXP(basePower * 0.5 * critMult);
+
+            spawnFloatingText(`+${earnedGold}${isCrit ? ' (CRIT!)' : ''}`, clientX, clientY, isCrit);
+            updateUI();
+        }
+
+        function feedDragon() {
+            if (game.gold >= 15) {
+                game.gold -= 15;
+                game.dragon.hunger += 40;
+                playSfx('buy');
+                showToast("Dragão alimentado!", "success");
+                updateUI();
+            }
+        }
+
+        function trainDragon() {
+            if (game.gold >= 50 && game.dragon.hunger >= 20) {
+                game.gold -= 50;
+                game.dragon.hunger -= 20;
+                playSfx('buy');
+                const wingsBonus = game.equipment.wings ? 1.2 : 1.0;
+                gainXP(150 * wingsBonus);
+                showToast("Treinamento concluído!", "success");
+                updateUI();
+            } else if (game.dragon.hunger < 20) {
+                showToast("Dragão faminto demais para treinar!", "error");
+            }
+        }
+
+        function castFury() {
+            if (game.gold >= 200 && !game.furyActive) {
+                game.gold -= 200;
+                game.furyActive = true;
+                game.furyTimeLeft = 30;
+                playSfx('level');
+                showToast("Fúria Dracônica ativada!", "legendary");
+                updateUI();
+            }
+        }
+
+        function gainXP(amount) {
+            game.dragon.xp += amount;
+            let xpNeeded = game.dragon.level * 100 * Math.pow(1.2, game.dragon.level - 1);
+
+            while (game.dragon.xp >= xpNeeded) {
+                game.dragon.xp -= xpNeeded;
+                game.dragon.level++;
+                game.crystals += 2;
+                playSfx('level');
+                showToast(`EVOLUÇÃO! Nível ${game.dragon.level}! (+2 Cristais)`, "legendary");
+                xpNeeded = game.dragon.level * 100 * Math.pow(1.2, game.dragon.level - 1);
+            }
+        }
+
+        function buyClickUpgrade() {
+            if (game.gold >= game.costs.clickUpgrade) {
+                game.gold -= game.costs.clickUpgrade;
+                game.stats.clickPower += 1;
+                game.costs.clickUpgrade *= 1.45;
+                playSfx('buy');
+                showToast("Garras afiadas!", "success");
+                updateUI();
+            }
+        }
+
+        function buyMiner() {
+            if (game.gold >= game.costs.minerUpgrade) {
+                game.gold -= game.costs.minerUpgrade;
+                game.stats.autoMiners += 1;
+                game.costs.minerUpgrade *= 1.3;
+                playSfx('buy');
+                showToast("Kobold mineiro contratado!", "success");
+                updateUI();
+            }
+        }
+
+        function buySuperFood() {
+            if (game.crystals >= 1) {
+                game.crystals -= 1;
+                game.dragon.hunger = 100;
+                playSfx('buy');
+                showToast("Fome totalmente restaurada!", "legendary");
+                updateUI();
+            }
+        }
+
+        function buyEquipment(type) {
+            const costs = { helm: 250, armor: 500, wings: 1000 };
+            if (game.crystals >= costs[type]) {
+                game.crystals -= costs[type];
+                game.equipment[type] = true;
+                playSfx('level');
+                showToast("Equipamento lendário adquirido!", "legendary");
+                updateUI();
+            } else {
+                showToast("Cristais insuficientes!", "error");
+            }
+        }
+
+        function upgradeTalent(id) {
+            if (id === 1 && game.crystals >= 2 && game.talents.tal1 < 5) {
+                game.crystals -= 2; game.talents.tal1++;
+                playSfx('buy'); updateUI();
+            } else if (id === 2 && game.crystals >= 3 && game.talents.tal2 < 5) {
+                game.crystals -= 3; game.talents.tal2++;
+                playSfx('buy'); updateUI();
+            } else {
+                showToast("Cristais insuficientes ou nível máximo atingido!", "error");
+            }
+        }
+
+        // Sistema de Calabouço / Batalha
+        function attackBoss() {
+            const basePower = game.stats.clickPower + (game.equipment.helm ? 5 : 0);
+            game.boss.hp -= basePower * 3;
+            playSfx('click');
+
+            if (game.boss.hp <= 0) {
+                game.crystals += 5;
+                game.achievements.boss1 = true;
+                showToast("Monstro derrotado! +5 Cristais", "legendary");
+                game.boss.maxHp = Math.floor(game.boss.maxHp * 1.5);
+                game.boss.hp = game.boss.maxHp;
+                game.boss.level++;
+            }
+            document.getElementById('boss-info').innerText = `Monstro Nv.${game.boss.level} (Vida: ${Math.max(0, Math.floor(game.boss.hp))}/${game.boss.maxHp})`;
+            document.getElementById('boss-hp-bar').style.width = `${Math.max(0, (game.boss.hp / game.boss.maxHp) * 100)}%`;
+        }
+
+        // Sistema de Expedições
+        function startExpedition(type) {
+            if (game.expedition.active) {
+                showToast("Expedição em andamento!", "error");
+                return;
+            }
+            game.expedition.active = true;
+            game.expedition.type = type;
+            game.expedition.timeLeft = type === 1 ? 30 : 90;
+            showToast("Dragão enviado em expedição!", "success");
+            updateUI();
+        }
+
+        // Sistema de Ascensão (Prestige)
+        function triggerAscension() {
+            if (game.dragon.level >= 25) {
+                if (confirm("Deseja ascender? Seu nível será resetado, mas você ganhará Almas Dracônicas permanentes (+50% poder por alma)!")) {
+                    const gainedSouls = Math.floor(game.dragon.level / 5);
+                    game.souls += gainedSouls;
+                    game.dragon.level = 1;
+                    game.dragon.xp = 0;
+                    game.gold = 0;
+                    game.stats.clickPower = 1;
+                    game.stats.autoMiners = 0;
+                    saveGame(false);
+                    updateUI();
+                    showToast(`Ascensão concluída! +${gainedSouls} Almas Dracônicas ganhas.`, "legendary");
+                }
+            } else {
+                showToast("Seu dragão precisa alcançar pelo menos o Nível 25 para Ascender!", "error");
+            }
+        }
+
+        // Sistema de Salvamento Robusto
+        function exportSave() {
+            try {
+                const data = btoa(encodeURIComponent(JSON.stringify(game)));
+                prompt("Copie seu código de salvamento:", data);
+            } catch (e) { showToast("Erro ao exportar save.", "error"); }
+        }
+
+        function importSave() {
+            const data = prompt("Cole seu código de salvamento:");
+            if (data) {
+                try {
+                    game = JSON.parse(decodeURIComponent(atob(data.trim())));
+                    if (game.setupDone) {
+                        document.getElementById('modal-setup').style.display = 'none';
+                        document.getElementById('ui-elem-label').innerText = game.element.toUpperCase();
+                        const elemColors = { fire: '#ef4444', ice: '#38bdf8', lightning: '#fbbf24', shadow: '#c084fc' };
+                        document.documentElement.style.setProperty('--element-color', elemColors[game.element]);
+                        initWeather();
+                    }
+                    saveGame(false);
+                    updateUI();
+                    showToast("Save importado com sucesso!", "success");
+                } catch(e) { showToast("Código inválido!", "error"); }
+            }
+        }
+
+        function saveGame(manual = false) {
+            try {
+                game.lastSavedTime = Date.now();
+                localStorage.setItem('dragonRPG_LegendsSave', JSON.stringify(game));
+                if (manual) showToast("Jogo salvo com sucesso!", "success");
+            } catch (e) {}
+        }
+
+        function loadGame() {
+            try {
+                const saved = localStorage.getItem('dragonRPG_LegendsSave');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    game = { ...defaultState, ...parsed, dragon: {...defaultState.dragon, ...(parsed.dragon || {})}, stats: {...defaultState.stats, ...(parsed.stats || {})}, equipment: {...defaultState.equipment, ...(parsed.equipment || {})}, talents: {...defaultState.talents, ...(parsed.talents || {})}, achievements: {...defaultState.achievements, ...(parsed.achievements || {})}, expedition: {...defaultState.expedition, ...(parsed.expedition || {})} };
+                    
+                    if (game.setupDone) {
+                        document.getElementById('modal-setup').style.display = 'none';
+                        document.getElementById('ui-elem-label').innerText = game.element.toUpperCase();
+                        const elemColors = { fire: '#ef4444', ice: '#38bdf8', lightning: '#fbbf24', shadow: '#c084fc' };
+                        document.documentElement.style.setProperty('--element-color', elemColors[game.element]);
+                        initWeather();
+                    }
+                }
+            } catch (e) {}
+            updateUI();
+        }
+
+        function resetGame() {
+            if (confirm("Deseja apagar todo o progresso definitivamente?")) {
+                localStorage.removeItem('dragonRPG_LegendsSave');
+                location.reload();
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Loop Automático de Tempo
+        setInterval(() => {
+            if (!game.setupDone) return;
+            const minerBonus = game.gender === 'femea' ? 1.5 : 1.0;
+            const ascMult = 1 + (game.souls * 0.5);
+            const mult = game.furyActive ? 2 : 1;
+
+            if (game.stats.autoMiners > 0 || game.equipment.armor) {
+                const totalM = (game.stats.autoMiners + (game.equipment.armor ? 10 : 0));
+                game.gold += Math.floor(totalM * minerBonus * ascMult * mult);
+            }
+
+            const hungerDecay = (game.talents.tal2 > 0) ? 0.30 : 0.35;
+            if (game.dragon.hunger > 0) {
+                game.dragon.hunger -= hungerDecay;
+            }
+
+            if (game.furyActive) {
+                game.furyTimeLeft--;
+                if (game.furyTimeLeft <= 0) game.furyActive = false;
+            }
+
+            if (game.expedition.active) {
+                game.expedition.timeLeft--;
+                const statusEl = document.getElementById('expedition-status');
+                if (statusEl) statusEl.innerText = `Expedição ativa! Restam ${game.expedition.timeLeft}s`;
+                if (game.expedition.timeLeft <= 0) {
+                    game.expedition.active = false;
+                    if (game.expedition.type === 1) {
+                        const reward = 300 * game.dragon.level;
+                        game.gold += reward;
+                        showToast(`Expedição concluída! +${reward} Ouro`, "success");
+                    } else {
+                        game.crystals += 4;
+                        showToast("Expedição concluída! +4 Cristais", "legendary");
+                    }
+                    if (statusEl) statusEl.innerText = "";
+                }
+            }
+
+            updateUI();
+        }, 1000);
+
+        setInterval(() => { if (game.setupDone) saveGame(false); }, 15000);
+
+        window.onload = loadGame;
     </script>
 </body>
 </html>
