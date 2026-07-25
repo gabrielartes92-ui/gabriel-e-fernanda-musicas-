@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Mestre dos Dragões 3D - Mobile Edition</title>
+    <title>Mestre dos Dragões 3D - Next-Gen Edition</title>
     <style>
         :root {
-            --bg-dark: #04060b;
-            --panel-bg: #0d121f;
-            --panel-border: #1a233a;
-            --text-main: #f1f5f9;
-            --text-muted: #64748b;
+            --bg-dark: #030508;
+            --panel-bg: rgba(10, 15, 28, 0.85);
+            --panel-border: rgba(56, 189, 248, 0.15);
+            --panel-border-glow: rgba(244, 63, 94, 0.3);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
             --primary: #f43f5e;
             --primary-hover: #e11d48;
             --gold: #fbbf24;
@@ -23,7 +24,7 @@
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
             -webkit-user-select: none; 
             user-select: none; 
             -webkit-touch-callout: none;
@@ -37,47 +38,52 @@
             height: 100dvh;
             min-height: -webkit-fill-available;
             overflow: hidden;
-            perspective: 1500px;
+            perspective: 1600px;
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
+            background: radial-gradient(circle at 50% 30%, #0d1b3e 0%, #030508 80%);
         }
 
-        /* Sidebar 3D */
+        /* Sidebar Next-Gen */
         .sidebar {
             width: 340px;
-            background: linear-gradient(145deg, var(--panel-bg), #080c14);
-            padding: 15px;
-            border-right: 2px solid var(--panel-border);
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 16px;
+            border-right: 1px solid var(--panel-border);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             overflow-y: auto;
-            box-shadow: 20px 0 40px rgba(0,0,0,0.7);
+            box-shadow: 25px 0 50px rgba(0,0,0,0.8);
             z-index: 10;
         }
+
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 4px; }
 
         .main-content {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
+            padding: 16px;
             position: relative;
-            background: radial-gradient(circle at center, #111a30 0%, #04060b 100%);
             overflow-y: auto;
         }
 
         h1, h2, h3 { color: var(--text-main); text-align: center; }
         h1 { 
-            font-size: 1.6em; 
-            margin-bottom: 2px; 
+            font-size: 1.5em; 
+            margin-bottom: 4px; 
             color: var(--primary); 
             text-transform: uppercase; 
-            letter-spacing: 2px; 
-            text-shadow: 0 4px 20px rgba(244, 63, 94, 0.6); 
+            letter-spacing: 3px; 
+            text-shadow: 0 0 25px rgba(244, 63, 94, 0.7); 
         }
 
-        /* Palco 3D do Dragão e Caverna Visual */
+        /* Palco 3D do Dragão com Iluminação Avançada */
         .dragon-stage {
             flex: 1;
             display: flex;
@@ -85,29 +91,35 @@
             justify-content: center;
             flex-direction: column;
             transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
+            transition: transform 0.1s cubic-bezier(0.1, 0.7, 0.3, 1);
             cursor: pointer;
-            padding: 15px;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 20px 40px rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 36px;
+            background: radial-gradient(circle, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.4) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.9), 0 30px 60px rgba(0,0,0,0.6);
             margin: 8px 0;
             width: 100%;
-            max-width: 500px;
-            min-height: 200px;
+            max-width: 520px;
+            min-height: 220px;
             position: relative;
         }
 
         .dragon-sprite {
-            font-size: 110px;
+            font-size: 115px;
             transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            filter: drop-shadow(0 30px 20px rgba(0,0,0,0.95)) drop-shadow(0 0 25px rgba(244, 63, 94, 0.35));
-            transform: translateZ(50px);
+            filter: drop-shadow(0 35px 25px rgba(0,0,0,0.95)) drop-shadow(0 0 35px rgba(244, 63, 94, 0.4));
+            transform: translateZ(60px);
+            animation: idleDragon 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes idleDragon {
+            0% { transform: translateZ(60px) translateY(0) rotate(0deg); }
+            100% { transform: translateZ(70px) translateY(-8px) rotate(1deg); }
         }
 
         .dragon-sprite:active { 
-            transform: translateZ(15px) scale(0.85); 
+            transform: translateZ(20px) scale(0.85) rotate(-2deg); 
         }
 
         .evolution-title {
@@ -115,151 +127,173 @@
             color: var(--gold);
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 8px;
-            text-shadow: 0 2px 10px rgba(251, 191, 36, 0.5);
-            transform: translateZ(30px);
+            letter-spacing: 1.5px;
+            margin-top: 10px;
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+            transform: translateZ(40px);
             text-align: center;
         }
 
-        /* Elementos Visuais da Caverna */
+        /* Elementos Visuais Dinâmicos da Caverna */
         .lair-decor {
             position: absolute;
-            bottom: 10px;
+            bottom: 12px;
             display: flex;
-            gap: 8px;
-            font-size: 1.2em;
-            transform: translateZ(40px);
-            opacity: 0.9;
+            gap: 10px;
+            font-size: 1.3em;
+            transform: translateZ(50px);
+            opacity: 0.95;
             pointer-events: none;
-            max-width: 80%;
+            max-width: 85%;
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        /* Textos Flutuantes Dinâmicos */
+        /* Textos Flutuantes Next-Gen */
         .floating-text {
             position: absolute;
-            font-weight: bold;
-            font-size: 1.1em;
+            font-weight: 900;
+            font-size: 1.2em;
             color: var(--gold);
             pointer-events: none;
-            animation: floatUp 0.8s ease-out forwards;
-            z-index: 100;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            animation: floatUpCustom 0.75s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            z-index: 1000;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 15px var(--gold);
         }
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-60px) scale(1.2); opacity: 0; }
+        @keyframes floatUpCustom {
+            0% { transform: translateY(0) scale(0.8); opacity: 0; }
+            20% { transform: translateY(-15px) scale(1.2); opacity: 1; }
+            100% { transform: translateY(-75px) scale(1); opacity: 0; }
         }
 
-        /* Painéis de Status */
+        /* Painéis de Status com Glassmorphism */
         .stat-group { 
-            background: rgba(13, 18, 31, 0.85); 
+            background: rgba(15, 23, 42, 0.75); 
             border: 1px solid var(--panel-border);
-            padding: 10px; 
-            border-radius: 8px; 
-            margin-bottom: 6px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+            padding: 12px; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
         }
-        .stat-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 4px; font-size: 0.85em; }
+        .stat-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; font-size: 0.85em; }
         
-        .bar-bg { width: 100%; height: 8px; background-color: #04060b; border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8); }
-        .bar-fill { height: 100%; transition: width 0.3s ease-out; border-radius: 4px; }
+        .bar-bg { width: 100%; height: 9px; background-color: #020617; border-radius: 6px; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.9); border: 1px solid rgba(255,255,255,0.03); }
+        .bar-fill { height: 100%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 6px; position: relative; }
         
-        .c-gold { color: var(--gold); text-shadow: 0 0 10px rgba(251, 191, 36, 0.4); }
-        .c-crystal { color: var(--crystal); text-shadow: 0 0 10px rgba(56, 189, 248, 0.4); }
-        .bg-xp { background: linear-gradient(90deg, #7e22ce, var(--xp)); box-shadow: 0 0 10px var(--xp); }
-        .bg-hunger { background: linear-gradient(90deg, #15803d, var(--hunger)); box-shadow: 0 0 10px var(--hunger); }
+        .bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
 
-        /* Botões 3D */
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; max-width: 500px; margin-top: 8px; }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .c-gold { color: var(--gold); text-shadow: 0 0 12px rgba(251, 191, 36, 0.5); }
+        .c-crystal { color: var(--crystal); text-shadow: 0 0 12px rgba(56, 189, 248, 0.5); }
+        .bg-xp { background: linear-gradient(90deg, #7e22ce, var(--xp)); box-shadow: 0 0 12px var(--xp); }
+        .bg-hunger { background: linear-gradient(90deg, #15803d, var(--hunger)); box-shadow: 0 0 12px var(--hunger); }
+
+        /* Botões Estilizados AAA */
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; max-width: 520px; margin-top: 8px; }
         .btn-full { grid-column: span 2; }
         
         button {
             background: linear-gradient(145deg, #1e293b, #0f172a);
             color: white;
-            border: 1px solid #334155;
-            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 11px;
             font-size: 0.85em;
             font-weight: bold;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 2px;
-            box-shadow: 0 4px 0 #020408, 0 6px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 0 #020617, 0 8px 16px rgba(0,0,0,0.5);
             touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
         }
 
         button:hover:not(:disabled) { 
             background: linear-gradient(145deg, #334155, #1e293b);
             border-color: var(--primary);
+            box-shadow: 0 6px 0 #020617, 0 12px 24px rgba(244, 63, 94, 0.35);
+            transform: translateY(-2px);
         }
         
         button:active:not(:disabled) { 
-            box-shadow: 0 1px 0 #020408, 0 2px 5px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 0 #020617, 0 4px 8px rgba(0,0,0,0.5);
             transform: translateY(3px);
         }
         
-        button:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; transform: translateY(3px); }
+        button:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; transform: translateY(4px); filter: grayscale(0.5); }
         button .cost { font-size: 0.75em; color: var(--gold); }
 
-        /* Notificações Toasts 3D */
-        #toast-container { position: fixed; top: 15px; right: 15px; left: 15px; display: flex; flex-direction: column; gap: 8px; z-index: 1000; pointer-events: none; align-items: center; }
+        /* Notificações Toasts Next-Gen */
+        #toast-container { position: fixed; top: 16px; right: 16px; left: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 2000; pointer-events: none; align-items: center; }
         .toast {
-            background: rgba(13, 18, 31, 0.96); 
-            border-left: 5px solid var(--primary); 
+            background: rgba(13, 18, 31, 0.95); 
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 6px solid var(--primary); 
             color: white;
-            padding: 12px 18px; 
-            border-radius: 8px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOut 0.4s ease-in 2.6s forwards;
+            padding: 12px 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            backdrop-filter: blur(16px);
+            animation: slideInCustom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOutCustom 0.4s ease-in 2.6s forwards;
             font-size: 0.9em;
             text-align: center;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
         }
-        @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: scale(0.95); } }
+        @keyframes slideInCustom { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOutCustom { from { opacity: 1; } to { opacity: 0; transform: scale(0.95); } }
 
-        /* Abas */
-        .tabs { display: flex; gap: 6px; margin-bottom: 10px; width: 100%; max-width: 500px; justify-content: center; }
+        /* Abas Elegantes */
+        .tabs { display: flex; gap: 6px; margin-bottom: 10px; width: 100%; max-width: 520px; justify-content: center; }
         .tab { 
             flex: 1;
-            padding: 8px 10px; 
-            background: #090d16; 
+            padding: 9px 10px; 
+            background: rgba(15, 23, 42, 0.6); 
             border: 1px solid var(--panel-border);
-            border-radius: 6px; 
+            border-radius: 8px; 
             cursor: pointer; 
             font-weight: bold; 
             font-size: 0.85em;
             text-align: center;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
         }
-        .tab.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 3px 12px rgba(244, 63, 94, 0.4); }
+        .tab.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 4px 20px rgba(244, 63, 94, 0.5); }
         
-        .tab-content { display: none; width: 100%; max-width: 500px; flex-direction: column; align-items: center; }
+        .tab-content { display: none; width: 100%; max-width: 520px; flex-direction: column; align-items: center; }
         .tab-content.active { display: flex; }
 
         .ach-item {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            padding: 8px;
-            border-radius: 6px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 10px;
+            border-radius: 8px;
             margin-bottom: 6px;
             width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 0.85em;
+            backdrop-filter: blur(8px);
         }
-        .ach-item.unlocked { border-color: var(--gold); background: rgba(251, 191, 36, 0.05); }
+        .ach-item.unlocked { border-color: var(--gold); background: rgba(251, 191, 36, 0.08); box-shadow: 0 0 15px rgba(251, 191, 36, 0.15); }
 
-        /* RESPONSIVIDADE MOBILE (SMARTPHONES) */
+        /* Layout Responsivo Celulares & Safari */
         @media (max-width: 850px) {
             body {
                 flex-direction: column;
@@ -268,9 +302,9 @@
             }
             .sidebar {
                 width: 100%;
-                max-height: 220px;
+                max-height: 230px;
                 border-right: none;
-                border-bottom: 2px solid var(--panel-border);
+                border-bottom: 1px solid var(--panel-border);
                 flex-shrink: 0;
             }
             .main-content {
@@ -280,17 +314,17 @@
                 min-height: auto;
             }
             .dragon-stage {
-                min-height: 180px;
+                min-height: 190px;
             }
             .dragon-sprite {
-                font-size: 90px;
+                font-size: 95px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- BARRA LATERAL / PAINEL DE STATUS -->
+    <!-- PAINEL LATERAL DE STATUS E SALVAMENTO -->
     <div class="sidebar">
         <h2>🐉 Império 3D</h2>
         
@@ -329,16 +363,16 @@
             <div class="stat-header"><span>Kobolds Mineiros:</span> <span id="ui-miners">0</span></div>
             <div class="stat-header"><span>Cliques Totais:</span> <span id="ui-total-clicks">0</span></div>
             <br>
-            <button class="btn-full" onclick="saveGame(true)" style="background: linear-gradient(145deg, #059669, #047857); box-shadow: 0 4px 0 #022c22;">💾 Salvar Jogo</button>
-            <div style="display:flex; gap: 5px; margin-top: 6px;">
-                <button onclick="exportSave()" style="background:#3b82f6; flex:1;">Exportar</button>
-                <button onclick="importSave()" style="background:#8b5cf6; flex:1;">Importar</button>
+            <button class="btn-full" onclick="saveGame(true)" style="background: linear-gradient(145deg, #059669, #047857); box-shadow: 0 5px 0 #022c22;">💾 Salvar Jogo Manual</button>
+            <div style="display:flex; gap: 6px; margin-top: 6px;">
+                <button onclick="exportSave()" style="background:#3b82f6; flex:1; box-shadow: 0 4px 0 #1e3a8a;">📤 Exportar</button>
+                <button onclick="importSave()" style="background:#8b5cf6; flex:1; box-shadow: 0 4px 0 #4c1d95;">📥 Importar</button>
             </div>
-            <button class="btn-full" onclick="resetGame()" style="background: linear-gradient(145deg, #dc2626, #b91c1c); box-shadow: 0 4px 0 #450a0a; margin-top: 6px;">⚠️ Resetar Jogo</button>
+            <button class="btn-full" onclick="resetGame()" style="background: linear-gradient(145deg, #dc2626, #b91c1c); box-shadow: 0 5px 0 #450a0a; margin-top: 6px;">⚠️ Resetar Jogo</button>
         </div>
     </div>
 
-    <!-- ÁREA PRINCIPAL -->
+    <!-- CONTEÚDO PRINCIPAL -->
     <div class="main-content">
         <h1>Mestre dos Dragões</h1>
 
@@ -358,11 +392,11 @@
 
             <div class="btn-grid">
                 <button onclick="feedDragon()" id="btn-feed">
-                    🍖 Alimentar
+                    🍖 Alimentar Dragão
                     <span class="cost">Custo: 15 Ouro</span>
                 </button>
                 <button onclick="trainDragon()" id="btn-train">
-                    ⚔️ Treinar
+                    ⚔️ Treinamento Feroz
                     <span class="cost">Custo: 50 Ouro</span>
                 </button>
             </div>
@@ -372,7 +406,7 @@
         <div id="loja" class="tab-content">
             <div class="btn-grid" style="width: 100%;">
                 <button class="btn-full" onclick="castFury()" id="btn-fury" style="background: linear-gradient(145deg, #d97706, #b45309);">
-                    🔥 Fúria Dracônica (2x Ouro por 30s)
+                    🔥 Ativar Fúria Dracônica (2x Ouro por 30s)
                     <span class="cost">Custo: 200 Ouro</span>
                 </button>
                 <button class="btn-full" onclick="buyClickUpgrade()" id="btn-upg-click">
@@ -380,18 +414,18 @@
                     <span class="cost" id="cost-click">Custo: 50 Ouro</span>
                 </button>
                 <button class="btn-full" onclick="buyMiner()" id="btn-upg-miner">
-                    ⛏️ Contratar Kobold (+1 Ouro/seg)
+                    ⛏️ Contratar Kobold Mineiro (+1 Ouro/seg)
                     <span class="cost" id="cost-miner">Custo: 100 Ouro</span>
                 </button>
                 <button class="btn-full" onclick="buySuperFood()" id="btn-upg-super">
-                    💎 Fruta Mágica (Enche Fome 100%)
+                    💎 Fruta Dracônica Mágica (Enche Fome 100%)
                     <span class="cost c-crystal">Custo: 1 Cristal</span>
                 </button>
             </div>
         </div>
 
         <!-- ABA: CONQUISTAS -->
-        <div id="conquistas" class="tab-content" style="max-height: 350px; overflow-y: auto;">
+        <div id="conquistas" class="tab-content" style="max-height: 380px; overflow-y: auto;">
             <div id="achievements-list" style="width: 100%;"></div>
         </div>
 
@@ -399,7 +433,7 @@
     </div>
 
     <script>
-        // Sistema de Áudio Sintetizado (Web Audio API)
+        // Sistema de Áudio Sintetizado Avançado (Web Audio API)
         let audioCtx = null;
         function initAudio() {
             if (!audioCtx) {
@@ -421,17 +455,17 @@
             const now = audioCtx.currentTime;
             if (type === 'click') {
                 osc.type = 'triangle';
-                osc.frequency.setValueAtTime(300, now);
-                osc.frequency.exponentialRampToValueAtTime(150, now + 0.08);
-                gain.gain.setValueAtTime(0.15, now);
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(140, now + 0.08);
+                gain.gain.setValueAtTime(0.12, now);
                 gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
                 osc.start(now);
                 osc.stop(now + 0.08);
             } else if (type === 'buy') {
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(400, now);
-                osc.frequency.exponentialRampToValueAtTime(800, now + 0.15);
-                gain.gain.setValueAtTime(0.2, now);
+                osc.frequency.setValueAtTime(440, now);
+                osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+                gain.gain.setValueAtTime(0.15, now);
                 gain.gain.linearRampToValueAtTime(0.01, now + 0.15);
                 osc.start(now);
                 osc.stop(now + 0.15);
@@ -440,7 +474,7 @@
                 osc.frequency.setValueAtTime(261.63, now);
                 osc.frequency.setValueAtTime(329.63, now + 0.1);
                 osc.frequency.setValueAtTime(392.00, now + 0.2);
-                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.setValueAtTime(0.12, now);
                 gain.gain.linearRampToValueAtTime(0.01, now + 0.4);
                 osc.start(now);
                 osc.stop(now + 0.4);
@@ -453,13 +487,13 @@
             const rect = stage.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            stage.style.transform = `rotateX(${(-y / 14).toFixed(2)}deg) rotateY(${(x / 14).toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+            stage.style.transform = `rotateX(${(-y / 12).toFixed(2)}deg) rotateY(${(x / 12).toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
         });
         stage.addEventListener('mouseleave', () => {
             stage.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
         });
 
-        // Estado do Jogo
+        // Estado Completo do Jogo
         const defaultState = {
             gold: 0,
             crystals: 0,
@@ -469,7 +503,7 @@
             dragon: { level: 1, xp: 0, hunger: 100 },
             stats: { clickPower: 1, autoMiners: 0 },
             costs: { clickUpgrade: 50, minerUpgrade: 100 },
-            achievements: { click10: false, gold1000: false, level10: false },
+            achievements: { click50: false, gold1000: false, level10: false },
             lastSavedTime: Date.now()
         };
 
@@ -487,7 +521,7 @@
             setTimeout(() => { toast.remove(); }, 3000);
         }
 
-        // Texto Flutuante Dinâmico
+        // Texto Flutuante Dinâmico de Partículas
         function spawnFloatingText(text, x, y, isCrit = false) {
             const el = document.createElement('div');
             el.className = 'floating-text';
@@ -496,10 +530,10 @@
                 el.style.color = '#ef4444';
                 el.style.fontSize = '1.4em';
             }
-            el.style.left = `${Math.min(window.innerWidth - 80, Math.max(20, x - 20))}px`;
-            el.style.top = `${Math.max(50, y - 40)}px`;
+            el.style.left = `${Math.min(window.innerWidth - 90, Math.max(20, x - 25))}px`;
+            el.style.top = `${Math.max(60, y - 45)}px`;
             document.body.appendChild(el);
-            setTimeout(() => el.remove(), 800);
+            setTimeout(() => el.remove(), 750);
         }
 
         function updateVisuals() {
@@ -545,7 +579,7 @@
         }
 
         const achievementsData = [
-            { id: 'click10', title: 'Primeiros Passos', desc: 'Clique 50 vezes', check: () => game.totalClicks >= 50, reward: 2 },
+            { id: 'click50', title: 'Primeiros Passos', desc: 'Clique 50 vezes', check: () => game.totalClicks >= 50, reward: 2 },
             { id: 'gold1000', title: 'Magnata da Caverna', desc: 'Acumule 1.000 de Ouro', check: () => game.gold >= 1000, reward: 5 },
             { id: 'level10', title: 'Crescimento Rápido', desc: 'Alcance o Nível 10', check: () => game.dragon.level >= 10, reward: 10 }
         ];
@@ -590,7 +624,7 @@
                 document.getElementById('btn-fury').innerText = `🔥 Fúria Ativa (${game.furyTimeLeft}s)`;
                 document.getElementById('btn-fury').disabled = true;
             } else {
-                document.getElementById('btn-fury').innerText = `🔥 Fúria Dracônica (2x por 30s)`;
+                document.getElementById('btn-fury').innerText = `🔥 Ativar Fúria Dracônica (2x por 30s)`;
                 document.getElementById('btn-fury').disabled = game.gold < 200;
             }
 
@@ -614,7 +648,7 @@
             document.getElementById('btn-upg-super').disabled = game.crystals < 1;
         }
 
-        // Clique principal (Suporte a Mouse e Toque Móvel)
+        // Clique principal
         function clickDragon(e) {
             playSound('click');
             game.totalClicks++;
@@ -713,58 +747,76 @@
             }
         }
 
+        // Sistema de Save Robusto (Local + Export/Import)
         function exportSave() {
-            const data = btoa(JSON.stringify(game));
-            prompt("Copie seu código de salvamento:", data);
+            try {
+                const data = btoa(encodeURIComponent(JSON.stringify(game)));
+                prompt("Copie seu código de salvamento abaixo:", data);
+            } catch (e) {
+                showToast("Erro ao exportar save.", "error");
+            }
         }
 
         function importSave() {
-            const data = prompt("Cole seu código de salvamento:");
+            const data = prompt("Cole seu código de salvamento aqui:");
             if (data) {
                 try {
-                    game = JSON.parse(atob(data));
+                    const decoded = JSON.parse(decodeURIComponent(atob(data.trim())));
+                    game = decoded;
+                    saveGame(false);
                     updateUI();
                     showToast("Save importado com sucesso!", "success");
                 } catch(e) {
-                    showToast("Código inválido!", "error");
+                    showToast("Código de save inválido ou corrompido!", "error");
                 }
             }
         }
 
         function saveGame(manual = false) {
-            game.lastSavedTime = Date.now();
-            localStorage.setItem('dragonRPG_UltimateSave', JSON.stringify(game));
-            if (manual) showToast("Jogo salvo!", "success");
+            try {
+                game.lastSavedTime = Date.now();
+                localStorage.setItem('dragonRPG_NextGenSave', JSON.stringify(game));
+                if (manual) showToast("Jogo salvo com sucesso!", "success");
+            } catch (e) {
+                if (manual) showToast("Erro ao salvar no navegador.", "error");
+            }
         }
 
         function loadGame() {
-            const savedData = localStorage.getItem('dragonRPG_UltimateSave');
-            if (savedData) {
-                try {
+            try {
+                const savedData = localStorage.getItem('dragonRPG_NextGenSave');
+                if (savedData) {
                     const parsed = JSON.parse(savedData);
-                    game = { ...defaultState, ...parsed, dragon: {...defaultState.dragon, ...parsed.dragon}, stats: {...defaultState.stats, ...parsed.stats}, costs: {...defaultState.costs, ...parsed.costs}, achievements: {...defaultState.achievements, ...parsed.achievements} };
+                    game = { 
+                        ...defaultState, 
+                        ...parsed, 
+                        dragon: {...defaultState.dragon, ...(parsed.dragon || {})}, 
+                        stats: {...defaultState.stats, ...(parsed.stats || {})}, 
+                        costs: {...defaultState.costs, ...(parsed.costs || {})}, 
+                        achievements: {...defaultState.achievements, ...(parsed.achievements || {})} 
+                    };
                     
                     const now = Date.now();
-                    const secondsOffline = Math.floor((now - game.lastSavedTime) / 1000);
+                    const secondsOffline = Math.floor((now - (game.lastSavedTime || now)) / 1000);
                     
-                    if (secondsOffline > 60 && game.stats.autoMiners > 0) {
+                    if (secondsOffline > 30 && game.stats.autoMiners > 0) {
                         const offlineGold = secondsOffline * game.stats.autoMiners;
                         game.gold += offlineGold;
-                        showToast(`Kobolds mineraram ${offlineGold} Ouro offline.`, "legendary");
+                        showToast(`Bem-vindo de volta! Seus kobolds mineraram ${offlineGold} Ouro offline.`, "legendary");
                     }
-                } catch (e) {
-                    console.error("Save corrompido.");
                 }
+            } catch (e) {
+                console.error("Erro ao carregar o save.", e);
             }
             updateUI();
         }
 
         function resetGame() {
-            if(confirm("Deseja apagar todo o progresso?")) {
-                localStorage.removeItem('dragonRPG_UltimateSave');
+            if(confirm("ATENÇÃO: Deseja apagar todo o seu progresso definitivamente?")) {
+                localStorage.removeItem('dragonRPG_NextGenSave');
                 game = JSON.parse(JSON.stringify(defaultState));
                 updateUI();
-                showToast("Jogo reiniciado.", "error");
+                showToast("O universo foi resetado.", "error");
             }
         }
 
@@ -775,7 +827,7 @@
             document.getElementById(tabId).classList.add('active');
         }
 
-        // Loop principal a cada segundo
+        // Loop principal automático (1 segundo)
         setInterval(() => {
             const mult = game.furyActive ? 2 : 1;
             if (game.stats.autoMiners > 0) {
@@ -794,8 +846,10 @@
             updateUI();
         }, 1000);
 
-        setInterval(() => saveGame(), 15000);
+        // Salvamento automático a cada 15 segundos
+        setInterval(() => saveGame(false), 15000);
 
+        // Carregar o jogo ao iniciar a janela
         window.onload = loadGame;
     </script>
 </body>
