@@ -2,12 +2,16 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mestre dos Dragões 3D - Domínio 3D</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Mestre dos Dragões - Evolução & Domínio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        * { -webkit-tap-highlight-color: transparent; }
+        body { -webkit-touch-callout: none; user-select: none; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         @keyframes pulse-glow {
             0%, 100% { filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.4)); }
@@ -16,37 +20,73 @@
         .dragon-glow { animation: pulse-glow 3s infinite ease-in-out; }
     </style>
 </head>
-<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex font-sans select-none overflow-hidden">
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex flex-col md:flex-row font-sans overflow-x-hidden">
 
-    <!-- PAINEL LATERAL ESQUERDO -->
-    <aside class="w-80 bg-[#0f1523] border-r border-slate-800/80 flex flex-col justify-between p-5 h-screen overflow-y-auto custom-scrollbar shadow-2xl z-10">
-        <div class="space-y-6">
-            <!-- Logo / Título Lateral -->
-            <div class="flex items-center space-x-3 pb-4 border-b border-slate-800">
+    <!-- MODAL DE ESCOLHA INICIAL -->
+    <div id="starter-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="bg-[#111827] border border-slate-800 rounded-3xl p-6 max-w-lg w-full shadow-2xl space-y-5 text-center">
+            <div class="space-y-2">
+                <div class="inline-block bg-gradient-to-tr from-amber-500 to-red-600 p-3 rounded-2xl shadow-lg mb-1">
+                    <i class="fa-solid fa-dragon text-2xl text-white"></i>
+                </div>
+                <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">Escolha seu Dragão Inicial</h2>
+                <p class="text-xs text-slate-400">Sua jornada começa agora. Selecione o elemento com o qual deseja forjar seu destino:</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button onclick="chooseStarter('fogo')" class="bg-gradient-to-b from-red-950/60 to-[#141c2e] hover:border-red-500 border border-slate-800 p-4 rounded-2xl flex flex-col items-center space-y-3 transition shadow-xl group active:scale-95">
+                    <div class="w-16 h-16 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-400 text-2xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-fire-flame-curved"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-slate-100">Dragão de Fogo</h3>
+                        <p class="text-[10px] text-slate-400 mt-1 italic">"Impulsivo, corajoso e extremamente competitivo."</p>
+                    </div>
+                    <span class="text-[10px] font-bold bg-red-600 text-white px-3 py-1 rounded-lg">Selecionar Fogo</span>
+                </button>
+
+                <button onclick="chooseStarter('natureza')" class="bg-gradient-to-b from-emerald-950/60 to-[#141c2e] hover:border-emerald-500 border border-slate-800 p-4 rounded-2xl flex flex-col items-center space-y-3 transition shadow-xl group active:scale-95">
+                    <div class="w-16 h-16 rounded-xl bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-slate-100">Dragão de Natureza</h3>
+                        <p class="text-[10px] text-slate-400 mt-1 italic">"Gentil, sábio e protetor da vida silvestre."</p>
+                    </div>
+                    <span class="text-[10px] font-bold bg-emerald-600 text-white px-3 py-1 rounded-lg">Selecionar Natureza</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAINEL LATERAL (ESQUERDO) -->
+    <aside class="w-full md:w-80 bg-[#0f1523] border-b md:border-b-0 md:border-r border-slate-800/80 flex flex-col justify-between p-4 md:p-5 md:h-screen overflow-y-auto custom-scrollbar shadow-2xl z-20 shrink-0">
+        <div class="space-y-4 md:space-y-6">
+            <div class="flex items-center space-x-3 pb-3 border-b border-slate-800">
                 <div class="bg-gradient-to-tr from-amber-500 to-red-600 p-2 rounded-xl shadow-lg">
                     <i class="fa-solid fa-dragon text-xl text-white"></i>
                 </div>
-                <h1 class="text-lg font-black tracking-wider uppercase text-slate-100">Domínio 3D</h1>
+                <h1 class="text-sm font-black tracking-wider uppercase text-slate-100">Mestre dos Dragões</h1>
             </div>
 
-            <!-- Recursos -->
-            <div class="space-y-2 bg-[#141c2e] p-4 rounded-xl border border-slate-800/60 shadow-inner">
+            <!-- Recursos Financeiros -->
+            <div class="space-y-2 bg-[#141c2e] p-3.5 rounded-xl border border-slate-800/60 shadow-inner">
                 <div class="flex justify-between items-center text-sm">
-                    <span class="text-slate-400">Ouro:</span>
+                    <span class="text-slate-400"><i class="fa-solid fa-coins text-amber-400 mr-1.5"></i> Ouro:</span>
                     <span id="player-gold" class="font-bold text-amber-400">0</span>
                 </div>
                 <div class="flex justify-between items-center text-sm">
-                    <span class="text-slate-400">Cristais:</span>
+                    <span class="text-slate-400"><i class="fa-solid fa-gem text-cyan-400 mr-1.5"></i> Cristais:</span>
                     <span id="player-crystals" class="font-bold text-cyan-400">0</span>
                 </div>
                 <div class="text-xs text-slate-500 pt-1 border-t border-slate-800/40 flex justify-between">
-                    <span>Geração:</span>
-                    <span><span id="gold-per-sec">0</span> Ouro/seg</span>
+                    <span>Receita Total/s:</span>
+                    <span class="text-emerald-400 font-semibold">+<span id="gold-per-sec">0</span> Ouro/s</span>
                 </div>
             </div>
 
-            <!-- Nível e XP -->
-            <div class="space-y-2 bg-[#141c2e] p-4 rounded-xl border border-slate-800/60 shadow-inner">
+            <!-- Nível e Experiência -->
+            <div class="space-y-2 bg-[#141c2e] p-3.5 rounded-xl border border-slate-800/60 shadow-inner">
                 <div class="flex justify-between text-xs font-semibold">
                     <span id="player-level-text" class="text-slate-300">Nível 1</span>
                     <span id="player-xp-text" class="text-slate-400">0 / 100 XP</span>
@@ -57,7 +97,7 @@
             </div>
 
             <!-- Fome -->
-            <div class="space-y-2 bg-[#141c2e] p-4 rounded-xl border border-slate-800/60 shadow-inner">
+            <div class="space-y-2 bg-[#141c2e] p-3.5 rounded-xl border border-slate-800/60 shadow-inner">
                 <div class="flex justify-between text-xs font-semibold">
                     <span class="text-slate-300">Fome do Dragão</span>
                     <span id="hunger-text" class="text-emerald-400">80%</span>
@@ -67,8 +107,8 @@
                 </div>
             </div>
 
-            <!-- Estatísticas / Atributos -->
-            <div class="space-y-2 text-xs text-slate-400 bg-[#141c2e] p-4 rounded-xl border border-slate-800/60">
+            <!-- Estatísticas -->
+            <div class="space-y-2 text-xs text-slate-400 bg-[#141c2e] p-3.5 rounded-xl border border-slate-800/60">
                 <div class="flex justify-between">
                     <span>Poder de Clique:</span>
                     <span id="click-power" class="font-bold text-slate-200">1</span>
@@ -84,121 +124,153 @@
             </div>
         </div>
 
-        <!-- Botões Inferiores do Sidebar -->
-        <div class="space-y-2.5 pt-4 border-t border-slate-800">
-            <button onclick="openSaveModal()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow flex items-center justify-center space-x-2">
+        <div class="space-y-2 pt-4 border-t border-slate-800 mt-4 md:mt-0">
+            <button onclick="openSaveModal()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl text-xs transition shadow flex items-center justify-center space-x-2 active:scale-95">
                 <i class="fa-solid fa-file-export"></i>
-                <span>Gerenciar / Importar Save</span>
+                <span>Gerenciar / Exportar Save</span>
             </button>
-            <button onclick="saveGame()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow flex items-center justify-center space-x-2">
+            <button onclick="saveGame()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl text-xs transition shadow flex items-center justify-center space-x-2 active:scale-95">
                 <i class="fa-solid fa-floppy-disk"></i>
                 <span>Salvar Jogo</span>
             </button>
-            <button onclick="resetGame()" class="w-full bg-red-600/90 hover:bg-red-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow flex items-center justify-center space-x-2">
+            <button onclick="resetGame()" class="w-full bg-red-600/90 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl text-xs transition shadow flex items-center justify-center space-x-2 active:scale-95">
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <span>Resetar Jogo</span>
             </button>
         </div>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL (DIREITA) -->
-    <main class="flex-1 flex flex-col h-screen overflow-hidden">
-        <!-- Cabeçalho do Jogo -->
-        <header class="py-5 flex flex-col items-center justify-center border-b border-slate-800/60 bg-[#0b0f19]">
-            <h2 class="text-2xl font-black tracking-widest text-red-500 uppercase drop-shadow-[0_0_15px_rgba(239,68,68,0.4)]">Mestre dos Dragões 3D</h2>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-1 flex flex-col h-auto md:h-screen overflow-hidden">
+        <header class="py-4 px-4 flex flex-col items-center justify-center border-b border-slate-800/60 bg-[#0b0f19]">
+            <h2 class="text-xl md:text-2xl font-black tracking-widest text-red-500 uppercase text-center drop-shadow-[0_0_15px_rgba(239,68,68,0.4)]">Mestre dos Dragões - Evolução & Domínio</h2>
             
-            <!-- Abas Superiores -->
-            <div class="flex space-x-3 mt-3">
-                <button onclick="switchTab('caverna')" id="btn-tab-caverna" class="px-5 py-2 rounded-xl text-xs font-bold transition bg-rose-600 text-white shadow-lg shadow-rose-900/30">
-                    Caverna & Dragão
+            <div class="flex flex-wrap justify-center gap-2 mt-3">
+                <button onclick="switchTab('caverna')" id="btn-tab-caverna" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-rose-600 text-white shadow-lg">
+                    Caverna
                 </button>
-                <button onclick="switchTab('evolutions')" id="btn-tab-evolutions" class="px-5 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800">
-                    Evoluções & Linhagens
+                <button onclick="switchTab('evolutions')" id="btn-tab-evolutions" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800">
+                    Codex & Linhagens
                 </button>
-                <button onclick="switchTab('loja')" id="btn-tab-loja" class="px-5 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800">
-                    Loja & Upgrades
+                <button onclick="switchTab('loja')" id="btn-tab-loja" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800">
+                    Loja de Itens & Relíquias
+                </button>
+                <button onclick="switchTab('financeiro')" id="btn-tab-financeiro" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800">
+                    Domínio & Finanças
                 </button>
             </div>
         </header>
 
-        <!-- Área Dinâmica -->
-        <div class="flex-1 p-6 overflow-y-auto custom-scrollbar flex flex-col items-center justify-center">
+        <div class="flex-1 p-4 md:p-6 overflow-y-auto custom-scrollbar flex flex-col items-center justify-center">
 
             <!-- ABA 1: CAVERNA & DRAGÃO -->
-            <section id="tab-caverna" class="w-full max-w-2xl flex flex-col items-center space-y-6">
-                <!-- Caixa Central do Dragão / Estágio -->
-                <div onclick="clickDragon()" class="w-full bg-[#111827] border border-slate-800/80 rounded-3xl p-8 flex flex-col items-center justify-center shadow-2xl relative cursor-pointer hover:border-slate-700 transition group" style="min-height: 340px;">
+            <section id="tab-caverna" class="w-full max-w-xl flex flex-col items-center space-y-4 my-auto">
+                <div onclick="clickDragon()" class="w-full bg-[#111827] border border-slate-800/80 rounded-3xl p-6 flex flex-col items-center justify-center shadow-2xl relative cursor-pointer active:scale-[0.99] transition group" style="min-height: 320px;">
                     <div class="absolute inset-0 bg-gradient-to-b from-rose-500/5 to-transparent rounded-3xl pointer-events-none"></div>
                     
-                    <!-- Visual dinâmico do Dragão de Alta Qualidade -->
-                    <div id="dragon-visual-container" class="relative transition transform group-hover:scale-105 duration-300 my-2 dragon-glow flex flex-col items-center justify-center">
-                        <div id="dragon-card-bg" class="w-40 h-52 rounded-2xl bg-gradient-to-b from-amber-600 via-red-700 to-slate-950 flex flex-col items-center justify-center shadow-2xl border border-amber-500/40 relative overflow-hidden">
-                            <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-                            <i id="dragon-main-icon" class="fa-solid fa-egg text-6xl text-amber-200 drop-shadow-lg mb-2"></i>
-                            <span id="dragon-element-tag" class="text-[10px] uppercase font-black bg-black/60 px-2 py-0.5 rounded text-amber-300 border border-amber-500/30">Ovo</span>
+                    <div id="dragon-visual-container" class="relative transition transform duration-300 my-2 dragon-glow flex flex-col items-center justify-center">
+                        <div id="dragon-card-bg" class="w-48 h-60 rounded-2xl bg-gradient-to-b from-amber-600 via-red-700 to-slate-950 flex flex-col items-center justify-between p-3.5 shadow-2xl border border-amber-500/40 relative overflow-hidden">
+                            <div id="dragon-art-box" class="w-36 h-40 rounded-xl bg-black/50 flex items-center justify-center shadow-inner border border-amber-500/30 overflow-hidden relative">
+                                <div id="svg-graphic-render" class="w-full h-full flex items-center justify-center">
+                                    <!-- Renderizado via JS -->
+                                </div>
+                            </div>
+                            <span id="dragon-element-tag" class="text-[10px] uppercase font-black bg-black/80 px-3 py-1 rounded-lg text-amber-300 border border-amber-500/30">Fogo</span>
                         </div>
                     </div>
 
-                    <!-- Estágio Textual -->
-                    <h3 id="dragon-stage-text" class="text-amber-400 font-bold tracking-wider uppercase text-sm mt-4 drop-shadow text-center">
-                        Estágio I: Ovo Preste a Chocar
+                    <h3 id="dragon-stage-text" class="text-amber-400 font-bold tracking-wider uppercase text-xs md:text-sm mt-3 text-center drop-shadow">
+                        Fase 1: Ovo Elemental
                     </h3>
-                    <p class="text-xs text-slate-400 mt-1">Clique no dragão para coletar Ouro e XP!</p>
+                    <p id="dragon-lore-desc" class="text-[11px] text-slate-400 mt-1 text-center px-4 italic">"Impulsivo, corajoso e extremamente competitivo."</p>
+                    <p class="text-[10px] text-indigo-400 mt-2 font-semibold">Toque para coletar Ouro e Experiência!</p>
                 </div>
 
-                <!-- Botões de Ação Inferiores -->
-                <div class="grid grid-cols-2 gap-4 w-full">
-                    <button onclick="feedDragon()" class="bg-[#141c2e] hover:bg-[#1e293b] border border-slate-800 py-4 px-6 rounded-2xl flex flex-col items-center justify-center transition shadow-lg group">
-                        <span class="text-xs font-bold text-slate-200 flex items-center space-x-2">
+                <div class="grid grid-cols-2 gap-3 w-full">
+                    <button onclick="feedDragon()" class="bg-[#141c2e] hover:bg-[#1e293b] border border-slate-800 py-3.5 px-4 rounded-2xl flex flex-col items-center justify-center transition shadow-lg active:scale-95">
+                        <span class="text-xs font-bold text-slate-200 flex items-center space-x-1.5">
                             <i class="fa-solid fa-utensils text-rose-500"></i>
-                            <span>Alimentar Dragão</span>
+                            <span>Alimentar</span>
                         </span>
-                        <span class="text-[10px] text-slate-400 mt-1">Custo: 15 Ouro (+15% Fome)</span>
+                        <span class="text-[10px] text-slate-400 mt-0.5">Custo: 15 Ouro</span>
                     </button>
-                    <button onclick="ferociousTraining()" class="bg-[#141c2e] hover:bg-[#1e293b] border border-slate-800 py-4 px-6 rounded-2xl flex flex-col items-center justify-center transition shadow-lg group">
-                        <span class="text-xs font-bold text-slate-200 flex items-center space-x-2">
+                    <button onclick="ferociousTraining()" class="bg-[#141c2e] hover:bg-[#1e293b] border border-slate-800 py-3.5 px-4 rounded-2xl flex flex-col items-center justify-center transition shadow-lg active:scale-95">
+                        <span class="text-xs font-bold text-slate-200 flex items-center space-x-1.5">
                             <i class="fa-solid fa-khanda text-amber-500"></i>
-                            <span>Treinamento Feroz</span>
+                            <span>Treinar</span>
                         </span>
-                        <span class="text-[10px] text-slate-400 mt-1">Custo: 50 Ouro (Gasta Fome)</span>
+                        <span class="text-[10px] text-slate-400 mt-0.5">Custo: 50 Ouro</span>
                     </button>
                 </div>
             </section>
 
-            <!-- ABA 2: EVOLUÇÕES & LINHAGENS -->
-            <section id="tab-evolutions" class="hidden w-full max-w-4xl space-y-6">
+            <!-- ABA 2: CODEX DAS LINHAGENS -->
+            <section id="tab-evolutions" class="hidden w-full max-w-5xl space-y-4 my-auto">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-200">Linhagens Elementais & Evoluções</h3>
-                    <p class="text-xs text-slate-400">Desbloqueie e altere o elemento principal do seu dragão para multiplicar seus ganhos e sua aparência lendária.</p>
+                    <h3 class="text-base font-bold text-slate-200">Codex das Linhagens & Evoluções (Incluindo Lenda & Eletro)</h3>
+                    <p class="text-xs text-slate-400">Escolha seu elemento ativo e evolua por 5 fases completas até a Armadura Suprema (Níveis 10, 15, 35 e 45).</p>
                 </div>
-                <div id="elements-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    <!-- Gerado via JS -->
+                <div id="elements-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <!-- Gerado dinamicamente via JS -->
                 </div>
             </section>
 
-            <!-- ABA 3: LOJA E UPGRADES -->
-            <section id="tab-loja" class="hidden w-full max-w-4xl space-y-6">
-                <h3 class="text-lg font-bold text-slate-200">Loja de Upgrades do Domínio</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- Item 1 -->
-                    <div class="bg-[#111827] border border-slate-800 p-5 rounded-2xl flex justify-between items-center shadow-lg">
+            <!-- ABA 3: LOJA DE ITENS E RELÍQUIAS -->
+            <section id="tab-loja" class="hidden w-full max-w-4xl space-y-4 my-auto">
+                <div>
+                    <h3 class="text-base font-bold text-slate-200">Loja de Itens e Relíquias Místicas</h3>
+                    <p class="text-xs text-slate-400">Adquira itens com diferentes graus de dificuldade e raridade para potencializar sua evolução e ganho financeiro.</p>
+                </div>
+                <div id="shop-items-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                    <!-- Gerado dinamicamente via JS -->
+                </div>
+            </section>
+
+            <!-- ABA 4: DOMÍNIO E FINANÇAS -->
+            <section id="tab-financeiro" class="hidden w-full max-w-3xl space-y-4 my-auto">
+                <div>
+                    <h3 class="text-base font-bold text-slate-200">Painel Financeiro & Gestão do Domínio</h3>
+                    <p class="text-xs text-slate-400">Monitore suas receitas, contrate mão de obra especializada e invista na infraestrutura da caverna.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="bg-[#111827] border border-slate-800 p-4 rounded-2xl flex justify-between items-center shadow-lg">
                         <div>
-                            <h4 class="font-bold text-sm text-slate-200">Kobold Mineiro</h4>
-                            <p class="text-xs text-slate-400 mt-0.5">+2 Ouro por segundo</p>
-                            <span class="text-xs font-semibold text-amber-400 mt-2 block">Custo: <span id="kobold-cost">100</span> Ouro</span>
+                            <span class="text-[10px] uppercase font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded">Automação Fágil</span>
+                            <h4 class="font-bold text-xs text-slate-200 mt-1">Kobold Mineiro</h4>
+                            <p class="text-[11px] text-slate-400">+2 Ouro/seg</p>
+                            <span class="text-[11px] font-semibold text-amber-400 mt-1 block">Custo: <span id="kobold-cost">100</span> Ouro</span>
                         </div>
-                        <button onclick="buyKobold()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition shadow">
-                            Contratar
-                        </button>
+                        <button onclick="buyKobold()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs transition shadow active:scale-95">Contratar</button>
                     </div>
-                    <!-- Item 2 -->
-                    <div class="bg-[#111827] border border-slate-800 p-5 rounded-2xl flex justify-between items-center shadow-lg">
+
+                    <div class="bg-[#111827] border border-slate-800 p-4 rounded-2xl flex justify-between items-center shadow-lg">
                         <div>
-                            <h4 class="font-bold text-sm text-slate-200">Garra Afiada (Clique)</h4>
-                            <p class="text-xs text-slate-400 mt-0.5">+1 Poder por Clique</p>
-                            <span class="text-xs font-semibold text-amber-400 mt-2 block">Custo: <span id="click-cost">50</span> Ouro</span>
+                            <span class="text-[10px] uppercase font-bold text-cyan-500 bg-cyan-500/10 px-2 py-0.5 rounded">Força Física</span>
+                            <h4 class="font-bold text-xs text-slate-200 mt-1">Garra Afiada</h4>
+                            <p class="text-[11px] text-slate-400">+1 Poder de Clique</p>
+                            <span class="text-[11px] font-semibold text-amber-400 mt-1 block">Custo: <span id="click-cost">50</span> Ouro</span>
                         </div>
-                        <button onclick="buyClickPower()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition shadow">Melhorar</button>
+                        <button onclick="buyClickPower()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs transition shadow active:scale-95">Melhorar</button>
+                    </div>
+
+                    <div class="bg-[#111827] border border-slate-800 p-4 rounded-2xl flex justify-between items-center shadow-lg">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-indigo-500 bg-indigo-500/10 px-2 py-0.5 rounded">Infraestrutura</span>
+                            <h4 class="font-bold text-xs text-slate-200 mt-1">Forja Automática</h4>
+                            <p class="text-[11px] text-slate-400">+10 Ouro/seg</p>
+                            <span class="text-[11px] font-semibold text-amber-400 mt-1 block">Custo: <span id="forge-cost">750</span> Ouro</span>
+                        </div>
+                        <button onclick="buyForge()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-2 rounded-xl text-xs transition shadow active:scale-95">Investir</button>
+                    </div>
+
+                    <div class="bg-[#111827] border border-slate-800 p-4 rounded-2xl flex justify-between items-center shadow-lg">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-purple-500 bg-purple-500/10 px-2 py-0.5 rounded">Místico</span>
+                            <h4 class="font-bold text-xs text-slate-200 mt-1">Santuário de Cristais</h4>
+                            <p class="text-[11px] text-slate-400">+1 Cristal a cada 30s</p>
+                            <span class="text-[11px] font-semibold text-amber-400 mt-1 block">Custo: <span id="sanctuary-cost">2500</span> Ouro</span>
+                        </div>
+                        <button onclick="buySanctuary()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-3 py-2 rounded-xl text-xs transition shadow active:scale-95">Construir</button>
                     </div>
                 </div>
             </section>
@@ -206,38 +278,32 @@
         </div>
     </main>
 
-    <!-- MODAL DE GERENCIAMENTO DE SAVE (IMPORTAÇÃO / EXPORTAÇÃO) -->
+    <!-- MODAL DE SAVE -->
     <div id="save-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-[#111827] border border-slate-800 rounded-3xl p-6 max-w-xl w-full shadow-2xl space-y-5">
-            <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-                <h3 class="text-lg font-bold text-slate-100 flex items-center space-x-2">
+        <div class="bg-[#111827] border border-slate-800 rounded-3xl p-5 max-w-md w-full shadow-2xl space-y-4">
+            <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+                <h3 class="text-sm font-bold text-slate-100 flex items-center space-x-2">
                     <i class="fa-solid fa-floppy-disk text-indigo-500"></i>
-                    <span>Gerenciamento de Save (Importar / Exportar)</span>
+                    <span>Gerenciamento de Save</span>
                 </h3>
                 <button onclick="closeSaveModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             
-            <p class="text-xs text-slate-400">Copie seu código de save abaixo para backup ou cole um código JSON válido para restaurar seu progresso:</p>
+            <p class="text-[11px] text-slate-400">Copie o código JSON abaixo para backup ou cole para restaurar:</p>
             
-            <textarea id="save-textarea" class="w-full h-36 bg-[#090d16] border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-300 focus:outline-none focus:border-indigo-500 custom-scrollbar" placeholder="Cole ou copie o código JSON do save aqui..."></textarea>
+            <textarea id="save-textarea" class="w-full h-28 bg-[#090d16] border border-slate-800 rounded-xl p-2.5 text-[10px] font-mono text-slate-300 focus:outline-none focus:border-indigo-500 custom-scrollbar"></textarea>
             
-            <div class="flex flex-wrap gap-3">
-                <button onclick="exportSaveToText()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 px-4 rounded-xl text-xs transition flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-file-export"></i>
-                    <span>Gerar / Copiar Código</span>
-                </button>
-                <button onclick="importSaveFromText()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-file-import"></i>
-                    <span>Carregar / Importar</span>
-                </button>
+            <div class="flex gap-2">
+                <button onclick="exportSaveToText()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2 px-3 rounded-xl text-xs transition shadow">Copiar Save</button>
+                <button onclick="importSaveFromText()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-3 rounded-xl text-xs transition shadow">Importar Save</button>
             </div>
 
-            <div class="pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
-                <span class="text-slate-400">Ou use arquivo .json:</span>
-                <div class="space-x-2">
-                    <button onclick="downloadSaveFile()" class="bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 transition">Baixar Arquivo</button>
-                    <label class="bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 transition cursor-pointer inline-block">
-                        Carregar Arquivo <input type="file" id="import-file" accept=".json" onchange="importSaveFile(event)" class="hidden">
+            <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-[11px]">
+                <span class="text-slate-400">Arquivo .json:</span>
+                <div class="space-x-1">
+                    <button onclick="downloadSaveFile()" class="bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded-lg border border-slate-700">Baixar</button>
+                    <label class="bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded-lg border border-slate-700 cursor-pointer inline-block">
+                        Carregar <input type="file" id="import-file" accept=".json" onchange="importSaveFile(event)" class="hidden">
                     </label>
                 </div>
             </div>
@@ -255,37 +321,72 @@
             hunger: 80,
             clickPower: 1,
             minerKobolds: 0,
+            autoForges: 0,
+            sanctuaries: 0,
             koboldCost: 100,
             clickCost: 50,
+            forgeCost: 750,
+            sanctuaryCost: 2500,
             activeElementId: 'fogo',
+            hasChosenStarter: false,
             elements: [
-                { id: 'fogo', name: 'Fogo', icon: 'fa-fire', color: 'from-red-600 via-orange-600 to-slate-950', unlocked: true, price: 0 },
-                { id: 'gelo', name: 'Gelo', icon: 'fa-snowflake', color: 'from-cyan-500 via-blue-600 to-slate-950', unlocked: false, price: 200 },
-                { id: 'raio', name: 'Raio', icon: 'fa-bolt', color: 'from-yellow-400 via-amber-500 to-slate-950', unlocked: false, price: 350 },
-                { id: 'natureza', name: 'Natureza', icon: 'fa-leaf', color: 'from-emerald-500 via-green-700 to-slate-950', unlocked: false, price: 500 },
-                { id: 'trevas', name: 'Trevas', icon: 'fa-moon', color: 'from-purple-900 via-slate-900 to-slate-950', unlocked: false, price: 800 },
-                { id: 'arcano', name: 'Arcano', icon: 'fa-wand-magic-sparkles', color: 'from-fuchsia-600 via-pink-600 to-slate-950', unlocked: false, price: 1200 }
+                { id: 'fogo', name: 'Fogo', title: 'Ignar, o Senhor das Chamas', color: 'from-red-600 via-orange-600 to-slate-950', personality: 'Impulsivo, corajoso e extremamente competitivo.', unlocked: true, price: 0, icon: 'fa-fire-flame-curved' },
+                { id: 'natureza', name: 'Natureza', title: 'Sylvaris, o Protetor da Vida', color: 'from-emerald-500 via-green-700 to-slate-950', personality: 'Gentil, sábio e protetor da vida silvestre.', unlocked: true, price: 0, icon: 'fa-leaf' },
+                { id: 'gelo', name: 'Gelo', title: 'Glacius, o Guardião do Norte', color: 'from-cyan-500 via-blue-600 to-slate-950', personality: 'Calmo, paciente e extremamente inteligente.', unlocked: false, price: 2500, icon: 'fa-snowflake' },
+                { id: 'raio', name: 'Raio', title: 'Voltaris, o Imperador da Tempestade', color: 'from-yellow-400 via-amber-500 to-slate-950', personality: 'Inquieto, veloz e estratégico.', unlocked: false, price: 6000, icon: 'fa-bolt' },
+                { id: 'sombras', name: 'Sombras', title: 'Umbros, o Rei do Vazio', color: 'from-purple-900 via-slate-900 to-slate-950', personality: 'Misterioso, silencioso e calculista.', unlocked: false, price: 22000, icon: 'fa-moon' },
+                { id: 'luz', name: 'Luz', title: 'Solarius, o Guardião Celestial', color: 'from-amber-200 via-yellow-500 to-slate-950', personality: 'Nobre, justo e inspirador.', unlocked: false, price: 35000, icon: 'fa-sun' },
+                { id: 'magma', name: 'Magma', title: 'Vulkar, o Destruidor dos Vulcões', color: 'from-orange-700 via-red-900 to-slate-950', personality: 'Brutal, feroz e incansável.', unlocked: false, price: 50000, icon: 'fa-volcano' },
+                { id: 'lenda', name: 'Lenda', title: 'Aethelgard, o Dragão Lendário Primordial', color: 'from-amber-400 via-yellow-600 to-slate-950', personality: 'Majestoso, ancestral e detentor de poderes arcanos.', unlocked: false, price: 100000, icon: 'fa-crown' },
+                { id: 'eletro', name: 'Eletro', title: 'Voltarix, o Titã das Tempestades', color: 'from-blue-500 via-indigo-700 to-slate-950', personality: 'Fulgurante, implacável e hipercinético.', unlocked: false, price: 200000, icon: 'fa-bolt-lightning' },
+                { id: 'cristal', name: 'Cristal', title: 'Crystallion, o Guardião dos Tesouros', color: 'from-fuchsia-600 via-purple-700 to-slate-950', personality: 'Sereno, paciente e extremamente leal.', unlocked: false, price: 350000, icon: 'fa-gem' }
             ]
         };
 
+        const shopItemsData = [
+            { id: 'potion', name: 'Poção de XP Rápido', desc: '+150 XP instantâneo para o dragão', costGold: 250, costCrystals: 0, diff: 'Fácil', diffColor: 'text-emerald-400', icon: 'fa-flask' },
+            { id: 'fruit', name: 'Fruto da Vitalidade', desc: 'Restaura 100% da fome e dá bônus', costGold: 800, costCrystals: 2, diff: 'Moderado', diffColor: 'text-amber-400', icon: 'fa-apple-whole' },
+            { id: 'essence', name: 'Essência Elemental', desc: 'Dobra o poder de clique permanentemente em +2', costGold: 3500, costCrystals: 15, diff: 'Difícil', diffColor: 'text-orange-400', icon: 'fa-fire' },
+            { id: 'mithril', name: 'Placas de Mitril', desc: 'Acelera a resistência e armadura do dragão', costGold: 18000, costCrystals: 60, diff: 'Muito Difícil', diffColor: 'text-purple-400', icon: 'fa-shield-halved' },
+            { id: 'orb', name: 'Orbe Primordial', desc: 'Relíquia mítica: Gera +50 Ouro/s e +5 Cristais instantâneos', costGold: 75000, costCrystals: 250, diff: 'Lendário', diffColor: 'text-red-500 animate-pulse', icon: 'fa-globe' }
+        ];
+
         function loadGame() {
-            const saved = localStorage.getItem('mestre_dragoes_3d_save_v2');
+            const saved = localStorage.getItem('mestre_dragoes_dominio_v3');
             if (saved) {
                 try {
                     const data = JSON.parse(saved);
                     gameState = { ...gameState, ...data };
                 } catch(e) { console.error("Erro ao carregar save", e); }
             }
+            if (!gameState.hasChosenStarter) {
+                document.getElementById('starter-modal').classList.remove('hidden');
+                document.getElementById('starter-modal').classList.add('flex');
+            }
         }
 
+        window.chooseStarter = function(elementId) {
+            gameState.activeElementId = elementId;
+            gameState.hasChosenStarter = true;
+            gameState.elements.forEach(el => {
+                if(el.id !== elementId && el.price === 0) el.unlocked = false;
+            });
+            const chosen = gameState.elements.find(e => e.id === elementId);
+            if(chosen) chosen.unlocked = true;
+
+            document.getElementById('starter-modal').classList.remove('flex');
+            document.getElementById('starter-modal').classList.add('hidden');
+            saveGame();
+            updateUI();
+        };
+
         function saveGame() {
-            localStorage.setItem('mestre_dragoes_3d_save_v2', JSON.stringify(gameState));
-            alert("Jogo salvo com sucesso!");
+            localStorage.setItem('mestre_dragoes_dominio_v3', JSON.stringify(gameState));
         }
 
         function resetGame() {
-            if (confirm("Tem certeza que deseja resetar todo o progresso?")) {
-                localStorage.removeItem('mestre_dragoes_3d_save_v2');
+            if (confirm("Tem certeza que deseja resetar todo o progresso e escolher um novo dragão inicial?")) {
+                localStorage.removeItem('mestre_dragoes_dominio_v3');
                 location.reload();
             }
         }
@@ -306,42 +407,84 @@
             document.getElementById('miner-kobolds').textContent = gameState.minerKobolds;
             document.getElementById('kobold-cost').textContent = gameState.koboldCost;
             document.getElementById('click-cost').textContent = gameState.clickCost;
-            document.getElementById('gold-per-sec').textContent = gameState.minerKobolds * 2;
+            document.getElementById('forge-cost').textContent = gameState.forgeCost;
+            document.getElementById('sanctuary-cost').textContent = gameState.sanctuaryCost;
+
+            const totalGoldSec = (gameState.minerKobolds * 2) + (gameState.autoForges * 12);
+            document.getElementById('gold-per-sec').textContent = totalGoldSec;
 
             const activeEl = gameState.elements.find(e => e.id === gameState.activeElementId) || gameState.elements[0];
             document.getElementById('active-element-name').textContent = activeEl.name;
+            document.getElementById('dragon-lore-desc').textContent = `"${activeEl.personality}"`;
 
             renderDragonVisual(activeEl);
             renderElementsGrid();
+            renderShopItems();
         }
 
         function renderDragonVisual(activeEl) {
             const cardBg = document.getElementById('dragon-card-bg');
-            const mainIcon = document.getElementById('dragon-main-icon');
             const elementTag = document.getElementById('dragon-element-tag');
             const stageText = document.getElementById('dragon-stage-text');
+            const svgRender = document.getElementById('svg-graphic-render');
 
-            cardBg.className = `w-40 h-52 rounded-2xl bg-gradient-to-b ${activeEl.color} flex flex-col items-center justify-center shadow-2xl border border-amber-500/40 relative overflow-hidden`;
-            mainIcon.className = `fa-solid ${activeEl.icon} text-6xl text-amber-200 drop-shadow-lg mb-2`;
+            cardBg.className = `w-48 h-60 rounded-2xl bg-gradient-to-b ${activeEl.color} flex flex-col items-center justify-between p-3.5 shadow-2xl border border-amber-500/40 relative overflow-hidden`;
             elementTag.textContent = activeEl.name;
 
-            let stageName = "Ovo Preste a Chocar";
-            let iconClass = activeEl.icon;
+            let stageName = "";
+            let svgContent = "";
+            const lvl = gameState.level;
 
-            if (gameState.level >= 15) {
-                stageName = `Estágio IV: ${activeEl.name} Lendário / Místico`;
-                mainIcon.className = `fa-solid ${iconClass} text-7xl text-amber-300 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] mb-2 animate-bounce`;
-            } else if (gameState.level >= 10) {
-                stageName = `Estágio III: ${activeEl.name} Adulto Feroz`;
-                mainIcon.className = `fa-solid ${iconClass} text-6xl text-amber-200 drop-shadow-lg mb-2`;
-            } else if (gameState.level >= 5) {
-                stageName = `Estágio II: ${activeEl.name} Jovem`;
-                mainIcon.className = `fa-solid ${iconClass} text-5xl text-amber-200 drop-shadow-lg mb-2`;
+            // 5 Fases baseadas nos níveis: <10 (Ovo), 10-14 (Filhote), 15-34 (Jovem), 35-44 (Adulto), 45+ (Armadura Suprema)
+            if (lvl >= 45) {
+                stageName = `Fase 5: Dragão com Armadura Suprema`;
+                svgContent = `
+                    <div class="flex flex-col items-center justify-center text-center space-y-1.5 animate-pulse">
+                        <div class="relative">
+                            <i class="fa-solid ${activeEl.icon} text-5xl text-amber-200 drop-shadow-[0_0_15px_rgba(251,191,36,0.9)]"></i>
+                            <i class="fa-solid fa-shield-halved text-2xl text-cyan-400 absolute -bottom-1 -right-2 drop-shadow"></i>
+                        </div>
+                        <span class="text-[10px] font-black uppercase text-amber-300 tracking-wider">Lenda Armadurada</span>
+                    </div>
+                `;
+            } else if (lvl >= 35) {
+                stageName = `Fase 4: Dragão Adulto Poderoso`;
+                svgContent = `
+                    <div class="flex flex-col items-center justify-center text-center space-y-2">
+                        <i class="fa-solid ${activeEl.icon} text-5xl text-amber-300 drop-shadow-[0_0_12px_rgba(251,191,36,0.8)]"></i>
+                        <span class="text-[10px] font-black uppercase text-amber-200 tracking-wider">${activeEl.name} Adulto</span>
+                    </div>
+                `;
+            } else if (lvl >= 15) {
+                stageName = `Fase 3: Dragão Jovem`;
+                svgContent = `
+                    <div class="flex flex-col items-center justify-center text-center space-y-2">
+                        <i class="fa-solid ${activeEl.icon} text-4xl text-orange-300 drop-shadow"></i>
+                        <span class="text-[10px] font-bold text-orange-200">Em Desenvolvimento</span>
+                    </div>
+                `;
+            } else if (lvl >= 10) {
+                stageName = `Fase 2: Filhote Desperto`;
+                svgContent = `
+                    <div class="flex flex-col items-center justify-center text-center space-y-2">
+                        <i class="fa-solid ${activeEl.icon} text-3xl text-amber-400"></i>
+                        <span class="text-[10px] font-bold text-slate-200">Filhote Recém-Nascido</span>
+                    </div>
+                `;
             } else {
-                stageName = `Estágio I: Ovo / Filhote de ${activeEl.name}`;
-                mainIcon.className = `fa-solid fa-egg text-6xl text-amber-200 drop-shadow-lg mb-2`;
+                stageName = `Fase 1: Ovo Elemental`;
+                svgContent = `
+                    <div class="flex flex-col items-center justify-center text-center space-y-2">
+                        <div class="w-16 h-20 rounded-[50%_50%_40%_40%] bg-gradient-to-t from-black/80 via-slate-800 to-amber-500/40 border border-amber-400/50 flex items-center justify-center shadow-inner relative">
+                            <i class="fa-solid ${activeEl.icon} text-xl text-amber-300/80"></i>
+                            <div class="absolute top-2 w-3 h-6 bg-white/20 rounded-full blur-[1px]"></div>
+                        </div>
+                        <span class="text-[10px] font-bold text-slate-300">Ovo em Incubação</span>
+                    </div>
+                `;
             }
 
+            svgRender.innerHTML = svgContent;
             stageText.textContent = stageName;
         }
 
@@ -354,69 +497,127 @@
                 const isActive = el.id === gameState.activeElementId;
 
                 const card = document.createElement('div');
-                card.className = `bg-[#111827] border ${isActive ? 'border-amber-500 shadow-amber-500/20' : 'border-slate-800'} p-4 rounded-2xl flex flex-col justify-between space-y-3 shadow-lg transition`;
+                card.className = `bg-[#111827] border ${isActive ? 'border-amber-500 shadow-amber-500/20' : 'border-slate-800'} p-3.5 rounded-2xl flex flex-col justify-between space-y-2.5 shadow-lg`;
                 
                 let actionHtml = '';
                 if (isActive) {
-                    actionHtml = `<span class="w-full py-2 bg-amber-500/20 text-amber-400 font-bold text-center text-xs rounded-xl border border-amber-500/40">Ativo</span>`;
+                    actionHtml = `<span class="w-full py-1.5 bg-amber-500/20 text-amber-400 font-bold text-center text-[11px] rounded-xl border border-amber-500/40">Em Uso</span>`;
                 } else if (isUnlocked) {
-                    actionHtml = `<button onclick="setActiveElement('${el.id}')" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition shadow">Selecionar</button>`;
+                    actionHtml = `<button onclick="setActiveElement('${el.id}')" class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[11px] rounded-xl transition">Selecionar</button>`;
                 } else {
                     const canAfford = gameState.gold >= el.price;
-                    actionHtml = `<button onclick="buyElement('${el.id}')" class="w-full py-2 ${canAfford ? 'bg-amber-500 hover:bg-amber-600 text-slate-950' : 'bg-slate-800 text-slate-400 cursor-not-allowed'} font-bold text-xs rounded-xl transition shadow">Comprar (${el.price} Ouro)</button>`;
+                    actionHtml = `<button onclick="buyElement('${el.id}')" class="w-full py-1.5 ${canAfford ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400'} text-[11px] rounded-xl transition">Desbloquear (${el.price.toLocaleString()} Ouro)</button>`;
                 }
 
                 card.innerHTML = `
                     <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr ${el.color} flex items-center justify-center text-white shadow">
-                            <i class="fa-solid ${el.icon} text-lg"></i>
+                        <div class="w-12 h-12 rounded-xl bg-black/40 flex items-center justify-center shadow shrink-0 border border-slate-700 text-amber-400 text-lg">
+                            <i class="fa-solid ${el.icon}"></i>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-sm text-slate-200">${el.name}</h4>
-                            <p class="text-[10px] text-slate-400">${isUnlocked ? 'Desbloqueado' : 'Bloqueado'}</p>
+                        <div class="overflow-hidden">
+                            <h4 class="font-bold text-xs text-slate-100 truncate">${el.name}</h4>
+                            <p class="text-[10px] text-amber-400/95 truncate">${el.title}</p>
                         </div>
                     </div>
+                    <p class="text-[10px] text-slate-400 italic bg-[#0a0e17] p-2 rounded-lg border border-slate-800/50">"${el.personality}"</p>
                     ${actionHtml}
                 `;
                 grid.appendChild(card);
             });
         }
 
+        function renderShopItems() {
+            const grid = document.getElementById('shop-items-grid');
+            grid.innerHTML = '';
+
+            shopItemsData.forEach(item => {
+                const canAfford = gameState.gold >= item.costGold && gameState.crystals >= item.costCrystals;
+                const card = document.createElement('div');
+                card.className = "bg-[#111827] border border-slate-800 p-3.5 rounded-2xl flex flex-col justify-between space-y-2 shadow-lg";
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-2.5">
+                            <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                                <i class="fa-solid ${item.icon}"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs text-slate-100">${item.name}</h4>
+                                <span class="text-[9px] font-bold ${item.diffColor}">Dificuldade: ${item.diff}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-400">${item.desc}</p>
+                    <div class="pt-2 border-t border-slate-800/60 flex items-center justify-between">
+                        <div class="text-[10px] font-semibold text-amber-400">
+                            ${item.costGold > 0 ? `${item.costGold.toLocaleString()} Ouro` : ''}
+                            ${item.costCrystals > 0 ? ` + ${item.costCrystals} Cristais` : ''}
+                        </div>
+                        <button onclick="buyShopItem('${item.id}')" class="px-3 py-1.5 ${canAfford ? 'bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold' : 'bg-slate-800 text-slate-500'} text-[10px] rounded-xl transition shadow">Adquirir</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        window.buyShopItem = function(itemId) {
+            const item = shopItemsData.find(i => i.id === itemId);
+            if (!item) return;
+
+            if (gameState.gold >= item.costGold && gameState.crystals >= item.costCrystals) {
+                gameState.gold -= item.costGold;
+                gameState.crystals -= item.costCrystals;
+
+                if (itemId === 'potion') {
+                    gameState.xp += 150;
+                    checkLevelUp();
+                } else if (itemId === 'fruit') {
+                    gameState.hunger = 100;
+                    gameState.xp += 300;
+                    checkLevelUp();
+                } else if (itemId === 'essence') {
+                    gameState.clickPower += 2;
+                } else if (itemId === 'mithril') {
+                    gameState.xp += 1200;
+                    checkLevelUp();
+                } else if (itemId === 'orb') {
+                    gameState.crystals += 5;
+                    gameState.gold += 5000;
+                }
+
+                saveGame();
+                updateUI();
+                alert(`Item "${item.name}" adquirido com sucesso!`);
+            } else {
+                alert("Recursos insuficientes para adquirir este item!");
+            }
+        };
+
         function clickDragon() {
-            const multiplier = gameState.elements.find(e => e.id === gameState.activeElementId)?.unlocked ? 1.2 : 1;
-            const earned = gameState.clickPower * multiplier;
-            gameState.gold += earned;
+            gameState.gold += gameState.clickPower;
             gameState.xp += gameState.clickPower;
             checkLevelUp();
             updateUI();
         }
 
         function feedDragon() {
-            const cost = 15;
-            if (gameState.gold >= cost) {
-                gameState.gold -= cost;
+            if (gameState.gold >= 15) {
+                gameState.gold -= 15;
                 gameState.hunger = Math.min(100, gameState.hunger + 15);
                 updateUI();
-            } else {
-                alert("Ouro insuficiente para alimentar!");
-            }
+            } else { alert("Ouro insuficiente para alimentar!"); }
         }
 
         function ferociousTraining() {
-            const cost = 50;
-            if (gameState.gold >= cost) {
+            if (gameState.gold >= 50) {
                 if (gameState.hunger >= 10) {
-                    gameState.gold -= cost;
+                    gameState.gold -= 50;
                     gameState.hunger -= 10;
                     gameState.xp += 40;
                     checkLevelUp();
                     updateUI();
-                } else {
-                    alert("O dragão está com muita fome para treinar! Alimente-o primeiro.");
-                }
-            } else {
-                alert("Ouro insuficiente para treinar!");
-            }
+                } else { alert("O dragão está com muita fome para treinar!"); }
+            } else { alert("Ouro insuficiente para treinar!"); }
         }
 
         function checkLevelUp() {
@@ -425,30 +626,36 @@
                 gameState.xp -= gameState.nextXp;
                 gameState.nextXp = Math.floor(gameState.nextXp * 1.4);
                 gameState.crystals += 5;
-                alert(`Parabéns! Seu dragão evoluiu para o Nível ${gameState.level}! Ganhou 5 Cristais.`);
+
+                if (gameState.level === 10) {
+                    alert("Incrível! Seu ovo eclodiu e revelou a Fase 2: Filhote Desperto!");
+                } else if (gameState.level === 15) {
+                    alert("Fantástico! Seu dragão evoluiu para a Fase 3: Dragão Jovem!");
+                } else if (gameState.level === 35) {
+                    alert("Impressionante! Seu dragão atingiu a Fase 4: Dragão Adulto Poderoso!");
+                } else if (gameState.level === 45) {
+                    alert("Lendário! Seu dragão alcançou o estágio máximo: Fase 5 com Armadura Suprema!");
+                } else {
+                    alert(`Parabéns! Seu dragão evoluiu para o Nível ${gameState.level}! Ganhou 5 Cristais.`);
+                }
             }
         }
 
         window.buyElement = function(id) {
             const el = gameState.elements.find(e => e.id === id);
-            if (el && !el.unlocked) {
-                if (gameState.gold >= el.price) {
-                    gameState.gold -= el.price;
-                    el.unlocked = true;
-                    gameState.activeElementId = el.id;
-                    updateUI();
-                } else {
-                    alert("Ouro insuficiente para desbloquear este elemento!");
-                }
-            }
+            if (el && !el.unlocked && gameState.gold >= el.price) {
+                gameState.gold -= el.price;
+                el.unlocked = true;
+                gameState.activeElementId = el.id;
+                saveGame();
+                updateUI();
+            } else { alert("Ouro insuficiente ou elemento já adquirido!"); }
         };
 
         window.setActiveElement = function(id) {
-            const el = gameState.elements.find(e => e.id === id);
-            if (el && el.unlocked) {
-                gameState.activeElementId = id;
-                updateUI();
-            }
+            gameState.activeElementId = id;
+            saveGame();
+            updateUI();
         };
 
         function buyKobold() {
@@ -457,9 +664,7 @@
                 gameState.minerKobolds++;
                 gameState.koboldCost = Math.floor(gameState.koboldCost * 1.25);
                 updateUI();
-            } else {
-                alert("Ouro insuficiente!");
-            }
+            } else { alert("Ouro insuficiente!"); }
         }
 
         function buyClickPower() {
@@ -468,42 +673,53 @@
                 gameState.clickPower++;
                 gameState.clickCost = Math.floor(gameState.clickCost * 1.3);
                 updateUI();
-            } else {
-                alert("Ouro insuficiente!");
-            }
+            } else { alert("Ouro insuficiente!"); }
         }
 
-        // Loop de geração de ouro por segundo (Kobolds) e fome decrescente
+        function buyForge() {
+            if (gameState.gold >= gameState.forgeCost) {
+                gameState.gold -= gameState.forgeCost;
+                gameState.autoForges++;
+                gameState.forgeCost = Math.floor(gameState.forgeCost * 1.35);
+                updateUI();
+            } else { alert("Ouro insuficiente para investir na Forja!"); }
+        }
+
+        function buySanctuary() {
+            if (gameState.gold >= gameState.sanctuaryCost) {
+                gameState.gold -= gameState.sanctuaryCost;
+                gameState.sanctuaries++;
+                gameState.sanctuaryCost = Math.floor(gameState.sanctuaryCost * 1.4);
+                updateUI();
+            } else { alert("Ouro insuficiente para construir o Santuário!"); }
+        }
+
         setInterval(() => {
-            if (gameState.minerKobolds > 0) {
-                gameState.gold += gameState.minerKobolds * 0.5;
+            let passiveGold = (gameState.minerKobolds * 1) + (gameState.autoForges * 6);
+            if (gameState.autoForges > 0) passiveGold *= 2;
+            gameState.gold += passiveGold;
+
+            if (gameState.sanctuaries > 0 && Math.random() < 0.1) {
+                gameState.crystals += gameState.sanctuaries;
             }
-            if (gameState.hunger > 0) {
-                gameState.hunger = Math.max(0, gameState.hunger - 0.1);
-            }
+
+            if (gameState.hunger > 0) gameState.hunger = Math.max(0, gameState.hunger - 0.04);
             updateUI();
-        }, 500);
+        }, 1000);
 
-        // Salvamento automático a cada 30 segundos
         setInterval(() => {
-            localStorage.setItem('mestre_dragoes_3d_save_v2', JSON.stringify(gameState));
-        }, 30000);
+            saveGame();
+        }, 20000);
 
-        // Navegação de abas
         function switchTab(tabName) {
-            document.getElementById('tab-caverna').classList.add('hidden');
-            document.getElementById('tab-evolutions').classList.add('hidden');
-            document.getElementById('tab-loja').classList.add('hidden');
-            
-            document.getElementById('btn-tab-caverna').className = "px-5 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800";
-            document.getElementById('btn-tab-evolutions').className = "px-5 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800";
-            document.getElementById('btn-tab-loja').className = "px-5 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800";
-
+            ['caverna', 'evolutions', 'loja', 'financeiro'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`btn-tab-${t}`).className = "px-4 py-2 rounded-xl text-xs font-bold transition bg-[#141c2e] hover:bg-[#1e293b] text-slate-300 border border-slate-800";
+            });
             document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-            document.getElementById(`btn-tab-${tabName}`).className = "px-5 py-2 rounded-xl text-xs font-bold transition bg-rose-600 text-white shadow-lg shadow-rose-900/30";
+            document.getElementById(`btn-tab-${tabName}`).className = "px-4 py-2 rounded-xl text-xs font-bold transition bg-rose-600 text-white shadow-lg";
         }
 
-        // Sistema de Modal de Save
         function openSaveModal() {
             document.getElementById('save-textarea').value = JSON.stringify(gameState, null, 2);
             document.getElementById('save-modal').classList.remove('hidden');
@@ -517,64 +733,52 @@
 
         window.exportSaveToText = function() {
             const textarea = document.getElementById('save-textarea');
-            const saveJson = JSON.stringify(gameState, null, 2);
-            textarea.value = saveJson;
+            textarea.value = JSON.stringify(gameState, null, 2);
             textarea.select();
-            navigator.clipboard.writeText(saveJson).then(() => {
-                alert("Código do save copiado para a área de transferência!");
-            }).catch(() => {
-                alert("Código gerado na caixa de texto!");
-            });
+            navigator.clipboard.writeText(textarea.value);
+            alert("Código de save copiado!");
         };
 
         window.importSaveFromText = function() {
-            const textarea = document.getElementById('save-textarea');
             try {
-                const importedData = JSON.parse(textarea.value);
-                if(importedData && importedData.gold !== undefined && importedData.elements) {
-                    gameState = importedData;
+                const data = JSON.parse(document.getElementById('save-textarea').value);
+                if (data && data.gold !== undefined) {
+                    gameState = data;
+                    saveGame();
                     updateUI();
                     closeSaveModal();
                     alert("Save importado com sucesso!");
-                } else {
-                    alert("O formato do save é inválido.");
                 }
-            } catch(e) {
-                alert("Erro ao analisar o JSON do save.");
-            }
+            } catch(e) { alert("JSON inválido."); }
         };
 
-        window.downloadSaveFile = function() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(gameState, null, 2));
+        function downloadSaveFile() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(gameState));
             const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "mestre_dragoes_3d_save.json");
+            downloadAnchor.setAttribute("download", "mestre_dragoes_save.json");
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
-        };
+        }
 
-        window.importSaveFile = function(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const importedData = JSON.parse(e.target.result);
-                    if(importedData && importedData.gold !== undefined && importedData.elements) {
-                        gameState = importedData;
-                        updateUI();
-                        closeSaveModal();
-                        alert("Arquivo de save importado com sucesso!");
-                    } else {
-                        alert("O arquivo selecionado não é um save válido.");
-                    }
-                } catch(err) {
-                    alert("Erro ao ler o arquivo de save.");
-                }
-            };
-            reader.readAsText(file);
-        };
+        function importSaveFile(event) {
+            const fileReader = new FileReader();
+            if (event.target.files[0]) {
+                fileReader.readAsText(event.target.files[0], "UTF-8");
+                fileReader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        if (data && data.gold !== undefined) {
+                            gameState = data;
+                            saveGame();
+                            updateUI();
+                            alert("Arquivo de save carregado com sucesso!");
+                        }
+                    } catch(err) { alert("Arquivo JSON inválido."); }
+                };
+            }
+        }
 
         loadGame();
         updateUI();
